@@ -13,7 +13,7 @@ return [
 */
 
     'dashboard' => 'Dashboard',
-    'customers' => 'Customers',
-    'users' => 'Users',
+    'customers' => 'Clientes',
+    'users' => 'Usuarios',
 
 ];
