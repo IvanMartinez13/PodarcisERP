@@ -5144,10 +5144,19 @@ table.table-mail tr td {
 .dropdown-item {
     width: auto;
 }
-.dropdown-item.active,
-.dropdown-item:active {
-    background-color: inherit;
+.dropdown-item {
+    background-color: #f3f3f4 !important;
     color: inherit;
+}
+
+.dropdown-item.active {
+    background-color: #1ab394 !important;
+    color: white;
+}
+
+.dropdown-item.active:hover {
+    background-color: #1ab394 !important;
+    color: black;
 }
 /* BACKGROUNDS */
 .gray-bg,

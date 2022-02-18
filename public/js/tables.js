@@ -10,6 +10,7 @@ $(document).ready(function(){
         responsive: true,
         dom: '<"html5buttons"B>lTfgitp',
         buttons: [
+            'colvis',
             { extend: 'copy'},
             {extend: 'csv'},
             {extend: 'excel', title: 'ExampleFile'},
