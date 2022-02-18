@@ -14,6 +14,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+
 
 class CustomerController extends Controller
 {
@@ -25,12 +27,14 @@ class CustomerController extends Controller
         return view('pages.customer.index', compact('customers'));
     }
 
+    //PAGE CREATE
     public function create()
     {
 
         return view('pages.customer.create');
     }
 
+    //STORE CUSTOMER
     public function store(StoreCustomerRequest $request)
     {
         //1) GET DATA
@@ -64,5 +68,34 @@ class CustomerController extends Controller
         $customer = Customer::where('token', $customer_data['token'])->update(["user_id" => $user->id]);
 
         return redirect(route('customers.index'))->with("status", "success")->with("message", "Cliente creado.");
+    }
+
+    //PAGE EDIT
+    public function edit($token)
+    {
+        $customer = Customer::where('token', $token)->first();
+
+        return view('pages.customer.edit', compact('customer'));
+    }
+
+    public function update(UpdateCustomerRequest $request)
+    {
+        //1) GET DATA
+        $active = ($request->active == 1) ? 1 : 0;
+
+        $customer_data = [
+            "company" => $request->company,
+            "nif" => $request->nif,
+            "location" => $request->location,
+            "contact" => $request->contact,
+            "contact_mail" => $request->contact_mail,
+            "phone" => $request->phone,
+            "active" => $active,
+        ];
+
+        $customer = Customer::where('token', $request->token);
+        $customer->update($customer_data);
+
+        return redirect(route('customers.index'))->with("status", "success")->with("message", "Cliente editado.");
     }
 }

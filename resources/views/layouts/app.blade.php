@@ -18,6 +18,7 @@
     <!-- PLUGGINS -->
     <link href="{{ url('/') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/dataTables/dataTables.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/switchery/switchery.css" rel="stylesheet">
 
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -73,6 +74,10 @@
     <!-- Scripts -->
     <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/dataTables/dataTables.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/dataTables/fixedHeader.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/dataTables/colreorder.min.js"></script>
+
+    <script src="{{ url('/') }}/js/plugins/switchery/switchery.js"></script>
 
     <script>
         toastr.options = {
@@ -92,6 +97,15 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
+
+        var switches = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        switches.forEach(function(input) {
+            var switchery = new Switchery(input, {
+                color: '#1ab394',
+                jackColor: '#f3f3f4'
+            });
+        });
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('scripts')

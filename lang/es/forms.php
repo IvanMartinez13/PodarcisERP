@@ -11,12 +11,13 @@ return [
 | these language lines according to your application's requirements.
 |
 */
-
+    //BOTONES
     'create' => 'Crear',
-    'edit' => 'Edit',
+    'edit' => 'Editar',
     'save' => 'Guardar',
     'update' => 'Actualizar',
 
+    //LABELS
     'name' => 'Nombre',
     'username' => 'Username',
     'nif' => 'Nif',
@@ -29,7 +30,7 @@ return [
     'password_confirmation' => 'Confirmar Contraseña',
     'company' => 'Empresa',
     'contact_mail' => 'Email de contacto',
-    'actions' => 'Acciones',
+    'active' => 'Activo',
 
 
 ];

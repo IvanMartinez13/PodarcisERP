@@ -15,7 +15,7 @@
                         <a href="{{ route('customers.index') }}">{{ __('modules.customers') }}</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <strong>{{ __('forms.create') }}</strong>
+                        <strong>{{ __('forms.edit') }}</strong>
                     </li>
                 </ol>
             </div>
@@ -28,7 +28,7 @@
 
         <div class="ibox">
             <div class="ibox-title">
-                <h5>{{ __('forms.create') . ' ' . __('modules.customers') }}</h5>
+                <h5>{{ __('forms.edit') . ' ' . __('modules.customers') }}</h5>
 
                 <div class="ibox-tools">
                     <a class="collapse-link" href="">
@@ -40,96 +40,66 @@
 
             <div class="ibox-content">
                 <div class="container-fluid">
-                    <form method="POST" action="{{ route('customers.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('customers.update') }}" enctype="multipart/form-data">
                         @csrf
                         @method('put')
+
+                        <input type="hidden" name="token" value="{{ $customer->token }}">
 
                         <div class="row mb-5">
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('company') has-error @enderror">
                                 <label for="company">{{ __('forms.company') }}:</label>
                                 <input type="text" name="company" id="company" class="form-control"
-                                    placeholder="{{ __('forms.company') }}..." value="{{ old('company') }}">
+                                    placeholder="{{ __('forms.company') }}..." value="{{ $customer->company }}">
                             </div>
 
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('nif') has-error @enderror">
                                 <label for="nif">{{ __('forms.nif') }}:</label>
                                 <input type="text" name="nif" id="nif" class="form-control"
-                                    placeholder="{{ __('forms.nif') }}..." value="{{ old('nif') }}">
+                                    placeholder="{{ __('forms.nif') }}..." value="{{ $customer->nif }}">
                             </div>
 
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('location') has-error @enderror">
                                 <label for="location">{{ __('forms.location') }}:</label>
                                 <input type="text" name="location" id="location" class="form-control"
-                                    placeholder="{{ __('forms.location') }}..." value="{{ old('location') }}">
+                                    placeholder="{{ __('forms.location') }}..." value="{{ $customer->location }}">
                             </div>
 
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('contact') has-error @enderror">
                                 <label for="contact">{{ __('forms.contact') }}:</label>
                                 <input type="text" name="contact" id="contact" class="form-control"
-                                    placeholder="{{ __('forms.contact') }}..." value="{{ old('contact') }}">
+                                    placeholder="{{ __('forms.contact') }}..." value="{{ $customer->contact }}">
                             </div>
 
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('contact_mail') has-error @enderror">
                                 <label for="contact_mail">{{ __('forms.contact_mail') }}:</label>
                                 <input type="email" name="contact_mail" id="contact_mail" class="form-control"
-                                    placeholder="{{ __('forms.contact_mail') }}..." value="{{ old('contact_mail') }}">
+                                    placeholder="{{ __('forms.contact_mail') }}..."
+                                    value="{{ $customer->contact_mail }}">
                             </div>
 
 
                             <div class="col-lg-4 col-md-6 mt-3 @error('phone') has-error @enderror">
                                 <label for="phone">{{ __('forms.phone') }}:</label>
                                 <input type="text" name="phone" id="phone" class="form-control"
-                                    placeholder="{{ __('forms.phone') }}..." value="{{ old('phone') }}">
-                            </div>
-                        </div>
-
-                        <hr />
-
-                        <div class="row">
-
-                            <div class="col-lg-4 col-md-6 mt-3 @error('name') has-error @enderror">
-                                <label for="name">{{ __('forms.name') }}:</label>
-                                <input type="text" name="name" id="name" class="form-control"
-                                    placeholder="{{ __('forms.name') }}..." value="{{ old('name') }}">
+                                    placeholder="{{ __('forms.phone') }}..." value="{{ $customer->phone }}">
                             </div>
 
-
-                            <div class="col-lg-4 col-md-6 mt-3 @error('username') has-error @enderror">
-                                <label for="username">{{ __('forms.username') }}:</label>
-                                <input type="text" name="username" id="username" class="form-control"
-                                    placeholder="{{ __('forms.username') }}..." value="{{ old('username') }}">
-                            </div>
-
-
-
-                            <div class="col-lg-4 col-md-6 mt-3 @error('email') has-error @enderror">
-                                <label for="email">{{ __('forms.email') }}:</label>
-                                <input type="email" name="email" id="email" class="form-control"
-                                    placeholder="{{ __('forms.email') }}..." value="{{ old('email') }}">
-                            </div>
-
-
-                            <div class="col-lg-4 col-md-6 mt-3 @error('password') has-error @enderror">
-                                <label for="password">{{ __('forms.password') }}:</label>
-                                <input type="password" name="password" id="password" class="form-control"
-                                    placeholder="{{ __('forms.password') }}...">
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mt-3 @error('password') has-error @enderror">
-                                <label for="password_confirmation">{{ __('forms.password_confirmation') }}:</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="form-control" placeholder="{{ __('forms.password_confirmation') }}...">
+                            <div class="col-lg-4 col-md-6 mt-3 @error('phone') has-error @enderror">
+                                <label for="active">{{ __('forms.active') }}:</label> <br />
+                                <input type="checkbox" class="js-switch" id="active" name="active" value="1"
+                                    @if ($customer->active == 1) checked @endif />
                             </div>
                         </div>
 
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('forms.save') }}
+                                {{ __('forms.update') }}
                             </button>
                         </div>
 

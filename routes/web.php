@@ -27,6 +27,9 @@ Route::prefix('customers')->middleware('role:super-admin')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
     Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
+
+    Route::get('/edit/{token}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/update', [CustomerController::class, 'update'])->name('customers.update');
 });
 
 require __DIR__ . '/auth.php';

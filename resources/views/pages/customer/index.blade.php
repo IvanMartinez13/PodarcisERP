@@ -47,7 +47,7 @@
                     <table class="table table-striped table-hover table-bordered js_datatable">
                         <thead>
                             <tr>
-                                <th>#</th>
+
                                 <th>{{ __('columns.company') }}</th>
                                 <th>{{ __('columns.nif') }}</th>
                                 <th>{{ __('columns.location') }}</th>
@@ -62,7 +62,7 @@
                         <tbody>
                             @foreach ($customers as $key => $customer)
                                 <tr>
-                                    <td class="align-middle">{{ $key + 1 }}</td>
+
                                     <td class="align-middle">{{ $customer->company }}</td>
                                     <td class="align-middle">{{ $customer->nif }}</td>
                                     <td class="align-middle">{{ $customer->location }}</td>
@@ -72,9 +72,10 @@
                                     <td class="align-middle">{{ $customer->manager->name }}</td>
                                     <td class="text-center">
                                         <div class="btn-group-vertical">
-                                            <button class="btn btn-link">
+                                            <a href="{{ route('customers.edit', ['token' => $customer->token]) }}"
+                                                class="btn btn-link">
                                                 <i class="fa-solid fa-pencil"></i>
-                                            </button>
+                                            </a>
 
                                             <button class="btn btn-link">
                                                 <i class="fa-solid fa-trash-can"></i>

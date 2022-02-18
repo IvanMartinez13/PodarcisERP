@@ -4830,6 +4830,11 @@ body.body-small .footer.fixed {
     background-color: #1ab394 !important;
     color: #f3f3f4;
 }
+
+.table-bordered > thead > .filters > th {
+    background-color: white !important;
+}
+
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
     background-color: #f5f5f6;
