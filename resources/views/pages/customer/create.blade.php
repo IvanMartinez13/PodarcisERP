@@ -127,6 +127,18 @@
                             </div>
                         </div>
 
+                        <div class="row my-5">
+
+                            @foreach ($modules as $module)
+                                <div class="col-md-3">
+                                    <label for="{{ $module->id }}">{{ $module->name }}:</label> <br />
+                                    <input type="checkbox" class="js-switch" id="{{ $module->id }}" name="modules[]"
+                                        value="{{ $module->id }}" />
+                                </div>
+                            @endforeach
+
+                        </div>
+
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('forms.save') }}

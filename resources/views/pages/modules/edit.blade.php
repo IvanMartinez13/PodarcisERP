@@ -12,7 +12,7 @@
                     <a href="{{ route('modules.index') }}">{{ __('modules.modules') }}</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>{{ __('forms.create') }}</strong>
+                    <strong>{{ __('forms.edit') }}</strong>
                 </li>
             </ol>
         </div>
@@ -25,7 +25,7 @@
 
     <div class="ibox">
         <div class="ibox-title">
-            <h5>{{ __('forms.create') . ' ' . __('modules.modules') }}</h5>
+            <h5>{{ __('forms.edit') . ' ' . __('modules.modules') }}</h5>
 
             <div class="ibox-tools">
                 <a class="collapse-link" href="">

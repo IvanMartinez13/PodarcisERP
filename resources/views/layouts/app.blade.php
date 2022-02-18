@@ -101,18 +101,22 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-
-        var switches = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-        switches.forEach(function(input) {
-            var switchery = new Switchery(input, {
-                color: '#1ab394',
-                jackColor: '#f3f3f4'
-            });
-        });
     </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('scripts')
+
+    <script>
+        $(document).ready(() => {
+            var switches = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+            switches.forEach(function(input) {
+                var switchery = new Switchery(input, {
+                    color: '#1ab394',
+                    jackColor: '#f3f3f4'
+                });
+            });
+        })
+    </script>
 
 </body>
 

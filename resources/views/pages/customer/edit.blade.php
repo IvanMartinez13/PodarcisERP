@@ -97,6 +97,18 @@
                             </div>
                         </div>
 
+                        <div class="row md-5">
+
+                            @foreach ($modules as $module)
+                                <div class="col-md-3">
+                                    <label for="{{ $module->id }}">{{ $module->name }}:</label> <br />
+                                    <input type="checkbox" class="js-switch" id="{{ $module->id }}" name="modules[]"
+                                        value="{{ $module->id }}" />
+                                </div>
+                            @endforeach
+
+                        </div>
+
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('forms.update') }}
@@ -118,6 +130,16 @@
 
 @push('scripts')
 
+    @foreach ($modules as $module)
+        @foreach ($customer->modules as $customer_module)
+            @if ($customer_module->id == $module->id)
+                <script>
+                    $('#{{ $module->id }}').prop('checked', true);
+                </script>
+            @endif
+        @endforeach
+    @endforeach
+
     @if ($errors->any())
         @foreach ($errors->all() as $error)
             <script>
@@ -127,5 +149,6 @@
             </script>
         @endforeach
     @endif
+
 
 @endpush

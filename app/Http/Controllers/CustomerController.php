@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Module;
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -30,8 +32,8 @@ class CustomerController extends Controller
     //PAGE CREATE
     public function create()
     {
-
-        return view('pages.customer.create');
+        $modules =  Module::get();
+        return view('pages.customer.create', compact('modules'));
     }
 
     //STORE CUSTOMER
@@ -67,17 +69,25 @@ class CustomerController extends Controller
         //4) LINK USER AND CUSTOMER
         $customer = Customer::where('token', $customer_data['token'])->update(["user_id" => $user->id]);
 
+        $customer = Customer::where('token', $request->token)->first();
+        $customer->modules()->sync($request->modules);
+
+
+
         return redirect(route('customers.index'))->with("status", "success")->with("message", "Cliente creado.");
     }
 
     //PAGE EDIT
     public function edit($token)
     {
-        $customer = Customer::where('token', $token)->first();
+        $customer = Customer::where('token', $token)->with('modules')->first();
 
-        return view('pages.customer.edit', compact('customer'));
+        $modules =  Module::get();
+
+        return view('pages.customer.edit', compact('customer', 'modules'));
     }
 
+    //UPDATE CUSTOMER
     public function update(UpdateCustomerRequest $request)
     {
         //1) GET DATA
@@ -95,6 +105,8 @@ class CustomerController extends Controller
 
         $customer = Customer::where('token', $request->token);
         $customer->update($customer_data);
+        $customer = Customer::where('token', $request->token)->first();
+        $customer->modules()->sync($request->modules);
 
         return redirect(route('customers.index'))->with("status", "success")->with("message", "Cliente editado.");
     }
