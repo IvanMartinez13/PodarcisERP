@@ -31,6 +31,7 @@ return [
     'company' => 'Empresa',
     'contact_mail' => 'Email de contacto',
     'active' => 'Activo',
+    'icon' => 'Icono',
 
 
 ];

@@ -72,13 +72,17 @@
     <script src="{{ url('/') }}/js/plugins/pace/pace.min.js"></script>
 
     <!-- Scripts -->
-    <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
+
+
     <script src="{{ url('/') }}/js/plugins/dataTables/dataTables.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/dataTables/fixedHeader.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/dataTables/colreorder.min.js"></script>
 
     <script src="{{ url('/') }}/js/plugins/switchery/switchery.js"></script>
+    <script src="{{ url('/') }}/js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
 
+
+    <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
     <script>
         toastr.options = {
             "closeButton": true,

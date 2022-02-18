@@ -20,6 +20,7 @@ return [
     'phone' => 'Teléfono',
     'manager' => 'Encargado',
     'company' => 'Empresa',
+    'icon' => 'Icono',
     'actions' => 'Acciones',
 
 ];

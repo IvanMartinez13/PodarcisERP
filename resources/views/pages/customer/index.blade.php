@@ -72,25 +72,38 @@
                                     <td class="align-middle">{{ $customer->manager->name }}</td>
                                     <td class="text-center">
                                         <div class="btn-group-vertical">
-                                            <a href="{{ route('customers.edit', ['token' => $customer->token]) }}"
-                                                class="btn btn-link">
-                                                <i class="fa-solid fa-pencil"></i>
-                                            </a>
 
-                                            <button class="btn btn-link">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
+                                            @can('update')
+                                                <a href="{{ route('customers.edit', ['token' => $customer->token]) }}"
+                                                    class="btn btn-link">
+                                                    <i class="fa-solid fa-pencil"></i>
+                                                </a>
+                                            @endcan
 
-                                            <button class="btn btn-link">
-                                                <i class="fa-solid fa-ghost"></i>
-                                            </button>
+                                            @can('delete')
+                                                <button class="btn btn-link">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            @endcan
+
+                                            @can('impersonate')
+                                                <button class="btn btn-link">
+                                                    <i class="fa-solid fa-ghost"></i>
+                                                </button>
+                                            @endcan
                                         </div>
+
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="ibox-footer">
+                Podarcis SL. &copy {{ date('Y') }}
             </div>
         </div>
     </div>

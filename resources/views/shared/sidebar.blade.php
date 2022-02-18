@@ -26,6 +26,11 @@
                     <a href="{{ route('customers.index') }}"><i class="fa-solid fa-user-tie"></i> <span
                             class="nav-label">{{ __('modules.customers') }}</span></a>
                 </li>
+
+                <li class="{{ request()->is('modules*') ? 'active' : '' }}">
+                    <a href="{{ route('modules.index') }}"><i class="fa-solid fa-puzzle-piece"></i> <span
+                            class="nav-label">{{ __('modules.modules') }}</span></a>
+                </li>
             @endcan
         </ul>
 
