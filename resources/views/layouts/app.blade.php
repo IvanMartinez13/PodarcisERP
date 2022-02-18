@@ -15,8 +15,14 @@
     <link href="{{ url('/') }}/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/fontawesome/css/all.min.css" rel="stylesheet">
 
+    <!-- PLUGGINS -->
+    <link href="{{ url('/') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/dataTables/dataTables.min.css" rel="stylesheet">
+
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
+
+    @stack('styles')
 
 
 </head>
@@ -36,7 +42,7 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="text-center m-t-lg">
+                        <div class="text-left">
                             @yield('content')
                         </div>
                     </div>
@@ -65,7 +71,30 @@
     <script src="{{ url('/') }}/js/plugins/pace/pace.min.js"></script>
 
     <!-- Scripts -->
+    <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/dataTables/dataTables.min.js"></script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @stack('scripts')
 
 </body>
 

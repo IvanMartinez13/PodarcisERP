@@ -22,8 +22,8 @@
             </li>
 
             @can('super-admin')
-                <li class="{{ request()->is('customers/') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard') }}"><i class="fa-solid fa-user-tie"></i> <span
+                <li class="{{ request()->is('customers*') ? 'active' : '' }}">
+                    <a href="{{ route('customers.index') }}"><i class="fa-solid fa-user-tie"></i> <span
                             class="nav-label">{{ __('modules.customers') }}</span></a>
                 </li>
             @endcan

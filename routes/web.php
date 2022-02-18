@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+//CUSTOMERS
+Route::prefix('customers')->middleware('role:super-admin')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
+});
+
+require __DIR__ . '/auth.php';
