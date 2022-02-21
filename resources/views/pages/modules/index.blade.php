@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="ibox-content">
-            <div class="table-responsive">
+            <div class="container-fluid table-responsive">
                 <table class="table table-striped table-hover table-bordered js_datatable">
                     <thead>
                         <tr>
