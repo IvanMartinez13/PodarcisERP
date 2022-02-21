@@ -8,7 +8,23 @@
                         <span class="text-muted text-xs block">menu <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a class="dropdown-item" type="button" onclick="$('#logout_form').submit()">Logout</a></li>
+
+                        @impersonating
+
+
+                        <li>
+                            <a class="dropdown-item" type="button" href="{{ route('impersonate.leave') }}">
+                                Salir del modo fantasma
+                            </a>
+                        </li>
+
+                        @endImpersonating
+
+                        @if (!session('impersonated_by'))
+                            <li>
+                                <a class="dropdown-item" type="button" onclick="$('#logout_form').submit()">Logout</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="logo-element">
