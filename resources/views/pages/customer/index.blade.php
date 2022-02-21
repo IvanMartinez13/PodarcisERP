@@ -104,7 +104,7 @@
             </div>
 
             <div class="ibox-footer">
-                Podarcis SL. &copy {{ date('Y') }}
+                Podarcis SL. &copy; {{ date('Y') }}
             </div>
         </div>
     </div>

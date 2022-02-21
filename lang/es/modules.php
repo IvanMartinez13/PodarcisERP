@@ -15,6 +15,7 @@ return [
     'dashboard' => 'Dashboard',
     'customers' => 'Clientes',
     'users' => 'Usuarios',
-    'modules' => 'Módulos'
+    'modules' => 'Módulos',
+    'branches' => 'Centros',
 
 ];

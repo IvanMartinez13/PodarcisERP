@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +45,26 @@ Route::prefix('modules')->middleware('role:super-admin')->group(function () {
     Route::put('/update', [ModuleController::class, 'update'])->name('modules.update');
 });
 
+//CUSTOMERS
+Route::prefix('customers')->middleware('role:super-admin')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/edit/{token}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/update', [CustomerController::class, 'update'])->name('customers.update');
+});
+
+//USERS
+Route::prefix('users')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::put('/create', [UserController::class, 'store'])->name('users.store');
+    Route::get('/edit/{token}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/update', [UserController::class, 'update'])->name('users.update');
+});
+
+//BRANCHES
+Route::prefix('branches')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [BranchController::class, 'index'])->name('branches.index');
+});
 require __DIR__ . '/auth.php';

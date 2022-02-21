@@ -21,6 +21,7 @@ return [
     'manager' => 'Encargado',
     'company' => 'Empresa',
     'icon' => 'Icono',
+    'username' => 'Username',
     'actions' => 'Acciones',
 
 ];

@@ -32,6 +32,12 @@ return [
     'contact_mail' => 'Email de contacto',
     'active' => 'Activo',
     'icon' => 'Icono',
+    'position' => 'Cargo',
 
+    //PERMISSNOS
+    'store' => 'Crear',
+    'update' => 'Editar',
+    'delete' => 'Eliminar',
+    'read' => 'Leer',
 
 ];

@@ -36,4 +36,9 @@ class Customer extends Model
     {
         return $this->belongsToMany(Module::class, 'module_customer');
     }
+
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
+    }
 }
