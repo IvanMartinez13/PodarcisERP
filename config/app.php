@@ -179,6 +179,7 @@ return [
 
         //PLUGINS
         Spatie\Permission\PermissionServiceProvider::class,
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
 
     ],
 

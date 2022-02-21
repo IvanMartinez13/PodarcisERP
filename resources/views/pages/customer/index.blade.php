@@ -87,9 +87,10 @@
                                             @endcan
 
                                             @can('impersonate')
-                                                <button class="btn btn-link">
+                                                <a href="{{ route('impersonate', $customer->manager->id) }}"
+                                                    class="btn btn-link">
                                                     <i class="fa-solid fa-ghost"></i>
-                                                </button>
+                                                </a>
                                             @endcan
                                         </div>
 

@@ -23,6 +23,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::impersonate();
+
 //CUSTOMERS
 Route::prefix('customers')->middleware('role:super-admin')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
