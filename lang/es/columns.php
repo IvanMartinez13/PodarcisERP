@@ -23,5 +23,6 @@ return [
     'icon' => 'Icono',
     'username' => 'Username',
     'actions' => 'Acciones',
+    'coordinates' => 'Coordenadas'
 
 ];

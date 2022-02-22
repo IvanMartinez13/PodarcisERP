@@ -66,5 +66,6 @@ Route::prefix('users')->middleware('role:customer-manager')->group(function () {
 //BRANCHES
 Route::prefix('branches')->middleware('role:customer-manager')->group(function () {
     Route::get('/', [BranchController::class, 'index'])->name('branches.index');
+    Route::get('/create', [BranchController::class, 'create'])->name('branches.create');
 });
 require __DIR__ . '/auth.php';
