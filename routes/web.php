@@ -67,5 +67,8 @@ Route::prefix('users')->middleware('role:customer-manager')->group(function () {
 Route::prefix('branches')->middleware('role:customer-manager')->group(function () {
     Route::get('/', [BranchController::class, 'index'])->name('branches.index');
     Route::get('/create', [BranchController::class, 'create'])->name('branches.create');
+    Route::put('/create', [BranchController::class, 'store'])->name('branches.store');
+    Route::get('/edit/{token}', [BranchController::class, 'edit'])->name('branches.edit');
+    Route::put('/update', [BranchController::class, 'update'])->name('branches.update');
 });
 require __DIR__ . '/auth.php';

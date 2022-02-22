@@ -33,6 +33,9 @@ return [
     'active' => 'Activo',
     'icon' => 'Icono',
     'position' => 'Cargo',
+    'coordinates' => 'Coordenadas',
+    'users' => 'Usuarios',
+    'branches' => 'Centros',
 
     //PERMISSNOS
     'store' => 'Crear',

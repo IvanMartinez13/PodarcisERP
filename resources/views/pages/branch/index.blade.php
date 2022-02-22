@@ -48,7 +48,34 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($branches as $branch)
+                            <tr>
+                                <td class="align-middle">{{ $branch->name }}</td>
+                                <td class="align-middle">{{ $branch->location }}</td>
+                                <td class="align-middle">
+                                    <a class="btn btn-link"
+                                        href="https://www.google.com/maps?q={{ $branch->coordinates }}" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <i class="fa-solid fa-map-location-dot"></i> Ver en mapa...
+                                    </a>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <div class="btn-group-vertical">
+                                        @can('update')
+                                            <a href="{{ route('branches.edit', $branch->token) }}" class="btn btn-link">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
 
+                                        @can('delete')
+                                            <a href="#" class="btn btn-link">
+                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

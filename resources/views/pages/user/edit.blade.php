@@ -81,6 +81,19 @@
                     </div>
 
 
+                    {{-- SELECT BRANCHES --}}
+                    <div class="col-12 mt-3  @error('branches') has-error @enderror">
+                        <label for="branches">{{ __('forms.branches') }}:</label>
+
+                        <select type="text" name="branches[]" id="branches" class="form-control select2"
+                            placeholder="{{ __('forms.branches') }}..." multiple="true">
+                            {{-- SET OPTIONS --}}
+                            @foreach ($branches as $branch)
+                                <option id="{{ $branch->id }}" value="{{ $branch->id }}">
+                                    {{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                 </div>
 
@@ -113,6 +126,7 @@
                             <input type="checkbox" class="js-switch" id="read_{{ $module->id }}"
                                 name="permissions[]" value="read {{ $module->name }}" />
                         </div>
+
                     </div>
                 @endforeach
 
@@ -168,4 +182,27 @@
             </script>
         @endforeach
     @endif
+
+
+    <script>
+        $(document).ready(() => {
+            $(".select2").select2({
+                theme: 'bootstrap4',
+                placeholder: "Selecciona un centro...",
+                allowClear: true
+            });
+
+
+        });
+    </script>
+
+    @foreach ($branches as $branch)
+        @foreach ($user->branches as $branch_user)
+            @if ($branch_user->id == $branch->id)
+                <script>
+                    $('#{{ $branch->id }}').prop('selected', true)
+                </script>
+            @endif
+        @endforeach
+    @endforeach
 @endpush

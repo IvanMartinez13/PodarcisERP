@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -33,7 +34,9 @@ class UserController extends Controller
     {
         $modules = Auth::user()->customer->modules;
 
-        return view('pages.user.create', compact('modules'));
+        $branches = Branch::where('customer_id', Auth::user()->customer_id)->get();
+
+        return view('pages.user.create', compact('modules', 'branches'));
     }
 
     //PAGE STORE
@@ -53,6 +56,8 @@ class UserController extends Controller
             "customer_id" => $customer->id
         ];
 
+        $branches = $request->branches;
+
         $permissions = ($request->permissions != null) ? $request->permissions : [];
 
         //2) STORE DATA
@@ -69,20 +74,24 @@ class UserController extends Controller
         }
 
         $user->syncPermissions($permissions);
+        $user->branches()->sync($branches);
 
+        //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario creado.')->with('status', 'success');
     }
 
     //PAGE UPDATE
     public function edit($token)
     {
-        $user = User::where('token', $token)->first();
+        $user = User::where('token', $token)->with('branches')->first();
+
+        $branches = Branch::where('customer_id', $user->customer_id)->get();
 
         $modules = Auth::user()->customer->modules;
 
         $permissions = $user->getAllPermissions();
 
-        return view('pages.user.edit', compact('user', 'modules', 'permissions'));
+        return view('pages.user.edit', compact('user', 'modules', 'permissions', 'branches'));
     }
 
     public function update(Request $request)
@@ -98,6 +107,7 @@ class UserController extends Controller
             'position' => ['required', 'string', 'max:255'],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             "token" => ["required", "string"],
+            "branches" => ["nullable", "array"],
         ];
 
         $attributes = [
@@ -108,6 +118,7 @@ class UserController extends Controller
             'position' => 'Cargo',
             'password' => 'Contraseña',
             "token" => "Token",
+            "branches" => "Centros"
         ];
 
         $validator = Validator::make($request->all(), $rules, [], $attributes);
@@ -132,6 +143,8 @@ class UserController extends Controller
             ];
         }
 
+        $branches = $request->branches;
+
         if ($validator->fails()) {
 
             return redirect()->back()->withErrors($validator);
@@ -153,7 +166,9 @@ class UserController extends Controller
         }
         $user =  User::where('token', $request->token)->first();
         $user->syncPermissions($permissions);
+        $user->branches()->sync($branches);
 
+        //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario editado.')->with('status', 'success');
     }
 }

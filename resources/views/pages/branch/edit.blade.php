@@ -14,7 +14,7 @@
                 </li>
 
                 <li class="breadcrumb-item active">
-                    <strong>{{ __('forms.create') }}</strong>
+                    <strong>{{ __('forms.edit') }}</strong>
                 </li>
             </ol>
         </div>
@@ -27,34 +27,35 @@
 
     <div class="ibox">
         <div class="ibox-title">
-            <h5>{{ __('forms.create') . ' ' . __('modules.branches') }}</h5>
+            <h5>{{ __('forms.edit') . ' ' . __('modules.branches') }}</h5>
         </div>
         <div class="ibox-content">
-            <form action="{{ route('branches.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('branches.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('put')
-
+                <input type="hidden" name="token" value="{{ $branch->token }}">
                 <div class="row">
                     <div class="col-lg-6 mt-3 @error('name') has-error @enderror">
                         <label for="name">{{ __('forms.name') }}:</label>
                         <input type="text" name="name" id="name" class="form-control"
-                            placeholder="{{ __('forms.name') }}..." value="{{ old('name') }}">
+                            placeholder="{{ __('forms.name') }}..." value="{{ $branch->name }}">
                     </div>
 
                     <div class="col-lg-6 mt-3 @error('location') has-error @enderror">
                         <label for="location">{{ __('forms.location') }}:</label>
                         <input type="text" name="location" id="location" class="form-control"
-                            placeholder="{{ __('forms.location') }}..." value="{{ old('location') }}">
+                            placeholder="{{ __('forms.location') }}..." value="{{ $branch->location }}">
                     </div>
 
                     {{-- SELECT USERS --}}
                     <div class="col-lg-12 mt-3  @error('users') has-error @enderror">
                         <label for="users">{{ __('forms.users') }}:</label>
+
                         <select type="text" name="users[]" id="users" class="form-control select2"
-                            value="{{ old('users') }}" placeholder="{{ __('forms.users') }}..." multiple="true">
+                            placeholder="{{ __('forms.users') }}..." multiple="true">
                             {{-- SET OPTIONS --}}
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option id="{{ $user->id }}" value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -63,7 +64,7 @@
                     <div class="col-lg-12 mt-3  @error('coordinates') has-error @enderror">
                         <label for="coordinates">{{ __('forms.coordinates') }}:</label>
                         <input type="text" name="coordinates" id="coordinates" class="form-control"
-                            value="{{ old('coordinates') }}" placeholder="{{ __('forms.coordinates') }}...">
+                            placeholder="{{ __('forms.coordinates') }}..." value="{{ $branch->coordinates }}">
                     </div>
 
                     <div class="col-lg-12 mt-3">
@@ -76,7 +77,7 @@
 
                 <div class="text-right mt-3">
                     <button class="btn btn-primary">
-                        {{ __('forms.create') }}
+                        {{ __('forms.edit') }}
                     </button>
                 </div>
             </form>
@@ -100,6 +101,16 @@
         @endforeach
     @endif
 
+    @foreach ($users as $user)
+        @foreach ($branch->users as $branch_user)
+            @if ($branch_user->id == $user->id)
+                <script>
+                    $('#{{ $user->id }}').prop('selected', true)
+                </script>
+            @endif
+        @endforeach
+    @endforeach
+
     <script>
         $(document).ready(() => {
             $(".select2").select2({
@@ -107,6 +118,10 @@
                 placeholder: "Selecciona un usuario...",
                 allowClear: true
             });
+
+            //SET MAP PIN
+
+            addPin('{{ $branch->coordinates }}')
         });
     </script>
 @endpush
