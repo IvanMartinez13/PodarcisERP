@@ -64,6 +64,15 @@
                         <span class="nav-label">{{ __('modules.branches') }}</span>
                     </a>
                 </li>
+
+
+                <li class="{{ request()->is('departaments*') ? 'active' : '' }}">
+                    <a href="{{ route('departaments.index') }}">
+
+                        <i class="fa-solid fa-diagram-predecessor"></i>
+                        <span class="nav-label">{{ __('modules.departaments') }}</span>
+                    </a>
+                </li>
             @endhasrole
         </ul>
 

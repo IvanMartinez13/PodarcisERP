@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
 
@@ -70,5 +71,11 @@ Route::prefix('branches')->middleware('role:customer-manager')->group(function (
     Route::put('/create', [BranchController::class, 'store'])->name('branches.store');
     Route::get('/edit/{token}', [BranchController::class, 'edit'])->name('branches.edit');
     Route::put('/update', [BranchController::class, 'update'])->name('branches.update');
+});
+
+//DEPARTAMENTS
+Route::prefix('departaments')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [DepartamentController::class, 'index'])->name('departaments.index');
+    Route::get('/create', [DepartamentController::class, 'create'])->name('departaments.create');
 });
 require __DIR__ . '/auth.php';

@@ -17,5 +17,6 @@ return [
     'users' => 'Usuarios',
     'modules' => 'Módulos',
     'branches' => 'Centros',
+    'departaments' => 'Departamentos'
 
 ];
