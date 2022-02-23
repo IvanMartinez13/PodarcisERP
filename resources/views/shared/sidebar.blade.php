@@ -37,7 +37,7 @@
                         class="nav-label">{{ __('modules.dashboard') }}</span></a>
             </li>
 
-            @can('super-admin')
+            @hasrole('super-admin')
                 <li class="{{ request()->is('customers*') ? 'active' : '' }}">
                     <a href="{{ route('customers.index') }}"><i class="fa-solid fa-user-tie"></i> <span
                             class="nav-label">{{ __('modules.customers') }}</span></a>
@@ -47,7 +47,34 @@
                     <a href="{{ route('modules.index') }}"><i class="fa-solid fa-puzzle-piece"></i> <span
                             class="nav-label">{{ __('modules.modules') }}</span></a>
                 </li>
-            @endcan
+            @endhasrole
+
+            @hasrole('customer-manager')
+                <li class="{{ request()->is('branches*') ? 'active' : '' }}">
+                    <a href="{{ route('branches.index') }}">
+
+                        <i class="fa-solid fa-building"></i>
+                        <span class="nav-label">{{ __('modules.branches') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="{{ request()->is('departaments*') ? 'active' : '' }}">
+                    <a href="{{ route('departaments.index') }}">
+
+                        <i class="fa-solid fa-diagram-predecessor"></i>
+                        <span class="nav-label">{{ __('modules.departaments') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="{{ request()->is('users*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span class="nav-label">{{ __('modules.users') }}</span>
+                    </a>
+                </li>
+            @endhasrole
         </ul>
 
     </div>

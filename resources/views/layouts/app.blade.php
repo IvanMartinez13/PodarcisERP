@@ -11,15 +11,19 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-    <!-- Styles -->
+
+    <!-- PLUGGINS -->
     <link href="{{ url('/') }}/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/fontawesome/css/all.min.css" rel="stylesheet">
 
-    <!-- PLUGGINS -->
     <link href="{{ url('/') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/dataTables/dataTables.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/leaflet/leaflet.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
 
+    <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
 
@@ -80,9 +84,10 @@
 
     <script src="{{ url('/') }}/js/plugins/switchery/switchery.js"></script>
     <script src="{{ url('/') }}/js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
-
-
+    <script src="{{ url('/') }}/js/plugins/leaflet/leaflet.js"></script>
     <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/select2/select2.full.min.js"></script>
+
     <script>
         toastr.options = {
             "closeButton": true,

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'position',
         'token',
         'customer_id',
     ];
@@ -48,11 +49,18 @@ class User extends Authenticatable
     ];
 
 
-
-
-
     public function customer()
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, "branch_user");
+    }
+
+    public function departaments()
+    {
+        return $this->belongsToMany(Departament::class, "departament_user");
     }
 }

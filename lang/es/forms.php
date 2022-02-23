@@ -32,6 +32,16 @@ return [
     'contact_mail' => 'Email de contacto',
     'active' => 'Activo',
     'icon' => 'Icono',
+    'position' => 'Cargo',
+    'coordinates' => 'Coordenadas',
+    'users' => 'Usuarios',
+    'branches' => 'Centros',
+    'departaments' => 'Departamentos',
 
+    //PERMISSIONS
+    'store' => 'Crear',
+    'update' => 'Editar',
+    'delete' => 'Eliminar',
+    'read' => 'Leer',
 
 ];

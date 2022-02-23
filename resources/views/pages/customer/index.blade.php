@@ -87,7 +87,7 @@
                                             @endcan
 
                                             @can('impersonate')
-                                                <a href="{{ route('impersonate', $customer->manager->id) }}"
+                                                <a href="{{ route('user.impersonate', $customer->manager->token) }}"
                                                     class="btn btn-link">
                                                     <i class="fa-solid fa-ghost"></i>
                                                 </a>
@@ -104,7 +104,7 @@
             </div>
 
             <div class="ibox-footer">
-                Podarcis SL. &copy {{ date('Y') }}
+                Podarcis SL. &copy; {{ date('Y') }}
             </div>
         </div>
     </div>

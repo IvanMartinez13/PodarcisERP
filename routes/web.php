@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +27,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::impersonate();
-
+Route::get('/impersonate/{id}', [UserController::class, 'impersonate'])->name('user.impersonate');
 //CUSTOMERS
 Route::prefix('customers')->middleware('role:super-admin')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
@@ -43,4 +46,39 @@ Route::prefix('modules')->middleware('role:super-admin')->group(function () {
     Route::put('/update', [ModuleController::class, 'update'])->name('modules.update');
 });
 
+//CUSTOMERS
+Route::prefix('customers')->middleware('role:super-admin')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/edit/{token}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/update', [CustomerController::class, 'update'])->name('customers.update');
+});
+
+//USERS
+Route::prefix('users')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::put('/create', [UserController::class, 'store'])->name('users.store');
+    Route::get('/edit/{token}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/update', [UserController::class, 'update'])->name('users.update');
+});
+
+//BRANCHES
+Route::prefix('branches')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [BranchController::class, 'index'])->name('branches.index');
+    Route::get('/create', [BranchController::class, 'create'])->name('branches.create');
+    Route::put('/create', [BranchController::class, 'store'])->name('branches.store');
+    Route::get('/edit/{token}', [BranchController::class, 'edit'])->name('branches.edit');
+    Route::put('/update', [BranchController::class, 'update'])->name('branches.update');
+});
+
+//DEPARTAMENTS
+Route::prefix('departaments')->middleware('role:customer-manager')->group(function () {
+    Route::get('/', [DepartamentController::class, 'index'])->name('departaments.index');
+    Route::get('/create', [DepartamentController::class, 'create'])->name('departaments.create');
+    Route::put('/create', [DepartamentController::class, 'store'])->name('departaments.store');
+    Route::get('/edit/{token}', [DepartamentController::class, 'edit'])->name('departaments.edit');
+    Route::put('/update', [DepartamentController::class, 'update'])->name('departaments.update');
+});
 require __DIR__ . '/auth.php';

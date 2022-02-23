@@ -95,6 +95,8 @@
                                 <input type="checkbox" class="js-switch" id="active" name="active" value="1"
                                     @if ($customer->active == 1) checked @endif />
                             </div>
+
+
                         </div>
 
                         <div class="row md-5">
@@ -149,6 +151,7 @@
             </script>
         @endforeach
     @endif
+
 
 
 @endpush
