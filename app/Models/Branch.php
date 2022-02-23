@@ -29,4 +29,9 @@ class Branch extends Model
     {
         return $this->belongsToMany(User::class, "branch_user");
     }
+
+    public function departaments()
+    {
+        return $this->belongsToMany(Departament::class, "departament_branch");
+    }
 }

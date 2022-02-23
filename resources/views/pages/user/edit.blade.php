@@ -82,7 +82,7 @@
 
 
                     {{-- SELECT BRANCHES --}}
-                    <div class="col-12 mt-3  @error('branches') has-error @enderror">
+                    <div class="col-lg-6 mt-3  @error('branches') has-error @enderror">
                         <label for="branches">{{ __('forms.branches') }}:</label>
 
                         <select type="text" name="branches[]" id="branches" class="form-control select2"
@@ -90,7 +90,24 @@
                             {{-- SET OPTIONS --}}
                             @foreach ($branches as $branch)
                                 <option id="{{ $branch->id }}" value="{{ $branch->id }}">
-                                    {{ $branch->name }}</option>
+                                    {{ $branch->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    {{-- SELECT DEPARTAMENTS --}}
+                    <div class="col-lg-6 mt-3  @error('departaments') has-error @enderror">
+                        <label for="departaments">{{ __('forms.departaments') }}:</label>
+
+                        <select type="text" name="departaments[]" id="departaments" class="form-control select2"
+                            placeholder="{{ __('forms.departaments') }}..." multiple="true">
+                            {{-- SET OPTIONS --}}
+                            @foreach ($user->departaments as $departament)
+                                <option value="{{ $departament->id }}" selected>
+                                    {{ $departament->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -186,14 +203,24 @@
 
     <script>
         $(document).ready(() => {
-            $(".select2").select2({
+            $("#branches").select2({
                 theme: 'bootstrap4',
                 placeholder: "Selecciona un centro...",
                 allowClear: true
             });
 
+            $("#departaments").select2({
+                theme: 'bootstrap4',
+                placeholder: "Selecciona un departamento...",
+                allowClear: true
+            });
+
 
         });
+
+        var branches = [];
+        var branches_selected = [];
+        var departaments_options = [];
     </script>
 
     @foreach ($branches as $branch)
@@ -205,4 +232,31 @@
             @endif
         @endforeach
     @endforeach
+
+    @foreach ($branches as $branch)
+        <script>
+            var branch = {
+                id: Number("{{ $branch->id }}"),
+                name: "{{ $branch->name }}",
+                departaments: [],
+            }
+
+            //branches.push()
+        </script>
+
+        @foreach ($branch->departaments as $departament)
+            <script>
+                branch.departaments.push({
+                    id: Number("{{ $departament->id }}"),
+                    name: "{{ $departament->name }}"
+                })
+            </script>
+        @endforeach
+
+        <script>
+            branches.push(branch);
+        </script>
+    @endforeach
+    {{-- AJAX --}}
+    <script src="{{ url('/') }}/js/ajax/userForm.js"></script>
 @endpush

@@ -69,9 +69,12 @@
                                         @endcan
 
                                         @can('impersonateUser')
-                                            <a href="{{ route('impersonate', $user->id, 'web') }}" class="btn btn-link">
-                                                <i class="fa-solid fa-ghost"></i>
-                                            </a>
+                                            @if (auth()->user()->id != $user->id)
+                                                <a href="{{ route('user.impersonate', $user->token) }}"
+                                                    class="btn btn-link">
+                                                    <i class="fa-solid fa-ghost"></i>
+                                                </a>
+                                            @endif
                                         @endcan
 
 

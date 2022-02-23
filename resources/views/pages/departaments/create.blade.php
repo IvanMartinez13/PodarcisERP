@@ -36,42 +36,49 @@
         </div>
 
         <div class="ibox-content">
-            <div class="row">
-                <div class="col-lg-6 mt-3 @error('name') has-error @enderror">
-                    <label for="name">{{ __('forms.name') }}:</label>
-                    <input type="text" name="name" id="name" class="form-control"
-                        placeholder="{{ __('forms.name') }}..." value="{{ old('name') }}">
+
+            <form action="{{ route('departaments.store') }}" method="POST">
+                @csrf
+                @method('put')
+
+                <div class="row">
+                    <div class="col-lg-6 mt-3 @error('name') has-error @enderror">
+                        <label for="name">{{ __('forms.name') }}:</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                            placeholder="{{ __('forms.name') }}..." value="{{ old('name') }}">
+                    </div>
+
+                    {{-- SELECT BRANCHES --}}
+                    <div class="col-lg-6 mt-3 @error('branches') has-error @enderror">
+                        <label for="branches">{{ __('forms.branches') }}:</label>
+                        <select type="text" name="branches[]" id="branches" class="form-control select2"
+                            placeholder="{{ __('forms.branches') }}..." multiple="true">
+                            @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    {{-- SELECT USERS --}}
+                    <div class="col-lg-6 mt-3 @error('users') has-error @enderror">
+                        <label for="users">{{ __('forms.users') }}:</label>
+                        <select type="text" name="users[]" id="users" class="form-control select2"
+                            placeholder="{{ __('forms.users') }}..." multiple="true">
+
+                        </select>
+                    </div>
+
+
                 </div>
 
-                {{-- SELECT BRANCHES --}}
-                <div class="col-lg-6 mt-3 @error('branches') has-error @enderror">
-                    <label for="branches">{{ __('forms.branches') }}:</label>
-                    <select type="text" name="branches[]" id="branches" class="form-control select2"
-                        placeholder="{{ __('forms.branches') }}..." multiple="true">
-                        @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                        @endforeach
-
-                    </select>
+                <div class="text-right">
+                    <button class="btn btn-primary">
+                        {{ __('forms.create') }}
+                    </button>
                 </div>
+            </form>
 
-                {{-- SELECT USERS --}}
-                <div class="col-lg-6 mt-3 @error('branches') has-error @enderror">
-                    <label for="users">{{ __('forms.users') }}:</label>
-                    <select type="text" name="users[]" id="users" class="form-control select2"
-                        placeholder="{{ __('forms.branches') }}..." multiple="true">
-
-                    </select>
-                </div>
-
-
-            </div>
-
-            <div class="text-right">
-                <button class="btn btn-primary">
-                    {{ __('forms.create') }}
-                </button>
-            </div>
 
         </div>
 
@@ -146,5 +153,5 @@
 
 
     {{-- AJAX --}}
-    <script src="{{ url('/') }}/js/ajax/departamentosForm.js"></script>
+    <script src="{{ url('/') }}/js/ajax/departamentForm.js"></script>
 @endpush

@@ -27,7 +27,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::impersonate();
-
+Route::get('/impersonate/{id}', [UserController::class, 'impersonate'])->name('user.impersonate');
 //CUSTOMERS
 Route::prefix('customers')->middleware('role:super-admin')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
@@ -77,5 +77,8 @@ Route::prefix('branches')->middleware('role:customer-manager')->group(function (
 Route::prefix('departaments')->middleware('role:customer-manager')->group(function () {
     Route::get('/', [DepartamentController::class, 'index'])->name('departaments.index');
     Route::get('/create', [DepartamentController::class, 'create'])->name('departaments.create');
+    Route::put('/create', [DepartamentController::class, 'store'])->name('departaments.store');
+    Route::get('/edit/{token}', [DepartamentController::class, 'edit'])->name('departaments.edit');
+    Route::put('/update', [DepartamentController::class, 'update'])->name('departaments.update');
 });
 require __DIR__ . '/auth.php';

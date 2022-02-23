@@ -48,12 +48,28 @@
                     <tbody>
                         @foreach ($departaments as $departament)
                             <tr>
-                                <td>
+                                <td class="align-middle">
                                     {{ $departament->name }}
                                 </td>
 
-                                <td>
-                                    {{ $departament->name }}
+                                <td class="align-middle text-center">
+                                    <div class="btn-group-vertical">
+                                        @can('update')
+                                            <a href="{{ route('departaments.edit', $departament->token) }}"
+                                                class="btn btn-link">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete')
+                                            <button class="btn btn-link">
+                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                            </button>
+                                        @endcan
+
+
+
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

@@ -36,8 +36,9 @@ return [
     'coordinates' => 'Coordenadas',
     'users' => 'Usuarios',
     'branches' => 'Centros',
+    'departaments' => 'Departamentos',
 
-    //PERMISSNOS
+    //PERMISSIONS
     'store' => 'Crear',
     'update' => 'Editar',
     'delete' => 'Eliminar',

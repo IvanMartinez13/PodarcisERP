@@ -87,7 +87,7 @@
                                             @endcan
 
                                             @can('impersonate')
-                                                <a href="{{ route('impersonate', $customer->manager->id) }}"
+                                                <a href="{{ route('user.impersonate', $customer->manager->token) }}"
                                                     class="btn btn-link">
                                                     <i class="fa-solid fa-ghost"></i>
                                                 </a>

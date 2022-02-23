@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Branch;
+use App\Models\Departament;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -32,11 +33,17 @@ class UserController extends Controller
     //PAGE CREATE
     public function create()
     {
+        $user = Auth::user();
+
         $modules = Auth::user()->customer->modules;
 
-        $branches = Branch::where('customer_id', Auth::user()->customer_id)->get();
+        $branches = Branch::where('customer_id', $user->customer_id)->with('departaments')->get();
 
-        return view('pages.user.create', compact('modules', 'branches'));
+        $departaments = Departament::whereHas('branches', function ($q) use ($user) {
+            $q->where('customer_id', $user->customer_id);
+        })->get();
+
+        return view('pages.user.create', compact('modules', 'branches', 'departaments'));
     }
 
     //PAGE STORE
@@ -57,7 +64,7 @@ class UserController extends Controller
         ];
 
         $branches = $request->branches;
-
+        $departaments = $request->departaments;
         $permissions = ($request->permissions != null) ? $request->permissions : [];
 
         //2) STORE DATA
@@ -75,6 +82,7 @@ class UserController extends Controller
 
         $user->syncPermissions($permissions);
         $user->branches()->sync($branches);
+        $user->departaments()->sync($departaments);
 
         //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario creado.')->with('status', 'success');
@@ -83,7 +91,7 @@ class UserController extends Controller
     //PAGE UPDATE
     public function edit($token)
     {
-        $user = User::where('token', $token)->with('branches')->first();
+        $user = User::where('token', $token)->with('branches')->with('departaments')->first();
 
         $branches = Branch::where('customer_id', $user->customer_id)->get();
 
@@ -144,6 +152,7 @@ class UserController extends Controller
         }
 
         $branches = $request->branches;
+        $departaments = $request->departaments;
 
         if ($validator->fails()) {
 
@@ -167,8 +176,19 @@ class UserController extends Controller
         $user =  User::where('token', $request->token)->first();
         $user->syncPermissions($permissions);
         $user->branches()->sync($branches);
+        $user->departaments()->sync($departaments);
 
         //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario editado.')->with('status', 'success');
+    }
+
+
+    public function impersonate($id)
+    {
+        Auth::user()->leaveImpersonation();
+        $user = User::where('token', $id)->first();
+
+        Auth::user()->impersonate($user);
+        return redirect('/dashboard');
     }
 }

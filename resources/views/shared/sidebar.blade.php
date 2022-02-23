@@ -50,13 +50,6 @@
             @endhasrole
 
             @hasrole('customer-manager')
-                <li class="{{ request()->is('users*') ? 'active' : '' }}">
-                    <a href="{{ route('users.index') }}">
-                        <i class="fa fa-users" aria-hidden="true"></i>
-                        <span class="nav-label">{{ __('modules.users') }}</span>
-                    </a>
-                </li>
-
                 <li class="{{ request()->is('branches*') ? 'active' : '' }}">
                     <a href="{{ route('branches.index') }}">
 
@@ -71,6 +64,14 @@
 
                         <i class="fa-solid fa-diagram-predecessor"></i>
                         <span class="nav-label">{{ __('modules.departaments') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="{{ request()->is('users*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span class="nav-label">{{ __('modules.users') }}</span>
                     </a>
                 </li>
             @endhasrole
