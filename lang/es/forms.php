@@ -45,6 +45,7 @@ return [
     'target' => 'Objetivo',
     'base_year' => 'Año de referencia',
     'target_year' => 'Año del objetivo',
+    'performances' => 'Actuaciones',
 
     //PERMISSIONS
     'store' => 'Crear',

@@ -18,7 +18,7 @@
                 </li>
 
                 <li class="breadcrumb-item active">
-                    <strong>{{ __('forms.create') }}</strong>
+                    <strong>{{ __('forms.edit') }}</strong>
                 </li>
             </ol>
         </div>
@@ -30,10 +30,9 @@
     </div>
 
     <div class="ibox">
-
         <div class="ibox-title">
             <h5>
-                {{ __('forms.create') . ' ' . __('modules.strategy') }}
+                {{ __('forms.edit') . ' ' . __('modules.strategy') }}
             </h5>
 
             <div class="ibox-tools">
@@ -43,41 +42,42 @@
             </div>
         </div>
 
+
         <div class="ibox-content">
-            <form action="{{ route('ods.strategy.store', $objective->token) }}" method="POST"
+            <form action="{{ route('ods.strategy.update', $objective->token) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('put')
-
+                <input type="hidden" value="{{ $strategy->token }}" name="token">
                 <div class="row">
                     <div class="col-lg-6 mt-3 @error('title') has-error @enderror">
                         <label for="title">{{ __('forms.title') }}:</label>
                         <input type="text" name="title" id="title" placeholder="{{ __('forms.title') }}..."
-                            class="form-control" value="{{ old('title') }}">
+                            class="form-control" value="{{ $strategy->title }}">
                     </div>
 
                     <div class="col-lg-6 mt-3 @error('indicator') has-error @enderror">
                         <label for="indicator">{{ __('forms.indicator') }}:</label>
                         <input type="text" name="indicator" id="indicator" placeholder="{{ __('forms.indicator') }}..."
-                            class="form-control" value="{{ old('indicator') }}">
+                            class="form-control" value="{{ $strategy->indicator }}">
                     </div>
 
                     <div class="col-lg-6 mt-3  @error('description') has-error @enderror">
                         <label for="description">{{ __('forms.description') }}:</label>
                         <textarea type="text" name="description" id="description" class="form-conteol"
-                            placeholder="{{ __('forms.description') }}...">{{ old('description') }}</textarea>
+                            placeholder="{{ __('forms.description') }}...">{{ $strategy->description }}</textarea>
                     </div>
 
                     <div class="col-lg-6 mt-3  @error('performances') has-error @enderror">
                         <label for="performances">{{ __('forms.performances') }}:</label>
                         <textarea type="text" name="performances" id="performances" class="form-conteol"
-                            placeholder="{{ __('forms.performances') }}...">{{ old('performances') }}</textarea>
+                            placeholder="{{ __('forms.performances') }}...">{{ $strategy->performances }}</textarea>
                     </div>
                 </div>
 
                 <div class="text-right mt-3">
                     <button type="submit" class="btn btn-primary">
-                        {{ __('forms.create') }}
+                        {{ __('forms.edit') }}
                     </button>
                 </div>
             </form>
@@ -89,7 +89,6 @@
         </div>
     </div>
 @endsection
-
 
 @push('scripts')
     <script>

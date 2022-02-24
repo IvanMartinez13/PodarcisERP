@@ -68,8 +68,8 @@
                                 <td class="align-middle text-center">
                                     <div class="btn-group-vertical">
                                         @can('store Ods')
-                                            <a href="{{ route('ods.strategy', $objective->token) }}" class="btn btn-link"
-                                                title="Estrategias y parametros">
+                                            <a href="{{ route('ods.strategy.index', $objective->token) }}"
+                                                class="btn btn-link" title="Estrategias y parametros">
                                                 <i class="fa-solid fa-gears"></i>
                                             </a>
                                         @endcan

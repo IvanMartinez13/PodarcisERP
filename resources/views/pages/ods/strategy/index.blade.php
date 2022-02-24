@@ -3,14 +3,14 @@
 @section('content')
     <div class="row mb-2">
         <div class="col-10 my-auto">
-            <h2>{{ __('modules.ods') }}</h2>
+            <h2>{{ $objective->title }}</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
 
                 <li class="breadcrumb-item">
-                    <a href="{{ route('dashboard') }}">{{ __('modules.targets') }}</a>
+                    <a href="{{ route('ods.index') }}">{{ __('modules.targets') }}</a>
                 </li>
 
                 <li class="breadcrumb-item active">
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-2 text-right">
-            <a href="{{ route('dashboard') }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
+            <a href="{{ route('ods.index') }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
         </div>
 
     </div>
@@ -49,12 +49,40 @@
                     <thead>
                         <tr>
                             <th>{{ __('columns.title') }}</th>
-                            <th>{{ __('columns.description') }}</th>
+                            <th style="width: 25%">{{ __('columns.description') }}</th>
                             <th>{{ __('columns.indicator') }}</th>
-                            <th>{{ __('columns.performances') }}</th>
+                            <th style="width: 30%">{{ __('columns.performances') }}</th>
                             <th>{{ __('columns.actions') }}</th>
                         </tr>
                     </thead>
+
+                    <tbody>
+                        @foreach ($strategies as $strategy)
+                            <tr>
+                                <td class="align-middle">{{ $strategy->title }}</td>
+                                <td class="align-middle">{!! $strategy->description !!}</td>
+                                <td class="align-middle">{{ $strategy->indicator }}</td>
+                                <td class="align-middle">{!! $strategy->performances !!}</td>
+                                <td class="align-middle text-center">
+                                    <div class="btn-group-vertical">
+                                        @can('update Ods')
+                                            <a href="{{ route('ods.strategy.edit', [$objective->token, $strategy->token]) }}"
+                                                class="btn btn-link">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete Ods')
+                                            <button class="btn btn-link">
+                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                            </button>
+                                        @endcan
+
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

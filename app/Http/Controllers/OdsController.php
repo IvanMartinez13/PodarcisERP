@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreObjectiveRequest;
+use App\Http\Requests\StoreStrategyRequest;
 use App\Http\Requests\UpdateObjectiveRequest;
+use App\Http\Requests\UpdateStrategyRequest;
 use App\Models\Objective;
+use App\Models\Strategy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,13 +92,64 @@ class OdsController extends Controller
     public function strategy($token)
     {
         $objective = Objective::where('token', $token)->first();
-        return view('pages.ods.strategy.index', compact('objective'));
+        $strategies = Strategy::where('objective_id', $objective->id)->get();
+        return view('pages.ods.strategy.index', compact('objective', 'strategies'));
     }
 
     public function strategy_create($token)
     {
         $objective = Objective::where('token', $token)->first();
         return view('pages.ods.strategy.create', compact('objective'));
+    }
+
+    public function strategy_store(StoreStrategyRequest $request, $token)
+    {
+        //1) GET DATA
+        $objective = Objective::where('token', $token)->first();
+
+        $data = [
+            "title" => $request->title,
+            "indicator" => $request->indicator,
+            "description" => $request->description,
+            "performances" => $request->performances,
+            "token" => md5($request->title . '+' . date('Y')),
+            "objective_id" => $objective->id
+        ];
+        //2) STORE DATA
+        $strategy = new Strategy($data);
+        $strategy->save();
+        //3) RETURN REDIRECT
+        return redirect(route('ods.strategy.index', $objective->token))->with('message', 'Estrategia creada.')->with('status', 'success');
+    }
+
+
+    public function strategy_edit($token_objective, $token_strategy)
+    {
+        //1) GET DATA
+        $objective = Objective::where('token', $token_objective)->first();
+        $strategy = Strategy::where('token', $token_strategy)->first();
+
+        return view('pages.ods.strategy.edit', compact('objective', 'strategy'));
+    }
+
+
+    public function strategy_update($token, UpdateStrategyRequest $request)
+    {
+        //1) GET DATA
+        $objective = Objective::where('token', $token)->first();
+        $strategy = Strategy::where('token', $request->token)->first();
+
+        $data = [
+            "title" => $request->title,
+            "indicator" => $request->indicator,
+            "description" => $request->description,
+            "performances" => $request->performances,
+        ];
+
+        $strategy = Strategy::where('token', $request->token)->update($data);
+
+
+        return redirect(route('ods.strategy.index', $objective->token))->with('message', 'Estrategia editada.')->with('status', 'success');
     }
 
 

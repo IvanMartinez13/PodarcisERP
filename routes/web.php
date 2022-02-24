@@ -92,8 +92,11 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/objective/store', [OdsController::class, 'store'])->name('ods.objective.store');
     Route::get('/objective/edit/{token}', [OdsController::class, 'edit'])->name('ods.objective.edit');
     Route::put('/objective/update', [OdsController::class, 'update'])->name('ods.objective.update');
-    Route::get('/strategy/{token}', [OdsController::class, 'strategy'])->name('ods.strategy');
+    Route::get('/strategy/{token}', [OdsController::class, 'strategy'])->name('ods.strategy.index');
     Route::get('/strategy/{token}/create', [OdsController::class, 'strategy_create'])->name('ods.strategy.create');
+    Route::put('/strategy/{token}/create', [OdsController::class, 'strategy_store'])->name('ods.strategy.store');
+    Route::get('/strategy/{token_objective}/edit/{token_strategy}', [OdsController::class, 'strategy_edit'])->name('ods.strategy.edit');
+    Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
 });
 
 
