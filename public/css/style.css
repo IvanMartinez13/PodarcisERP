@@ -9606,13 +9606,13 @@ body.md-skin {
     color: #ffffff;
 }
 .md-skin .nav > li.active > a {
-    color: #5b5d5f;
+    color: #1ab394;
     font-weight: 700;
 }
 .md-skin .navbar-default .nav > li > a:hover,
 .md-skin .navbar-default .nav > li > a:focus {
     font-weight: 700;
-    color: #5b5d5f;
+    color: #1ab394;
 }
 .md-skin .nav .open > a,
 .md-skin .nav .open > a:hover,

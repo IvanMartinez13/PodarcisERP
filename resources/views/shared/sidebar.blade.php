@@ -75,6 +75,15 @@
                     </a>
                 </li>
             @endhasrole
+
+            @can('read Ods')
+                <li class="{{ request()->is('ods*') ? 'active' : '' }}">
+                    <a href="{{ route('ods.index') }}">
+                        <i class="fa fa-bullseye" aria-hidden="true"></i>
+                        <span class="nav-label">{{ __('modules.ods') }}</span>
+                    </a>
+                </li>
+            @endcan
         </ul>
 
     </div>
