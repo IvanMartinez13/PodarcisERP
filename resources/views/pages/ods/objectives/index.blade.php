@@ -32,7 +32,7 @@
 
             <div class="ibox-tools">
                 <a class="collapse-link" href="">
-                    <i class="fa fa-chevron-down"></i>
+                    <i class="fa fa-chevron-up"></i>
                 </a>
 
             </div>
@@ -82,8 +82,8 @@
                                         @endcan
 
                                         @can('read Ods')
-                                            <a href="{{ route('ods.objective.create') }}" class="btn btn-link"
-                                                title="Seguimiento">
+                                            <a href="{{ route('ods.objective.evaluate', $objective->token) }}"
+                                                class="btn btn-link" title="Seguimiento">
                                                 <i class="fa-solid fa-clipboard-check"></i>
                                             </a>
                                         @endcan

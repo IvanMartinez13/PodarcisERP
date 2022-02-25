@@ -16,6 +16,7 @@ return [
     'edit' => 'Editar',
     'save' => 'Guardar',
     'update' => 'Actualizar',
+    'evaluate' => 'Evaluar',
 
     //LABELS
     'name' => 'Nombre',

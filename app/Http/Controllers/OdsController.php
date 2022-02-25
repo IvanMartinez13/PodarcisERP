@@ -6,10 +6,12 @@ use App\Http\Requests\StoreObjectiveRequest;
 use App\Http\Requests\StoreStrategyRequest;
 use App\Http\Requests\UpdateObjectiveRequest;
 use App\Http\Requests\UpdateStrategyRequest;
+use App\Models\Evaluation;
 use App\Models\Objective;
 use App\Models\Strategy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OdsController extends Controller
 {
@@ -78,6 +80,113 @@ class OdsController extends Controller
         $objective = Objective::where('token', $request->token)->update($data);
         //3) RETURN REDIRECT
         return redirect(route('ods.index'))->with('message', 'Objetivo editado.')->with('status', 'success');
+    }
+
+    //PAGE EVALUATE
+    public function evaluate($token)
+    {
+        $objective = Objective::where('token', $token)->first();
+        $strategies = Strategy::where('objective_id', $objective->id)->get();
+
+        return view('pages.ods.objectives.evaluate', compact('objective', 'strategies'));
+    }
+
+    public function evaluate_save(Request $request)
+    {
+        $rows =  $request->rows;
+
+        try {
+            foreach ($rows as $key => $row) {
+
+                if ($row['strategy'] != null) { //prevent NULL VALUES
+                    //1) CHECK IF NEED UPDATE OR STORE
+                    $evaluation = Evaluation::where('token', $row['id'])->exists();
+
+                    if ($evaluation && $row['id'] != 0) {
+
+                        //update
+                        $data = [
+                            'year' => $row["year"],
+                            'value' => $row["value"],
+                            'strategy_id' => $row['strategy']['id'],
+                        ];
+
+                        //3) VALIDATE DATA
+                        $rules = [
+                            'year' => ['required', 'numeric'],
+                            'value' => ['required', 'numeric'],
+                            'strategy_id' => ['required', 'numeric'],
+                        ];
+
+                        $validator = Validator::make($data, $rules);
+
+
+                        if (!$validator->fails()) {
+                            //4) SAVE DATA
+                            $evaluation = Evaluation::where('token', $row['id'])->update($data);
+                        }
+                    } else {
+
+                        //save
+                        //2) GET DATA
+
+                        $data = [
+                            'year' => $row["year"],
+                            'value' => $row["value"],
+                            'strategy_id' => $row['strategy']['id'],
+                            'token' => md5($row['strategy']['id'] . '+' . $row['value'] . '+' . date('d/m/Y H:i:s'))
+                        ];
+
+                        //3) VALIDATE DATA
+                        $rules = [
+                            'year' => ['required', 'numeric'],
+                            'value' => ['required', 'numeric'],
+                            'strategy_id' => ['required', 'numeric'],
+                            'token' => ['required', 'string'],
+                        ];
+                        $validator = Validator::make($data, $rules);
+
+                        if (!$validator->fails()) {
+
+                            //4) SAVE DATA
+                            $evaluation = new Evaluation($data);
+                            $evaluation->save();
+                        }
+                    }
+                }
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Evaluaciones guardadas.'
+            ];
+
+            return response()->json($response);
+        } catch (\Throwable $th) {
+
+            $response = [
+                'status' => 'error',
+                'message' => 'Se ha producido un error durante la carga de datos.'
+            ];
+
+            return response()->json($response);
+        }
+    }
+
+    public function get_evaluations(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+        $strategies = Strategy::where('objective_id', $objective->id)->get();
+
+        $strategies_ids = $strategies->pluck('id');
+
+        $evaluations = Evaluation::whereIn('strategy_id', $strategies_ids)->with('strategy')->orderBy('year', 'DESC')->get();
+
+        $response = [
+            "evaluations" => $evaluations,
+        ];
+
+        return response()->json($response);
     }
 
     /*======================================
