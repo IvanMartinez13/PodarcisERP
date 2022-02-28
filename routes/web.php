@@ -95,6 +95,7 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/objective/evaluate/{token}', [OdsController::class, 'evaluate'])->name('ods.objective.evaluate');
     Route::post('/evaluate/save', [OdsController::class, 'evaluate_save'])->name('ods.objective.evaluate_save');
     Route::post('/evaluate/get_evaluations', [OdsController::class, 'get_evaluations'])->name('ods.objective.get_evaluations');
+    Route::post('/evaluate/save_file', [OdsController::class, 'save_file'])->name('ods.objective.save_file');
 
     Route::get('/strategy/{token}', [OdsController::class, 'strategy'])->name('ods.strategy.index');
     Route::get('/strategy/{token}/create', [OdsController::class, 'strategy_create'])->name('ods.strategy.create');

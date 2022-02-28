@@ -7,6 +7,7 @@ use App\Http\Requests\StoreStrategyRequest;
 use App\Http\Requests\UpdateObjectiveRequest;
 use App\Http\Requests\UpdateStrategyRequest;
 use App\Models\Evaluation;
+use App\Models\Evaluation_file;
 use App\Models\Objective;
 use App\Models\Strategy;
 use Illuminate\Http\Request;
@@ -95,74 +96,132 @@ class OdsController extends Controller
     {
         $rows =  $request->rows;
 
-        try {
-            foreach ($rows as $key => $row) {
+        //try {
+        foreach ($rows as $key => $row) {
 
-                if ($row['strategy'] != null) { //prevent NULL VALUES
-                    //1) CHECK IF NEED UPDATE OR STORE
-                    $evaluation = Evaluation::where('token', $row['id'])->exists();
+            if ($row['strategy'] != null) { //prevent NULL VALUES
+                //1) CHECK IF NEED UPDATE OR STORE
+                $evaluation = Evaluation::where('token', $row['id'])->exists();
 
-                    if ($evaluation && $row['id'] != 0) {
+                if ($evaluation && $row['id'] != 0) {
 
-                        //update
-                        $data = [
-                            'year' => $row["year"],
-                            'value' => $row["value"],
-                            'strategy_id' => $row['strategy']['id'],
-                        ];
+                    //update
+                    $data = [
+                        'year' => $row["year"],
+                        'value' => $row["value"],
+                        'strategy_id' => $row['strategy']['id'],
+                    ];
 
-                        //3) VALIDATE DATA
-                        $rules = [
-                            'year' => ['required', 'numeric'],
-                            'value' => ['required', 'numeric'],
-                            'strategy_id' => ['required', 'numeric'],
-                        ];
+                    //3) VALIDATE DATA
+                    $rules = [
+                        'year' => ['required', 'numeric'],
+                        'value' => ['required', 'numeric'],
+                        'strategy_id' => ['required', 'numeric'],
+                    ];
 
-                        $validator = Validator::make($data, $rules);
+                    $validator = Validator::make($data, $rules);
 
 
-                        if (!$validator->fails()) {
-                            //4) SAVE DATA
-                            $evaluation = Evaluation::where('token', $row['id'])->update($data);
+                    if (!$validator->fails()) {
+                        //4) SAVE DATA
+                        $evaluation = Evaluation::where('token', $row['id'])->update($data);
+                        $files = $row['files'];
+
+                        foreach ($files as $key => $file) {
+
+                            $checkFile = Evaluation_file::where('path', $file['path'])->exists();
+                            if ($checkFile) {
+                                //upload
+                                Evaluation_file::where('path', $file['path'])->update(
+                                    [
+                                        "name" => $file['name'],
+                                        "path" => $file['path'],
+                                    ]
+                                );
+                            } else {
+                                //save
+                                $evaluation_id = Evaluation::where('token', $row['id'])->first();
+
+                                $file_save = new Evaluation_file(
+                                    [
+                                        "name" => $file['name'],
+                                        "token" => md5($file['name']),
+                                        "path" => $file['path'],
+                                        "evaluation_id" => $evaluation_id->id,
+                                    ]
+                                );
+
+                                $file_save->save();
+                            }
                         }
-                    } else {
+                    }
+                } else {
 
-                        //save
-                        //2) GET DATA
+                    //save
+                    //2) GET DATA
 
-                        $data = [
-                            'year' => $row["year"],
-                            'value' => $row["value"],
-                            'strategy_id' => $row['strategy']['id'],
-                            'token' => md5($row['strategy']['id'] . '+' . $row['value'] . '+' . date('d/m/Y H:i:s'))
-                        ];
+                    $data = [
+                        'year' => $row["year"],
+                        'value' => $row["value"],
+                        'strategy_id' => $row['strategy']['id'],
+                        'token' => md5($row['strategy']['id'] . '+' . $row['value'] . '+' . date('d/m/Y H:i:s'))
+                    ];
 
-                        //3) VALIDATE DATA
-                        $rules = [
-                            'year' => ['required', 'numeric'],
-                            'value' => ['required', 'numeric'],
-                            'strategy_id' => ['required', 'numeric'],
-                            'token' => ['required', 'string'],
-                        ];
-                        $validator = Validator::make($data, $rules);
+                    //3) VALIDATE DATA
+                    $rules = [
+                        'year' => ['required', 'numeric'],
+                        'value' => ['required', 'numeric'],
+                        'strategy_id' => ['required', 'numeric'],
+                        'token' => ['required', 'string'],
+                    ];
+                    $validator = Validator::make($data, $rules);
 
-                        if (!$validator->fails()) {
+                    if (!$validator->fails()) {
 
-                            //4) SAVE DATA
-                            $evaluation = new Evaluation($data);
-                            $evaluation->save();
+                        //4) SAVE DATA
+                        $evaluation = new Evaluation($data);
+                        $evaluation->save();
+
+                        $files = $row['files'];
+
+                        foreach ($files as $key => $file) {
+
+                            $checkFile = Evaluation_file::where('file', $file['path'])->exists();
+                            if ($checkFile) {
+                                //upload
+                                Evaluation_file::where('path', $file['path'])->update(
+                                    [
+                                        "name" => $file['name'],
+                                        "path" => $file['path'],
+                                    ]
+                                );
+                            } else {
+                                //save
+
+                                $file_save = new Evaluation_file(
+                                    [
+                                        "name" => $file['name'],
+                                        "token" => md5($file['name']),
+                                        "path" => $file['path'],
+                                        "evaluation_id" => $evaluation->id,
+                                    ]
+                                );
+
+                                $file_save->save();
+                            }
                         }
                     }
                 }
             }
+        }
 
-            $response = [
-                'status' => 'success',
-                'message' => 'Evaluaciones guardadas.'
-            ];
+        $response = [
+            'status' => 'success',
+            'message' => 'Evaluaciones guardadas.'
+        ];
 
-            return response()->json($response);
-        } catch (\Throwable $th) {
+        return response()->json($response);
+        /*} catch (\Throwable $th) {
 
             $response = [
                 'status' => 'error',
@@ -170,7 +229,7 @@ class OdsController extends Controller
             ];
 
             return response()->json($response);
-        }
+        }*/
     }
 
     public function get_evaluations(Request $request)
@@ -180,13 +239,32 @@ class OdsController extends Controller
 
         $strategies_ids = $strategies->pluck('id');
 
-        $evaluations = Evaluation::whereIn('strategy_id', $strategies_ids)->with('strategy')->orderBy('year', 'DESC')->get();
+        $evaluations = Evaluation::whereIn('strategy_id', $strategies_ids)->with('strategy')->with('files')->orderBy('year', 'DESC')->get();
 
         $response = [
             "evaluations" => $evaluations,
         ];
 
         return response()->json($response);
+    }
+
+    public function save_file(Request $request)
+    {
+        $files = $request->file('file');
+        $path = storage_path('/app/public') . '/evaluation/'; //EVALUACION
+        $tokens = [];
+        $paths = [];
+
+        foreach ($files as $file) {
+            $token = md5($file->getClientOriginalName() . date('d/m/Y H:i:s'));
+            $ext = $file->guessExtension();
+            $fileName = $token . '.' . $ext;
+            $file->move($path, $fileName);
+            array_push($tokens, $token);
+            array_push($paths, '/evaluation/' . $fileName);
+        }
+
+        return response()->json(['tokens' => $tokens, 'paths' => $paths]);
     }
 
     /*======================================

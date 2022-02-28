@@ -161,6 +161,7 @@ class Ods_evaluation extends React.Component{
                                                 indicator = {row.indicator}
                                                 value = {row.value}
                                                 setRows={this.setRows}
+                                                files={row.files}
 
                                                 
                                             ></Evaluation_row>
@@ -205,8 +206,6 @@ class Ods_evaluation extends React.Component{
 
     componentDidMount(){
 
-        //CAMBIAR POR axios post
-
         axios.post('/ods/evaluate/get_evaluations', {token: this.objective.token}).then( (response) => {
             for (let index = this.objective.base_year; index <= this.objective.target_year; index++) {
                 this.years.push(index);
@@ -214,7 +213,7 @@ class Ods_evaluation extends React.Component{
             //push all the rows
             let rows = this.state.rows;
             let evaluations = response.data.evaluations;
-            console.log(evaluations)
+            
             if (evaluations != null) {
                 evaluations.map( (evaluation) => {
                     let item = {
@@ -224,6 +223,7 @@ class Ods_evaluation extends React.Component{
                         indicator: evaluation.strategy.indicator,
                         year: evaluation.year,
                         value: evaluation.value,
+                        files: evaluation.files,
                     }
 
                     rows.push(item)
@@ -239,6 +239,7 @@ class Ods_evaluation extends React.Component{
                     indicator:'',
                     year: '',
                     value: '',
+                    files: []
 
                 }
 
@@ -247,7 +248,7 @@ class Ods_evaluation extends React.Component{
             }
 
 
-
+            console.log(evaluations)
             this.setState({loading:false, rows: rows});
         } )
 
@@ -267,6 +268,7 @@ class Ods_evaluation extends React.Component{
             indicator:'',
             year: '',
             value: '',
+            files: []
 
         }
 
@@ -286,7 +288,16 @@ class Ods_evaluation extends React.Component{
     save(){
         this.setState({loading: true});
 
-        axios.post('/ods/evaluate/save', { rows: this.state.rows }).then( (response) => {
+        console.log(this.state.rows);
+
+        axios.post('/ods/evaluate/save',
+        
+            {
+                rows: this.state.rows,
+            },
+
+        
+        ).then( (response) => {
             if (response.data.status == 'success') {
                 toastr.success(response.data.message);
                 this.setState({loading: false});
@@ -294,7 +305,7 @@ class Ods_evaluation extends React.Component{
                 toastr.error(response.data.message);
                 this.setState({loading: false});
             }
-        } )
+        } );
     }
 
     setRows(childData){
@@ -306,6 +317,7 @@ class Ods_evaluation extends React.Component{
             indicator: childData.indicator,
             year: childData.year,
             value: childData.value,
+            files: childData.files,
 
         }
 
@@ -345,7 +357,7 @@ class Ods_evaluation extends React.Component{
 
 export default Ods_evaluation;
 
-if (document.getElementsByTagName('ods-evaluation')) {
+if (document.getElementsByTagName('ods-evaluation').length >=1) {
     
     let component = document.getElementsByTagName('ods-evaluation')[0];
     let strategies = JSON.parse(component.getAttribute('strategies'));

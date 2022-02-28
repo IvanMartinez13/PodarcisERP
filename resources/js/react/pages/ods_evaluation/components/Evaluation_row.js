@@ -1,4 +1,5 @@
 import React from "react";
+import FlileManager from "./FileManager";
 
 class Evaluation_row extends React.Component{
 
@@ -16,7 +17,9 @@ class Evaluation_row extends React.Component{
         this.indicator = this.props.indicator;
         this.value = this.props.value;
         this.id = this.props.id;
-
+        this.files= this.props.files;
+        
+        this.setFiles = this.setFiles.bind(this);
 
         this.setRows = (data) => {
             this.props.setRows(data);
@@ -29,9 +32,22 @@ class Evaluation_row extends React.Component{
         return(
             <tr id={'row_'+this.id}>
                 <td className="align-middle text-center">
-                    <button className="btn btn-link">
-                        <i className="fa-solid fa-file-arrow-up"></i>
-                    </button>
+                    {
+                        (this.files.length == 0) ?
+
+                        <button id={"buttonFiles"+this.id} className="btn btn-link"  data-toggle="modal" data-target={"#file_manager"+this.id}>
+                            <i className="fa-solid fa-file-arrow-up"></i>
+                        </button>
+
+                        :
+
+                        <button id={"buttonFiles"+this.id} className="btn btn-link text-navy" data-toggle="modal" data-target={"#file_manager"+this.id}>
+                            <i className="fa-solid fa-file-arrow-up"></i>
+                        </button>
+                    }
+
+
+                    <FlileManager id={this.id} setFiles={this.setFiles} files={this.files} />
                 </td>
                 <td className="align-middle">
                     <select id={"strategy_selector_"+this.id} className="form-control" defaultValue={this.strategy.token}>
@@ -157,16 +173,32 @@ class Evaluation_row extends React.Component{
             this.value = value;
         }
 
+        if (key == 'files') {
+            this.files = value;
+        }
+
         let data = {
             id: this.id,
             strategy: this.strategy,
             indicator: this.indicator,
             year: this.year,
             value: this.value,
+            files: this.files
 
         }
 
         this.setRows(data);
+    }
+
+    setFiles(files){
+        this.prepareData('files', files);
+
+        //SET BUTTON COLOR
+        if (this.files != []) {
+            $('#buttonFiles'+this.id).addClass('text-navy')
+        }else{
+            $('#buttonFiles'+this.id).removeClass('text-navy')
+        }
     }
 
 

@@ -23,4 +23,9 @@ class Evaluation extends Model
     {
         return $this->belongsTo(Strategy::class);
     }
+
+    public function files()
+    {
+        return $this->hasMany(Evaluation_file::class);
+    }
 }
