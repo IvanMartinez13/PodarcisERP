@@ -16,6 +16,7 @@ return [
     'edit' => 'Editar',
     'save' => 'Guardar',
     'update' => 'Actualizar',
+    'evaluate' => 'Evaluar',
 
     //LABELS
     'name' => 'Nombre',
@@ -37,6 +38,15 @@ return [
     'users' => 'Usuarios',
     'branches' => 'Centros',
     'departaments' => 'Departamentos',
+    'title' => 'Título',
+    'description' => 'Descripción',
+    'indicator' => 'Indicador',
+    'increase' => 'Incremento',
+    'decrease' => 'Reducción',
+    'target' => 'Objetivo',
+    'base_year' => 'Año de referencia',
+    'target_year' => 'Año del objetivo',
+    'performances' => 'Actuaciones',
 
     //PERMISSIONS
     'store' => 'Crear',

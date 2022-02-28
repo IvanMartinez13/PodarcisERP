@@ -23,6 +23,18 @@ return [
     'icon' => 'Icono',
     'username' => 'Username',
     'actions' => 'Acciones',
-    'coordinates' => 'Coordenadas'
+    'coordinates' => 'Coordenadas',
+    'performances' => 'Actuaciones',
+
+    //ODS MODULE
+    'title' => 'Título',
+    'description' => 'Descripción',
+    'indicator' => 'Indicador',
+    'increase' => 'Incremento',
+    'decrease' => 'Reducción',
+    'target' => 'Objetivo',
+    'base_year' => 'Año de referencia',
+    'target_year' => 'Año del objetivo',
+
 
 ];

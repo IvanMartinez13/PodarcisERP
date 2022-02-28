@@ -28,6 +28,12 @@
     <div class="ibox">
         <div class="ibox-title">
             <h5>{{ __('forms.create') . ' ' . __('modules.branches') }}</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link" href="">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+
+            </div>
         </div>
         <div class="ibox-content">
             <form action="{{ route('branches.store') }}" method="POST" enctype="multipart/form-data">

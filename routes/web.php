@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\OdsController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -26,10 +27,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+//IMPERSONATE OTHER USERS
 Route::impersonate();
 Route::get('/impersonate/{id}', [UserController::class, 'impersonate'])->name('user.impersonate');
+
 //CUSTOMERS
-Route::prefix('customers')->middleware('role:super-admin')->group(function () {
+Route::prefix('customers')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
     Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
@@ -38,7 +41,7 @@ Route::prefix('customers')->middleware('role:super-admin')->group(function () {
 });
 
 //MODULES
-Route::prefix('modules')->middleware('role:super-admin')->group(function () {
+Route::prefix('modules')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/', [ModuleController::class, 'index'])->name('modules.index');
     Route::get('/create', [ModuleController::class, 'create'])->name('modules.create');
     Route::put('/create', [ModuleController::class, 'store'])->name('modules.store');
@@ -47,7 +50,7 @@ Route::prefix('modules')->middleware('role:super-admin')->group(function () {
 });
 
 //CUSTOMERS
-Route::prefix('customers')->middleware('role:super-admin')->group(function () {
+Route::prefix('customers')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/create', [CustomerController::class, 'create'])->name('customers.create');
     Route::put('/create', [CustomerController::class, 'store'])->name('customers.store');
@@ -56,7 +59,7 @@ Route::prefix('customers')->middleware('role:super-admin')->group(function () {
 });
 
 //USERS
-Route::prefix('users')->middleware('role:customer-manager')->group(function () {
+Route::prefix('users')->middleware(['auth', 'role:customer-manager'])->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
     Route::put('/create', [UserController::class, 'store'])->name('users.store');
@@ -65,7 +68,7 @@ Route::prefix('users')->middleware('role:customer-manager')->group(function () {
 });
 
 //BRANCHES
-Route::prefix('branches')->middleware('role:customer-manager')->group(function () {
+Route::prefix('branches')->middleware(['auth', 'role:customer-manager'])->group(function () {
     Route::get('/', [BranchController::class, 'index'])->name('branches.index');
     Route::get('/create', [BranchController::class, 'create'])->name('branches.create');
     Route::put('/create', [BranchController::class, 'store'])->name('branches.store');
@@ -74,11 +77,32 @@ Route::prefix('branches')->middleware('role:customer-manager')->group(function (
 });
 
 //DEPARTAMENTS
-Route::prefix('departaments')->middleware('role:customer-manager')->group(function () {
+Route::prefix('departaments')->middleware(['auth', 'role:customer-manager'])->group(function () {
     Route::get('/', [DepartamentController::class, 'index'])->name('departaments.index');
     Route::get('/create', [DepartamentController::class, 'create'])->name('departaments.create');
     Route::put('/create', [DepartamentController::class, 'store'])->name('departaments.store');
     Route::get('/edit/{token}', [DepartamentController::class, 'edit'])->name('departaments.edit');
     Route::put('/update', [DepartamentController::class, 'update'])->name('departaments.update');
 });
+
+//ODS MODULE
+Route::prefix('ods')->middleware(['auth'])->group(function () {
+    Route::get('/', [OdsController::class, 'index'])->name('ods.index');
+    Route::get('/objective/create', [OdsController::class, 'create'])->name('ods.objective.create');
+    Route::put('/objective/store', [OdsController::class, 'store'])->name('ods.objective.store');
+    Route::get('/objective/edit/{token}', [OdsController::class, 'edit'])->name('ods.objective.edit');
+    Route::put('/objective/update', [OdsController::class, 'update'])->name('ods.objective.update');
+    Route::get('/objective/evaluate/{token}', [OdsController::class, 'evaluate'])->name('ods.objective.evaluate');
+    Route::post('/evaluate/save', [OdsController::class, 'evaluate_save'])->name('ods.objective.evaluate_save');
+    Route::post('/evaluate/get_evaluations', [OdsController::class, 'get_evaluations'])->name('ods.objective.get_evaluations');
+    Route::post('/evaluate/save_file', [OdsController::class, 'save_file'])->name('ods.objective.save_file');
+
+    Route::get('/strategy/{token}', [OdsController::class, 'strategy'])->name('ods.strategy.index');
+    Route::get('/strategy/{token}/create', [OdsController::class, 'strategy_create'])->name('ods.strategy.create');
+    Route::put('/strategy/{token}/create', [OdsController::class, 'strategy_store'])->name('ods.strategy.store');
+    Route::get('/strategy/{token_objective}/edit/{token_strategy}', [OdsController::class, 'strategy_edit'])->name('ods.strategy.edit');
+    Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
+});
+
+
 require __DIR__ . '/auth.php';

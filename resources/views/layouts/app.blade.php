@@ -22,7 +22,7 @@
     <link href="{{ url('/') }}/css/plugins/leaflet/leaflet.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-
+    <link href="{{ url('/') }}/css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -32,7 +32,7 @@
 
 </head>
 
-<body>
+<body class="md-skin">
 
     <div id="wrapper">
 
@@ -87,6 +87,7 @@
     <script src="{{ url('/') }}/js/plugins/leaflet/leaflet.js"></script>
     <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/select2/select2.full.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/summernote/summernote-bs4.js"></script>
 
     <script>
         toastr.options = {
@@ -120,6 +121,8 @@
                     jackColor: '#f3f3f4'
                 });
             });
+
+
         })
     </script>
 

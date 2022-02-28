@@ -17,6 +17,9 @@ return [
     'users' => 'Usuarios',
     'modules' => 'Módulos',
     'branches' => 'Centros',
-    'departaments' => 'Departamentos'
+    'departaments' => 'Departamentos',
+    'ods' => 'Ods',
+    'targets' => 'Objetivos',
+    'strategy' => 'Estrategia'
 
 ];

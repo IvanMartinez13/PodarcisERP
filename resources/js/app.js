@@ -1,3 +1,3 @@
 require('./bootstrap');
 
-require('./components/Example');
+require('./react/pages/ods_evaluation/Ods_evaluation');
