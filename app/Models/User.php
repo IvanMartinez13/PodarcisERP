@@ -27,6 +27,7 @@ class User extends Authenticatable
         'position',
         'token',
         'customer_id',
+        'profile_photo',
     ];
 
     /**

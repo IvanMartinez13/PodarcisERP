@@ -88,6 +88,7 @@
     <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/select2/select2.full.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/summernote/summernote-bs4.js"></script>
+    <script src="{{ url('/') }}/js/plugins/dropzone/dropzone.js"></script>
 
     <script>
         toastr.options = {

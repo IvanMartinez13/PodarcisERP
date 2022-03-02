@@ -4,10 +4,18 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt="" style="width: 80px"
+                            class="rounded-circle">
                         <span class="block m-t-xs font-bold">{{ auth()->user()->name }}</span>
                         <span class="text-muted text-xs block">menu <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
+
+                        <li>
+                            <a class="dropdown-item" type="button" href="{{ route('profile') }}">
+                                Mi perfil
+                            </a>
+                        </li>
 
                         @impersonating
 
@@ -28,7 +36,8 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    ODS
+                    <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt="" style="width: 80%"
+                        class="rounded-circle">
                 </div>
             </li>
 

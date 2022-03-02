@@ -104,5 +104,13 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
 });
 
+//PROFILE
+Route::prefix('profile')->middleware(['auth'])->group(function () {
+    Route::get('/', [UserController::class, 'profile'])->middleware(['auth'])->name('profile');
+    Route::put('/{token}', [UserController::class, 'profile_update'])->middleware(['auth'])->name('profile.update');
+    Route::post('/photo/{token}', [UserController::class, 'profile_photo'])->middleware(['auth'])->name('profile.photo');
+});
+
+
 
 require __DIR__ . '/auth.php';
