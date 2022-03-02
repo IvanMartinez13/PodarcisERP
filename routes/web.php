@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OdsController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -85,6 +86,13 @@ Route::prefix('departaments')->middleware(['auth', 'role:customer-manager'])->gr
     Route::put('/update', [DepartamentController::class, 'update'])->name('departaments.update');
 });
 
+//PROFILE
+Route::prefix('profile')->middleware(['auth'])->group(function () {
+    Route::get('/', [UserController::class, 'profile'])->middleware(['auth'])->name('profile');
+    Route::put('/{token}', [UserController::class, 'profile_update'])->middleware(['auth'])->name('profile.update');
+    Route::post('/photo/{token}', [UserController::class, 'profile_photo'])->middleware(['auth'])->name('profile.photo');
+});
+
 //ODS MODULE
 Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/', [OdsController::class, 'index'])->name('ods.index');
@@ -96,7 +104,6 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::post('/evaluate/save', [OdsController::class, 'evaluate_save'])->name('ods.objective.evaluate_save');
     Route::post('/evaluate/get_evaluations', [OdsController::class, 'get_evaluations'])->name('ods.objective.get_evaluations');
     Route::post('/evaluate/save_file', [OdsController::class, 'save_file'])->name('ods.objective.save_file');
-
     Route::get('/strategy/{token}', [OdsController::class, 'strategy'])->name('ods.strategy.index');
     Route::get('/strategy/{token}/create', [OdsController::class, 'strategy_create'])->name('ods.strategy.create');
     Route::put('/strategy/{token}/create', [OdsController::class, 'strategy_store'])->name('ods.strategy.store');
@@ -104,12 +111,16 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
 });
 
-//PROFILE
-Route::prefix('profile')->middleware(['auth'])->group(function () {
-    Route::get('/', [UserController::class, 'profile'])->middleware(['auth'])->name('profile');
-    Route::put('/{token}', [UserController::class, 'profile_update'])->middleware(['auth'])->name('profile.update');
-    Route::post('/photo/{token}', [UserController::class, 'profile_photo'])->middleware(['auth'])->name('profile.photo');
+//TASKS MODULE
+Route::prefix('tasks')->middleware(['auth'])->group(function () {
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/project/create', [TaskController::class, 'create'])->name('tasks.project.create');
+    Route::put('/project/create', [TaskController::class, 'store'])->name('tasks.project.store');
+    Route::get('/project/edit/{token}', [TaskController::class, 'edit'])->name('tasks.project.edit');
+    Route::put('/project/update', [TaskController::class, 'update'])->name('tasks.project.update');
 });
+
+
 
 
 

@@ -25,6 +25,7 @@ return [
     'actions' => 'Acciones',
     'coordinates' => 'Coordenadas',
     'performances' => 'Actuaciones',
+    'color' => 'Color',
 
     //ODS MODULE
     'title' => 'Título',

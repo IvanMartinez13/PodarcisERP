@@ -47,6 +47,8 @@ return [
     'base_year' => 'Año de referencia',
     'target_year' => 'Año del objetivo',
     'performances' => 'Actuaciones',
+    'image' => 'Imagen',
+    'color' => 'Color',
 
     //PERMISSIONS
     'store' => 'Crear',

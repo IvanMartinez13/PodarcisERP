@@ -93,6 +93,15 @@
                     </a>
                 </li>
             @endcan
+
+            @can('read Tareas')
+                <li class="{{ request()->is('tasks*') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.index') }}">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span class="nav-label">{{ __('modules.tasks') }}</span>
+                    </a>
+                </li>
+            @endcan
         </ul>
 
     </div>

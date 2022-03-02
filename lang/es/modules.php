@@ -20,6 +20,8 @@ return [
     'departaments' => 'Departamentos',
     'ods' => 'Ods',
     'targets' => 'Objetivos',
-    'strategy' => 'Estrategia'
+    'strategy' => 'Estrategia',
+    'tasks' => 'Tareas',
+    'projects' => 'Proyectos',
 
 ];
