@@ -118,6 +118,9 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::put('/project/create', [TaskController::class, 'store'])->name('tasks.project.store');
     Route::get('/project/edit/{token}', [TaskController::class, 'edit'])->name('tasks.project.edit');
     Route::put('/project/update', [TaskController::class, 'update'])->name('tasks.project.update');
+    Route::get('/project/{token}', [TaskController::class, 'tasks'])->name('tasks.project.details');
+    Route::post('/project/get_departaments', [TaskController::class, 'get_departaments'])->name('tasks.project.get_departaments');
+    Route::post('/project/add_task', [TaskController::class, 'add_task'])->name('tasks.project.add_task');
 });
 
 

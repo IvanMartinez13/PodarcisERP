@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Branch;
+use App\Models\Departament;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $customer_id = Auth::user()->customer->id;
+        $customer_id = Auth::user()->customer_id;
         $projects = Project::where('customer_id', $customer_id)->get();
         return view('pages.tasks.project.index', compact('projects'));
     }
@@ -27,7 +29,7 @@ class TaskController extends Controller
     public function store(StoreProjectRequest $request)
     {
         //1) GET DATA
-        $customer_id = Auth::user()->customer->id;
+        $customer_id = Auth::user()->customer_id;
 
         $data = [
             "name" => $request->name,
@@ -68,7 +70,7 @@ class TaskController extends Controller
     public function update(UpdateProjectRequest $request)
     {
         //1) GET DATA
-        $customer_id = Auth::user()->customer->id;
+        $customer_id = Auth::user()->customer_id;
         $project = Project::where('token', $request->token)->first();
 
         $data = [
@@ -107,4 +109,36 @@ class TaskController extends Controller
     }
 
     /*===========  END PROJECTS  ==========*/
+
+    public function tasks($token)
+    {
+        $project = Project::where('token', $token)->first();
+
+        $tasks = null;
+
+
+        return view('pages.tasks.task.index', compact('project', 'tasks'));
+    }
+
+    public function get_departaments()
+    {
+        $branch = Branch::where('customer_id', Auth::user()->customer_id)->get();
+        $branches_id = $branch->pluck('id');
+
+        $departaments = Departament::whereHas('branches', function ($q) use ($branches_id) {
+            $q->whereIn('id', $branches_id);
+        })->get();
+
+        return response()->json(["departaments" => $departaments]);
+    }
+
+    public function add_task(Request $request)
+    {
+        $data = [
+            "name" => $request->name,
+            "project" => $request->project,
+        ];
+
+        $departaments = $request->departaments;
+    }
 }

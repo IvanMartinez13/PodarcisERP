@@ -72,9 +72,10 @@
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
 
-                                            <button class="btn btn-link">
+                                            <a href="{{ route('tasks.project.details', $project->token) }}"
+                                                class="btn btn-link">
                                                 <i class="fa-solid fa-clipboard-check"></i>
-                                            </button>
+                                            </a>
                                         @endcan
 
                                         @can('delete Tareas')
