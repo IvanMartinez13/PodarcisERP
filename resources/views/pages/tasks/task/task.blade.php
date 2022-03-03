@@ -116,9 +116,17 @@
                                             @can('update Tareas')
                                                 <div class="feed-element">
                                                     <a href="#" class="float-left">
-                                                        <img class="rounded-circle"
-                                                            src="{{ url('/storage') . auth()->user()->profile_photo }}"
-                                                            alt="" width="38px">
+
+                                                        @if (auth()->user()->profile_photo)
+                                                            <img class="rounded-circle"
+                                                                src="{{ url('/storage') . auth()->user()->profile_photo }}"
+                                                                alt="" width="38px">
+                                                        @else
+                                                            <img class="rounded-circle"
+                                                                src="{{ url('/img/user_placeholder.png') }}" alt=""
+                                                                width="38px">
+                                                        @endif
+
                                                     </a>
 
                                                     <div class="media-body ">
@@ -145,22 +153,34 @@
                                                 </div>
                                             @endcan
                                             {{-- COMMENT LIST --}}
-                                            <div class="feed-element">
-                                                <a href="#" class="float-left">
-                                                    <img class="rounded-circle"
-                                                        src="{{ url('/storage') . auth()->user()->profile_photo }}"
-                                                        alt="" width="38px">
-                                                </a>
 
-                                                <div class="media-body ">
-                                                    <small class="float-right">{{ date('d/m/Y H:i') }}</small>
-                                                    <strong>{{ auth()->user()->name }}</strong>:
+                                            @foreach ($comments as $comment)
+                                                <div class="feed-element">
+                                                    <a href="#" class="float-left">
+                                                        @if ($comment->user->profile_photo)
+                                                            <img class="rounded-circle"
+                                                                src="{{ url('/storage') . $comment->user->profile_photo }}"
+                                                                alt="" width="38px">
+                                                        @else
+                                                            <img class="rounded-circle"
+                                                                src="{{ url('/img/user_placeholder.png') }}" alt=""
+                                                                width="38px">
+                                                        @endif
 
-                                                    <div class="well">
-                                                        COMENTARIO 1
+                                                    </a>
+
+                                                    <div class="media-body ">
+                                                        <small
+                                                            class="float-right">{{ date('d/m/Y H:i', strtotime($comment->created_at)) }}</small>
+                                                        <strong>{{ $comment->user->name }}</strong>:
+
+                                                        <div class="well">
+                                                            {!! $comment->comment !!}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
+
 
                                         </div>
                                     </div>
@@ -212,4 +232,28 @@
             })
         })
     </script>
+
+    @foreach ($errors->all() as $error)
+        <script>
+            $(document).ready(() => {
+                toastr.error("{{ $error }}")
+            })
+        </script>
+    @endforeach
+
+    @if (session('status') == 'error')
+        <script>
+            $(document).ready(() => {
+                toastr.error("{{ session('message') }}")
+            })
+        </script>
+    @endif
+
+    @if (session('status') == 'success')
+        <script>
+            $(document).ready(() => {
+                toastr.success("{{ session('message') }}")
+            })
+        </script>
+    @endif
 @endpush

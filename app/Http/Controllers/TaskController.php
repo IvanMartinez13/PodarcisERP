@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Branch;
+use App\Models\Comment;
 use App\Models\Departament;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Ui\Presets\Vue;
 
 class TaskController extends Controller
 {
@@ -180,7 +182,45 @@ class TaskController extends Controller
         $project = Project::where('token', $token_project)->first();
         $task = Task::where('token', $token_task)->with('departaments')->first();
         $sub_tasks = Task::where('task_id', $task->id)->get();
+        $comments = Comment::where('task_id', $task->id)->with('user')->orderBy('created_at', 'DESC')->get();
         //RETURN VIEW WITH DATA
-        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks'));
+        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments'));
+    }
+
+    public function task_comment(Request $request)
+    {
+        //1) GET DATA
+        $task = Task::where('token', $request->token)->first();
+
+        $data = [
+            "comment" => $request->comment,
+            "user_id" => Auth::user()->id,
+            "task_id" => $task->id,
+            "token" => md5($request->comment . '+' . date('d/m/Y H:i:s'))
+        ];
+
+        //2) VERIFY DATA
+        $rules = [
+            "comment" => ["string", "required", 'max:255'],
+            "token" => ["string", "required"],
+        ];
+
+        $attributes = [
+            "comment" => "Comentario",
+            "token" => "Token",
+        ];
+
+        $validator = Validator::make($request->all(), $rules, [], $attributes);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        //3) STORE DATA
+        $comment = new Comment($data);
+        $comment->save();
+
+        //4) RETURN REDIRECT
+        return redirect()->back()->with('status', 'success')->with('message', 'Tarea comentada.');
     }
 }
