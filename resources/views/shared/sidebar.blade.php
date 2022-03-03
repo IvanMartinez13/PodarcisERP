@@ -59,30 +59,81 @@
             @endhasrole
 
             @hasrole('customer-manager')
-                <li class="{{ request()->is('branches*') ? 'active' : '' }}">
-                    <a href="{{ route('branches.index') }}">
 
-                        <i class="fa-solid fa-building"></i>
-                        <span class="nav-label">{{ __('modules.branches') }}</span>
-                    </a>
-                </li>
+                @if (request()->is('branches*') || request()->is('departaments*') || request()->is('users*'))
+                    <li class="active">
+
+                        <a href="#" aria-expanded="true">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                            <span class="nav-label">{{ __('modules.configuration') }}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+
+                        <ul class="nav nav-second-level collapse in" aria-expanded="true" style="">
+
+                            <li class="{{ request()->is('branches*') ? 'active' : '' }}">
+                                <a href="{{ route('branches.index') }}">
+                                    <i class="fa-solid fa-building"></i>
+                                    {{ __('modules.branches') }}
+                                </a>
+                            </li>
 
 
-                <li class="{{ request()->is('departaments*') ? 'active' : '' }}">
-                    <a href="{{ route('departaments.index') }}">
+                            <li class="{{ request()->is('departaments*') ? 'active' : '' }}">
+                                <a href="{{ route('departaments.index') }}">
 
-                        <i class="fa-solid fa-diagram-predecessor"></i>
-                        <span class="nav-label">{{ __('modules.departaments') }}</span>
-                    </a>
-                </li>
+                                    <i class="fa-solid fa-diagram-predecessor"></i>
+                                    {{ __('modules.departaments') }}
+                                </a>
+                            </li>
 
 
-                <li class="{{ request()->is('users*') ? 'active' : '' }}">
-                    <a href="{{ route('users.index') }}">
-                        <i class="fa fa-users" aria-hidden="true"></i>
-                        <span class="nav-label">{{ __('modules.users') }}</span>
-                    </a>
-                </li>
+                            <li class="{{ request()->is('users*') ? 'active' : '' }}">
+                                <a href="{{ route('users.index') }}">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    {{ __('modules.users') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li>
+
+                        <a href="#" aria-expanded="false">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                            <span class="nav-label">{{ __('modules.configuration') }}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="">
+
+                            <li class="{{ request()->is('branches*') ? 'active' : '' }}">
+                                <a href="{{ route('branches.index') }}">
+                                    <i class="fa-solid fa-building"></i>
+                                    {{ __('modules.branches') }}
+                                </a>
+                            </li>
+
+
+                            <li class="{{ request()->is('departaments*') ? 'active' : '' }}">
+                                <a href="{{ route('departaments.index') }}">
+
+                                    <i class="fa-solid fa-diagram-predecessor"></i>
+                                    {{ __('modules.departaments') }}
+                                </a>
+                            </li>
+
+
+                            <li class="{{ request()->is('users*') ? 'active' : '' }}">
+                                <a href="{{ route('users.index') }}">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    {{ __('modules.users') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
             @endhasrole
 
             @can('read Ods')

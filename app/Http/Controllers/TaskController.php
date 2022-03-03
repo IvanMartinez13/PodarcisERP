@@ -7,8 +7,10 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Branch;
 use App\Models\Departament;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -96,9 +98,9 @@ class TaskController extends Controller
 
             $file = $request->file('image');
             $ext = $file->guessExtension();
-            $path = "/projects/" . $customer_id . '/' . $data["token"] . '.' . $ext;
+            $path = "/projects/" . $customer_id . '/' . $request->token . '.' . $ext;
             $data['image'] = $path;
-            move_uploaded_file($file, $folder . '/' . $data["token"] . '.' . $ext); //save file
+            move_uploaded_file($file, $folder . '/' . $request->token . '.' . $ext); //save file
 
         }
 
@@ -114,8 +116,7 @@ class TaskController extends Controller
     {
         $project = Project::where('token', $token)->first();
 
-        $tasks = null;
-
+        $tasks = Task::where('project_id', $project->id)->get();
 
         return view('pages.tasks.task.index', compact('project', 'tasks'));
     }
@@ -134,11 +135,52 @@ class TaskController extends Controller
 
     public function add_task(Request $request)
     {
+        //1) GET DATA
+
         $data = [
             "name" => $request->name,
-            "project" => $request->project,
+            "description" => $request->description,
+            "is_done" => 0,
+            "token" => md5($request->name . '+' . date('d/m/Y H:i:s')),
+            "project_id" => $request->project,
+            "task_id" => null,
         ];
 
         $departaments = $request->departaments;
+
+
+        //2) VALIDATE DATA
+
+        $rules = [
+            "name" => ["string", "required"],
+            "description" => ["string", "required"],
+            "project" => ["numeric", "required"],
+            "departaments" => ["array", "required"],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(["status" => "error", "message" => "se ha producido un error."]);
+        }
+
+        //3) STORE DATA
+        $task = new Task($data);
+        $task->save();
+
+        $task->departaments()->sync($departaments);
+
+        //4) RETURN RESPONSE
+        return response()->json(["status" => "success", "message" => "Tarea Creada."]);
+    }
+
+    public function task_details($token_project, $token_task)
+    {
+        //GET DATA
+        $project = Project::where('token', $token_project)->first();
+        $task = Task::where('token', $token_task)->with('departaments')->first();
+        $sub_tasks = Task::where('task_id', $task->id)->get();
+        //RETURN VIEW WITH DATA
+        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks'));
     }
 }

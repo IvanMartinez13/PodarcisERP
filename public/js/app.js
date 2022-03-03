@@ -5363,7 +5363,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./react/pages/ods_evaluation/Ods_evaluation */ "./resources/js/react/pages/ods_evaluation/Ods_evaluation.js");
 
-__webpack_require__(/*! ./react/pages/tasks/Task */ "./resources/js/react/pages/tasks/Task.js");
+__webpack_require__(/*! ./react/pages/tasks/Tasks */ "./resources/js/react/pages/tasks/Tasks.js");
 
 /***/ }),
 
@@ -6337,10 +6337,10 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/tasks/Task.js":
-/*!************************************************!*\
-  !*** ./resources/js/react/pages/tasks/Task.js ***!
-  \************************************************/
+/***/ "./resources/js/react/pages/tasks/Tasks.js":
+/*!*************************************************!*\
+  !*** ./resources/js/react/pages/tasks/Tasks.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -6400,14 +6400,17 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
     _this.yearToday = new Date().getFullYear();
     _this.project = _this.props.project;
     _this.departaments = _this.props.departaments;
+    _this.tasks = _this.props.tasks;
     return _this;
   }
 
   _createClass(Tasks, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "ibox",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "ibox-title",
@@ -6427,21 +6430,92 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
             className: "ibox-content",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
               className: "btn btn-link",
-              "data-toggle": "modal",
-              "data-target": "#addTask",
+              onClick: function onClick() {
+                $('#addTask').modal('show');
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
                 className: "fa-solid fa-circle-plus"
               }), " A\xF1adir una tarea..."]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Create_task__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              project: this.project
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "table-responsive container-fluid mt-3",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                className: "table table-hover table-striped table-bordered js_datatable ",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                      children: "Tarea"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                      children: "Descripci\xF3n"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                      children: "Progreso"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                      children: "Acciones"
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                  children: this.tasks.map(function (task, index) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                        className: "align-middle",
+                        children: task.name
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                        className: "align-middle",
+                        dangerouslySetInnerHTML: {
+                          __html: task.description
+                        }
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
+                        className: "align-middle",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "progress m-b-1",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                            style: {
+                              width: "0%"
+                            },
+                            className: "progress-bar progress-bar-striped progress-bar-animated"
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                          children: "0%"
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                        className: "align-middle text-center",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                          className: "btn-group-vertical",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                              className: "fa fa-pencil",
+                              "aria-hidden": "true"
+                            })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                            href: "/tasks/project/" + _this2.project.token + "/task/" + task.token,
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                              "class": "fa-solid fa-clipboard-check"
+                            })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                              className: "fa fa-trash-alt",
+                              "aria-hidden": "true"
+                            })
+                          })]
+                        })
+                      })]
+                    }, 'row_' + task.token);
+                  })
+                })]
+              })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "ibox-footer",
             children: ["Podarcis SL. \xA9 ", this.yearToday]
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Create_task__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          project: this.project
+        })]
       });
-    }
+    } //UPLOAD ON ADD TASK
+
   }]);
 
   return Tasks;
@@ -6520,8 +6594,9 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
       loading: true
     };
     _this.departaments = [];
-    _this.selectedDepartaments = [];
     _this.project = _this.props.project;
+    _this.selectedDepartaments = [];
+    _this.description = '';
     _this.name = '';
     return _this;
   }
@@ -6552,8 +6627,10 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                   type: "button",
                   className: "close",
-                  "data-dismiss": "modal",
                   "aria-label": "Close",
+                  onClick: function onClick() {
+                    $('#addTask').modal('hide');
+                  },
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                     "aria-hidden": "true",
                     children: "\xD7"
@@ -6577,7 +6654,9 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                   type: "button",
                   className: "btn btn-secondary",
-                  "data-dismiss": "modal",
+                  onClick: function onClick() {
+                    $('#addTask').modal('hide');
+                  },
                   children: "Cerrar"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                   type: "button",
@@ -6610,7 +6689,9 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                 type: "button",
                 className: "close",
-                "data-dismiss": "modal",
+                onClick: function onClick() {
+                  $('#addTask').modal('hide');
+                },
                 "aria-label": "Close",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                   "aria-hidden": "true",
@@ -6622,7 +6703,7 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                 className: "container-fluid row",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                  className: "col-lg-6",
+                  className: "col-lg-6 mb-3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
                     htmlFor: "name",
                     children: "Nombre:"
@@ -6633,7 +6714,7 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
                     placeholder: "Nombre..."
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                  className: "col-lg-6",
+                  className: "col-lg-6 mb-3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
                     htmlFor: "departaments",
                     children: "Departamentos:"
@@ -6653,6 +6734,17 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
                       }, departament.token + index);
                     })
                   })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-lg-12 mb-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    htmlFor: "description",
+                    children: "Descripci\xF3n:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                    className: "form-control",
+                    name: "description",
+                    id: "description",
+                    placeholder: "Descripci\xF3n..."
+                  })]
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -6660,12 +6752,13 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                 type: "button",
                 className: "btn btn-secondary",
-                "data-dismiss": "modal",
+                onClick: function onClick() {
+                  $('#addTask').modal('hide');
+                },
                 children: "Cerrar"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                 type: "button",
                 className: "btn btn-primary",
-                "data-dismiss": "modal",
                 onClick: function onClick() {
                   _this2.save();
                 },
@@ -6713,6 +6806,15 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
           var value = e.target.value;
           handlePrepareValue("name", value);
         });
+        $('#description').summernote({
+          placeholder: "Descripción...",
+          height: '100px'
+        });
+        $("#description").on("summernote.change", function (e) {
+          // callback as jquery custom event 
+          var value = e.target.value;
+          handlePrepareValue("description", value);
+        });
       });
     }
   }, {
@@ -6725,16 +6827,61 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
       if (key == "name") {
         this.name = value;
       }
+
+      if (key == "description") {
+        this.description = value;
+      }
     }
   }, {
     key: "save",
     value: function save() {
+      var _this4 = this;
+
       var data = {
         name: this.name,
+        description: this.description,
         departaments: this.selectedDepartaments,
         project: this.project.id
-      };
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/add_task', data).then(function (response) {});
+      }; //VALIDATE DATA
+
+      var has_errors = false;
+
+      if (data.name == '' || data.name == null) {
+        has_errors = true;
+        toastr.error('El campo Nombre es obligatorio');
+      }
+
+      if (data.description == '' || data.description == null) {
+        has_errors = true;
+        toastr.error('El campo Descripción es obligatorio');
+      }
+
+      if (data.departaments == '' || data.departaments == null || data.departaments == []) {
+        has_errors = true;
+        toastr.error('El campo Departamentos es obligatorio');
+      }
+
+      if (!has_errors) {
+        //SEND DATA
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/add_task', data).then(function (response) {
+          if (response.data.status == 'success') {
+            toastr.success(response.data.message); //CLOSE MODAL
+
+            $('#addTask').modal('hide');
+            _this4.selectedDepartaments = [];
+            _this4.description = '';
+            _this4.name = '';
+            $('#departaments').empty();
+            $('#name').val(null);
+            $('#description').val(null);
+            $('#description').summernote('reset'); //UPLOAD PARENT
+          }
+
+          if (response.data.status == 'error') {
+            toastr.error(response.data.message);
+          }
+        });
+      }
     }
   }]);
 

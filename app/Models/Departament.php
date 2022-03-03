@@ -27,4 +27,9 @@ class Departament extends Model
     {
         return $this->belongsToMany(User::class, "departament_user");
     }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, "departament_task");
+    }
 }

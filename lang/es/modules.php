@@ -23,5 +23,8 @@ return [
     'strategy' => 'Estrategia',
     'tasks' => 'Tareas',
     'projects' => 'Proyectos',
+    'configuration' => 'Configuración',
+    'comments' => 'Comentarios',
+    'sub_tasks' => 'Subtareas'
 
 ];

@@ -27,3 +27,7 @@
 
     <tasks project="{{ json_encode($project) }}" tasks="{{ json_encode($tasks) }}"></tasks>
 @endsection
+
+@push('scripts')
+    <script src="{{ url('/') }}/js/tables.js"></script>
+@endpush

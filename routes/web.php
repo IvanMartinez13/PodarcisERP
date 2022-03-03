@@ -9,6 +9,7 @@ use App\Http\Controllers\OdsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -121,6 +122,8 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::get('/project/{token}', [TaskController::class, 'tasks'])->name('tasks.project.details');
     Route::post('/project/get_departaments', [TaskController::class, 'get_departaments'])->name('tasks.project.get_departaments');
     Route::post('/project/add_task', [TaskController::class, 'add_task'])->name('tasks.project.add_task');
+    Route::get('/project/{project}/task/{task}', [TaskController::class, 'task_details'])->name('tasks.project.task_details');
+    Route::put('/project/task/comment', [TaskController::class, 'task_comment'])->name('tasks.project.task_comment');
 });
 
 

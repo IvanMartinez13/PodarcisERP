@@ -17,6 +17,7 @@ return [
     'save' => 'Guardar',
     'update' => 'Actualizar',
     'evaluate' => 'Evaluar',
+    'send' => 'Enviar',
 
     //LABELS
     'name' => 'Nombre',
@@ -49,6 +50,7 @@ return [
     'performances' => 'Actuaciones',
     'image' => 'Imagen',
     'color' => 'Color',
+    'comment' => 'Comentario',
 
     //PERMISSIONS
     'store' => 'Crear',

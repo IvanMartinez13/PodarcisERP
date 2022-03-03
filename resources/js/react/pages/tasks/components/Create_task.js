@@ -4,11 +4,14 @@ import React from "react";
 class Create_task extends React.Component{
     constructor(props){
         super(props);
+
         this.state = {loading: true}
         this.departaments = [];
+        this.project = this.props.project;
+
         this.selectedDepartaments = [];
-        this.project = this.props.project
-        this.name = ''
+        this.description = '';
+        this.name = '';
     }
 
     render(){
@@ -19,7 +22,9 @@ class Create_task extends React.Component{
                     <div className="modal-content bg-primary">
                             <div className="modal-header">
                                     <h5 className="modal-title">Añadir una tarea</h5>
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" className="close" aria-label="Close" onClick={() => {
+                                $('#addTask').modal('hide')
+                            }}>
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                 </div>
@@ -34,7 +39,13 @@ class Create_task extends React.Component{
                             </div>
                         </div>
                         <div className="modal-footer bg-white text-dark">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => {
+                                        $('#addTask').modal('hide')
+                                    }}>
+                                Cerrar
+                            </button>
                             <button type="button" className="btn btn-primary">Guardar</button>
                         </div>
                     </div>
@@ -48,17 +59,23 @@ class Create_task extends React.Component{
                     <div className="modal-content bg-primary">
                             <div className="modal-header">
                                     <h5 className="modal-title">Añadir una tarea</h5>
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <button
+                                            type="button"
+                                            className="close"
+                                            onClick={() => {
+                                                $('#addTask').modal('hide')
+                                            }}
+                                            aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                 </div>
                         <div className="modal-body bg-white text-dark">
                             <div className="container-fluid row">
-                                <div className="col-lg-6">
+                                <div className="col-lg-6 mb-3">
                                     <label htmlFor="name">Nombre:</label>
                                     <input className="form-control" name="name" id="name" placeholder="Nombre..."></input>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-lg-6 mb-3">
                                     <label htmlFor="departaments">Departamentos:</label>
                                     <select className="form-control" style={{width: "100%"}} name="departaments" id="departaments" placeholder="Nombre..." multiple="multiple">
                                         
@@ -73,11 +90,23 @@ class Create_task extends React.Component{
                                         }
                                     </select>
                                 </div>
+
+                                <div className="col-lg-12 mb-3">
+                                    <label htmlFor="description">Descripción:</label>
+                                    <textarea className="form-control" name="description" id="description" placeholder="Descripción..."></textarea>
+                                </div>
                             </div>
                         </div>
                         <div className="modal-footer bg-white text-dark">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => { this.save() } }>Guardar</button>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => {
+                                            $('#addTask').modal('hide')
+                                        }}>
+                                Cerrar
+                            </button>
+                            <button type="button" className="btn btn-primary" onClick={() => { this.save() } }>Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +146,18 @@ class Create_task extends React.Component{
                 let value = e.target.value;
 
                 handlePrepareValue("name", value);
-            })
+            });
+
+            $('#description').summernote({
+                placeholder: "Descripción...",
+                height: '100px',
+            });
+
+            $("#description").on("summernote.change", function (e) {   // callback as jquery custom event 
+                let value = e.target.value;
+
+                handlePrepareValue("description", value);
+            });
         } );
     }
 
@@ -131,6 +171,10 @@ class Create_task extends React.Component{
             this.name = value;
         }
 
+        if(key == "description"){
+            this.description = value;
+        }
+        
 
     }
 
@@ -138,13 +182,57 @@ class Create_task extends React.Component{
 
         let data = {
             name: this.name,
+            description: this.description,
             departaments: this.selectedDepartaments,
-            project: this.project.id
+            project: this.project.id,
         }
-       
-       axios.post('/tasks/project/add_task', data).then( (response) => {
 
-        } )
+        //VALIDATE DATA
+        let has_errors=false;
+
+        if (data.name == '' || data.name == null) {
+            has_errors=true;
+            toastr.error('El campo Nombre es obligatorio')
+        }
+
+        
+        if (data.description == '' || data.description == null) {
+            has_errors=true;
+            toastr.error('El campo Descripción es obligatorio')
+        }
+
+        if (data.departaments == '' || data.departaments == null || data.departaments == []) {
+            has_errors=true;
+            toastr.error('El campo Departamentos es obligatorio')
+        }
+
+        if (!has_errors) {
+            //SEND DATA
+            axios.post('/tasks/project/add_task', data).then( (response) => {
+
+                if (response.data.status  == 'success') {
+                    toastr.success(response.data.message);
+                    //CLOSE MODAL
+                    $('#addTask').modal('hide');
+                    
+                    this.selectedDepartaments = [];
+                    this.description = '';
+                    this.name = '';
+
+                    $('#departaments').empty();
+                    $('#name').val(null);
+                    $('#description').val(null);
+                    $('#description').summernote('reset');
+
+                    //UPLOAD PARENT
+
+                }
+
+                if (response.data.status  == 'error') {
+                    toastr.error(response.data.message);
+                }
+            } )
+        }
     }
 
 }
