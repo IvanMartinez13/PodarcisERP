@@ -124,6 +124,9 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::post('/project/add_task', [TaskController::class, 'add_task'])->name('tasks.project.add_task');
     Route::get('/project/{project}/task/{task}', [TaskController::class, 'task_details'])->name('tasks.project.task_details');
     Route::put('/project/task/comment', [TaskController::class, 'task_comment'])->name('tasks.project.task_comment');
+    Route::post('/project/task/add_subtask', [TaskController::class, 'add_subtask'])->name('tasks.project.add_subtask');
+    Route::post('/project/task/get_subtask', [TaskController::class, 'get_subtask'])->name('tasks.project.task.get_subtask');
+    Route::post('/project/task/subtask/changeState', [TaskController::class, 'changeState'])->name('tasks.project.task.changeState');
 });
 
 

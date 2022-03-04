@@ -5365,6 +5365,8 @@ __webpack_require__(/*! ./react/pages/ods_evaluation/Ods_evaluation */ "./resour
 
 __webpack_require__(/*! ./react/pages/tasks/Tasks */ "./resources/js/react/pages/tasks/Tasks.js");
 
+__webpack_require__(/*! ./react/pages/tasks/Subtasks */ "./resources/js/react/pages/tasks/Subtasks.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -6337,6 +6339,265 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./resources/js/react/pages/tasks/Subtasks.js":
+/*!****************************************************!*\
+  !*** ./resources/js/react/pages/tasks/Subtasks.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _components_Create_subtask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Create_subtask */ "./resources/js/react/pages/tasks/components/Create_subtask.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Subtasks = /*#__PURE__*/function (_React$Component) {
+  _inherits(Subtasks, _React$Component);
+
+  var _super = _createSuper(Subtasks);
+
+  function Subtasks(props) {
+    var _this;
+
+    _classCallCheck(this, Subtasks);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      loading: true,
+      save: false
+    };
+    _this.task = _this.props.task;
+    _this.subtasks = [];
+    _this.setLoading = _this.setLoading.bind(_assertThisInitialized(_this));
+    _this.setSaving = _this.setSaving.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Subtasks, [{
+    key: "render",
+    value: function render() {
+      if (this.state.loading) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "animated fadeIn",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "spiner-example",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "sk-spinner sk-spinner-double-bounce",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "sk-double-bounce1"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "sk-double-bounce2"
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            className: "text-center",
+            children: "Cargando..."
+          })]
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "animated fadeIn",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+          className: "btn btn-link",
+          onClick: function onClick() {
+            $('#modalSubtask').modal('show');
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+            className: "fa fa-plus-circle",
+            "aria-hidden": "true"
+          }), " A\xF1adir subtarea"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "table-responsive",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+            className: "table table-hover table-bordered table-striped",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: "Tarea"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: "Descripci\xF3n"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                  children: "Acciones"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+              children: this.subtasks.map(function (subtask, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                    className: "align-middle text-center",
+                    children: subtask.is_done == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                      className: "i-checks",
+                      type: "checkbox",
+                      defaultChecked: true,
+                      defaultValue: subtask.token
+                    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                      className: "i-checks",
+                      type: "checkbox",
+                      defaultChecked: false,
+                      defaultValue: subtask.token
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                    className: "align-middle",
+                    children: subtask.name
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                    className: "align-middle",
+                    dangerouslySetInnerHTML: {
+                      __html: subtask.description
+                    }
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                    className: "align-middle"
+                  })]
+                }, "row_" + subtask.token + index);
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Create_subtask__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          task: this.task,
+          setLoading: this.setLoading,
+          setSaving: this.setSaving
+        })]
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/task/get_subtask', {
+        task: this.task
+      }).then(function (response) {
+        var subtasks = response.data.subtasks;
+        _this2.subtasks = subtasks;
+
+        _this2.setState({
+          loading: false
+        });
+      }).then(function () {
+        $('.i-checks').iCheck({
+          checkboxClass: 'icheckbox_square-green',
+          radioClass: 'iradio_square-green'
+        });
+
+        var handleFinishTask = function handleFinishTask(data) {
+          _this2.finishTask(data);
+        };
+
+        $('.i-checks').on('ifChecked', function (event) {
+          var task = event.target.value;
+          var data = {
+            task: task,
+            value: true
+          };
+          handleFinishTask(data);
+        });
+        $('.i-checks').on('ifUnchecked', function (event) {
+          var task = event.target.value;
+          var data = {
+            task: task,
+            value: false
+          };
+          handleFinishTask(data);
+        });
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this3 = this;
+
+      if (this.state.save) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/task/get_subtask', {
+          task: this.task
+        }).then(function (response) {
+          var subtasks = response.data.subtasks;
+          _this3.subtasks = subtasks;
+
+          _this3.setState({
+            loading: false,
+            save: false
+          });
+        }).then(function () {
+          $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+          });
+        });
+      }
+    }
+  }, {
+    key: "setLoading",
+    value: function setLoading(value) {
+      this.setState({
+        loading: value
+      });
+    }
+  }, {
+    key: "setSaving",
+    value: function setSaving(value) {
+      this.setState({
+        save: value
+      });
+    }
+  }, {
+    key: "finishTask",
+    value: function finishTask(data) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/task/subtask/changeState', data).then(function (response) {
+        console.log(response);
+        toastr.success(response.data.message);
+      });
+    }
+  }]);
+
+  return Subtasks;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Subtasks);
+
+if (document.getElementsByTagName('subtasks').length >= 1) {
+  var component = document.getElementsByTagName('subtasks')[0];
+  var task = JSON.parse(component.getAttribute('task'));
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Subtasks, {
+    task: task
+  }), component);
+}
+
+/***/ }),
+
 /***/ "./resources/js/react/pages/tasks/Tasks.js":
 /*!*************************************************!*\
   !*** ./resources/js/react/pages/tasks/Tasks.js ***!
@@ -6490,7 +6751,7 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
                             href: "/tasks/project/" + _this2.project.token + "/task/" + task.token,
                             className: "btn btn-link",
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-                              "class": "fa-solid fa-clipboard-check"
+                              className: "fa-solid fa-clipboard-check"
                             })
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                             className: "btn btn-link",
@@ -6534,6 +6795,250 @@ if (document.getElementsByTagName('tasks').length >= 1) {
     departaments: departaments
   }), component);
 }
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/tasks/components/Create_subtask.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/react/pages/tasks/components/Create_subtask.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var Create_subtask = /*#__PURE__*/function (_React$Component) {
+  _inherits(Create_subtask, _React$Component);
+
+  var _super = _createSuper(Create_subtask);
+
+  function Create_subtask(props) {
+    var _this;
+
+    _classCallCheck(this, Create_subtask);
+
+    _this = _super.call(this, props);
+    _this.name = '';
+    _this.description = '';
+    _this.task = _this.props.task;
+
+    _this.setLoading = function (data) {
+      _this.props.setLoading(data);
+    };
+
+    _this.setSaving = function (data) {
+      _this.props.setSaving(data);
+    };
+
+    return _this;
+  }
+
+  _createClass(Create_subtask, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "modal fade",
+        id: "modalSubtask",
+        tabIndex: "-1",
+        role: "dialog",
+        "aria-labelledby": "modalSubtaskLabel",
+        "aria-hidden": "true",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          className: "modal-dialog modal-xl",
+          role: "document",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "modal-content bg-primary",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "modal-header",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+                className: "modal-title",
+                id: "modalSubtaskLabel",
+                children: "A\xF1adir subtarea"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "button",
+                className: "close",
+                "aria-label": "Close",
+                onClick: function onClick() {
+                  $('#modalSubtask').modal('hide');
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                  "aria-hidden": "true",
+                  children: "\xD7"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "modal-body bg-white text-dark",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "row",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-lg-12 my-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    htmlFor: "name",
+                    children: "Nombre:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                    id: "name",
+                    className: "form-control",
+                    name: "name",
+                    placeholder: "Nombre..."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                  className: "col-lg-12 my-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                    htmlFor: "description",
+                    children: "Descripci\xF3n:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
+                    id: "description",
+                    className: "form-control",
+                    name: "description",
+                    placeholder: "Descripci\xF3n...",
+                    rows: 5
+                  })]
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "modal-footer bg-white text-dark",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "button",
+                className: "btn btn-primary",
+                onClick: function onClick() {
+                  _this2.save();
+                },
+                children: "Crear"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "button",
+                className: "btn btn-secondary",
+                onClick: function onClick() {
+                  $('#modalSubtask').modal('hide');
+                },
+                children: "Cerrar"
+              })]
+            })]
+          })
+        })
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      $('#description').summernote({
+        placeholder: "Descripción...",
+        height: 200
+      });
+
+      var handlePrepareValue = function handlePrepareValue(key, value) {
+        _this3.prepareData(key, value);
+      };
+
+      $("#name").on("input", function (e) {
+        var value = e.target.value;
+        handlePrepareValue("name", value);
+      });
+      $("#description").on("summernote.change", function (e) {
+        // callback as jquery custom event 
+        var value = e.target.value;
+        handlePrepareValue("description", value);
+      });
+    }
+  }, {
+    key: "prepareData",
+    value: function prepareData(key, value) {
+      if (key == "name") {
+        this.name = value;
+      }
+
+      if (key == "description") {
+        this.description = value;
+      }
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      var _this4 = this;
+
+      var data = {
+        name: this.name,
+        description: this.description,
+        task: this.task
+      }; //VALIDATE DATA
+
+      var has_errors = false;
+
+      if (data.name == '' || data.name == null) {
+        has_errors = true;
+        toastr.error('El campo Nombre es obligatorio');
+      }
+
+      if (data.description == '' || data.description == null) {
+        has_errors = true;
+        toastr.error('El campo Descripción es obligatorio');
+      }
+
+      if (!has_errors) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/project/task/add_subtask', data).then(function (response) {
+          if (response.data.status == 'success') {
+            toastr.success(response.data.message); //CLOSE MODAL
+
+            $('#modalSubtask').modal('hide');
+            _this4.description = '';
+            _this4.name = '';
+            $('#name').val(null);
+            $('#description').val(null);
+            $('#description').summernote('reset'); //UPLOAD PARENT
+
+            _this4.setLoading(true);
+
+            _this4.setSaving(true);
+          }
+
+          if (response.data.status == 'error') {
+            toastr.error(response.data.message);
+          }
+        });
+      }
+    }
+  }]);
+
+  return Create_subtask;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Create_subtask);
 
 /***/ }),
 
@@ -6783,7 +7288,7 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
       }).then(function () {
         $("#departaments").select2({
           theme: 'bootstrap4',
-          placeholder: "Selecciona una estrategia...",
+          placeholder: "Selecciona un departamento...",
           width: 'resolve',
           // need to override the changed default
           allowClear: true

@@ -107,6 +107,7 @@
                                     href="#sub_tasks">{{ __('modules.sub_tasks') }}</a></li>
                         </ul>
                         <div class="tab-content">
+                            {{-- TAB COMMENTS --}}
                             <div role="tabpanel" id="comments" class="tab-pane active">
                                 <div class="panel-body">
                                     <div class="animated fadeIn">
@@ -187,11 +188,11 @@
 
                                 </div>
                             </div>
+
+                            {{-- TAB SUB TASKS --}}
                             <div role="tabpanel" id="sub_tasks" class="tab-pane">
                                 <div class="panel-body">
-                                    <div class="animated fadeIn">
-                                        {{-- CONTENIDO DE LAS SUBTAREAS --}}
-                                    </div>
+                                    <subtasks task={{ json_encode($task->token) }}></subtasks>
                                 </div>
                             </div>
                         </div>

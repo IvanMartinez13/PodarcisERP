@@ -123,7 +123,7 @@ class Create_task extends React.Component{
 
             $("#departaments").select2({
                 theme: 'bootstrap4',
-                placeholder: "Selecciona una estrategia...",
+                placeholder: "Selecciona un departamento...",
                 width: 'resolve', // need to override the changed default
                 allowClear: true
                 

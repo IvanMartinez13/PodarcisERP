@@ -83,7 +83,7 @@ class Tasks extends React.Component{
                                                             </button>
 
                                                             <a href={"/tasks/project/"+this.project.token+"/task/"+task.token} className="btn btn-link">
-                                                                <i class="fa-solid fa-clipboard-check"></i>
+                                                                <i className="fa-solid fa-clipboard-check"></i>
                                                             </a>
 
                                                             <button className="btn btn-link">

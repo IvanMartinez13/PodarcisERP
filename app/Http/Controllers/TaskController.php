@@ -223,4 +223,69 @@ class TaskController extends Controller
         //4) RETURN REDIRECT
         return redirect()->back()->with('status', 'success')->with('message', 'Tarea comentada.');
     }
+
+    public function add_subtask(Request $request)
+    {
+        //1) GET DATA
+        $task = Task::where('token', $request->task)->with('departaments')->first();
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'is_done' => 0,
+            'token' => md5($request->name . '+' . date('d/m/Y H:i:s')),
+            'project_id' => $task->project_id,
+            'task_id' => $task->id,
+        ];
+
+        $departaments = $task->departaments->pluck('id');
+
+        //2) VALIDATE DATA
+        $rules = [
+            "name" => ["string", "required"],
+            "description" => ["string", "required"],
+            "task" => ["string", "required"],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(["status" => "error", "message" => "se ha producido un error."]);
+        }
+
+        //3) STORE DATA
+        $subtask = new Task($data);
+        $subtask->save();
+
+        $subtask->departaments()->sync($departaments);
+
+        //4) RETURN RESPONSE
+        return response()->json(["status" => "success", "message" => "Subtarea Creada."]);
+    }
+
+    public function get_subtask(Request $request)
+    {
+        $task = Task::where('token', $request->task)->first();
+        $subtasks = Task::where('task_id', $task->id)->get();
+
+        $response = [
+            "subtasks" => $subtasks,
+        ];
+
+        return response()->json($response);
+    }
+
+    public function changeState(Request $request)
+    {
+        if ($request->value) {
+
+            $task = Task::where('token', $request->task)->update(['is_done' => 1]);
+
+            return response()->json(["status" => "status", "message" => "Se finalizado una tarea."]);
+        } else {
+            $task = Task::where('token', $request->task)->update(['is_done' => 0]);
+
+            return response()->json(["status" => "error", "message" => "Se ha abierto una tarea."]);
+        }
+    }
 }

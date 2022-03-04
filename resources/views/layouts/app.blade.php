@@ -24,6 +24,9 @@
     <link href="{{ url('/') }}/css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+        rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -88,6 +91,7 @@
     <script src="{{ url('/') }}/js/plugins/summernote/summernote-bs4.js"></script>
     <script src="{{ url('/') }}/js/plugins/dropzone/dropzone.js"></script>
     <script src="{{ url('/') }}/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/iCheck/icheck.min.js"></script>
 
 
     <script>
@@ -124,7 +128,6 @@
                     jackColor: '#f3f3f4'
                 });
             });
-
 
         })
     </script>

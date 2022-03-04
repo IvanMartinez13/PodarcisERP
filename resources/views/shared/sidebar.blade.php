@@ -4,8 +4,15 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt="" style="width: 80px"
-                            class="rounded-circle">
+                        @if (auth()->user()->profile_photo)
+                            <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt=""
+                                style="width: 80px" class="rounded-circle">
+                        @else
+                            <img class="rounded-circle" src="{{ url('/img/user_placeholder.png') }}" alt=""
+                                width="80px">
+                        @endif
+
+
                         <span class="block m-t-xs font-bold">{{ auth()->user()->name }}</span>
                         <span class="text-muted text-xs block">menu <b class="caret"></b></span>
                     </a>
@@ -36,8 +43,15 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt="" style="width: 80%"
-                        class="rounded-circle">
+
+                    @if (auth()->user()->profile_photo)
+                        <img src="{{ url('/storage') . auth()->user()->profile_photo }}" alt="" style="width: 80%"
+                            class="rounded-circle">
+                    @else
+                        <img class="rounded-circle" src="{{ url('/img/user_placeholder.png') }}" alt=""
+                            style="width: 80%">
+                    @endif
+
                 </div>
             </li>
 
