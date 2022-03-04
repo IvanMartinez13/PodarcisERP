@@ -25,6 +25,10 @@ return [
     'actions' => 'Acciones',
     'coordinates' => 'Coordenadas',
     'performances' => 'Actuaciones',
+    'color' => 'Color',
+    'status' => 'Estado',
+    'departaments' => 'Departamentos',
+    'progress' => 'Progreso',
 
     //ODS MODULE
     'title' => 'Título',

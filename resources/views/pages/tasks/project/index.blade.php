@@ -3,13 +3,14 @@
 @section('content')
     <div class="row mb-2">
         <div class="col-10 my-auto">
-            <h2>{{ __('modules.departaments') }}</h2>
+            <h2>{{ __('modules.tasks') }}</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
+
                 <li class="breadcrumb-item active">
-                    <strong>{{ __('modules.departaments') }}</strong>
+                    <strong>{{ __('modules.projects') }}</strong>
                 </li>
             </ol>
         </div>
@@ -22,52 +23,66 @@
 
     <div class="ibox">
         <div class="ibox-title">
-            <h5>{{ __('modules.departaments') }}</h5>
-
-            @can('store')
-                <a href="{{ route('departaments.create') }}" class="btn btn-primary">{{ __('forms.create') }}</a>
-            @endcan
+            <h5>{{ __('modules.projects') }}</h5>
+            <a href="{{ route('tasks.project.create') }}" class="btn btn-primary">
+                {{ __('forms.create') }}
+            </a>
 
             <div class="ibox-tools">
-                <a class="collapse-link" href="">
-                    <i class="fa fa-chevron-up"></i>
+                <a href="" class="collapse-link">
+                    <i class="fa fa-chevron-up" aria-hidden="true"></i>
                 </a>
-
             </div>
         </div>
+
         <div class="ibox-content">
             <div class="container-fluid table-responsive">
-                <table class="table table-bordered table-striped table-hover js_datatable">
+                <table class="table table-striped table-hover table-bordered js_datatable">
                     <thead>
                         <tr>
-                            <th>{{ __('columns.name') }}</th>
-                            <th>{{ __('columns.actions') }}</th>
+                            <th style="width: 20%">{{ __('columns.name') }}</th>
+                            <th style="width: 50%">{{ __('columns.description') }}</th>
+                            <th style="width: 20%">{{ __('columns.color') }}</th>
+                            <th style="width: 10%">{{ __('columns.actions') }}</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($departaments as $departament)
+                        @foreach ($projects as $key => $project)
                             <tr>
                                 <td class="align-middle">
-                                    {{ $departament->name }}
+                                    {{ $project->name }}
                                 </td>
-
-                                <td class="align-middle text-center">
+                                <td class="align-middle">
+                                    {!! $project->description !!}
+                                </td>
+                                <td class="align-middle">
+                                    <div class="rounded text-center p-1"
+                                        style="background-color: {{ $project->color }};">
+                                        {{ $project->color }}
+                                    </div>
+                                </td>
+                                <td class="text-center align-middle">
                                     <div class="btn-group-vertical">
-                                        @can('update')
-                                            <a href="{{ route('departaments.edit', $departament->token) }}"
+
+
+                                        @can('update Tareas')
+                                            <a href="{{ route('tasks.project.edit', $project->token) }}"
                                                 class="btn btn-link">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
+
+                                            <a href="{{ route('tasks.project.details', $project->token) }}"
+                                                class="btn btn-link">
+                                                <i class="fa-solid fa-clipboard-check"></i>
+                                            </a>
                                         @endcan
 
-                                        @can('delete')
+                                        @can('delete Tareas')
                                             <button class="btn btn-link">
                                                 <i class="fa fa-trash-alt" aria-hidden="true"></i>
                                             </button>
                                         @endcan
-
-
 
                                     </div>
                                 </td>
@@ -77,6 +92,7 @@
                 </table>
             </div>
         </div>
+
         <div class="ibox-footer">
             Podarcis SL. &copy; {{ date('Y') }}
         </div>

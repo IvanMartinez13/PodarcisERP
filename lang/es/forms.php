@@ -17,6 +17,7 @@ return [
     'save' => 'Guardar',
     'update' => 'Actualizar',
     'evaluate' => 'Evaluar',
+    'send' => 'Enviar',
 
     //LABELS
     'name' => 'Nombre',
@@ -47,6 +48,9 @@ return [
     'base_year' => 'Año de referencia',
     'target_year' => 'Año del objetivo',
     'performances' => 'Actuaciones',
+    'image' => 'Imagen',
+    'color' => 'Color',
+    'comment' => 'Comentario',
 
     //PERMISSIONS
     'store' => 'Crear',

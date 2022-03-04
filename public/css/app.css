@@ -617,6 +617,9 @@ select {
 .float-right {
   float: right;
 }
+.float-left {
+  float: left;
+}
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
@@ -662,6 +665,9 @@ select {
 }
 .ml-4 {
   margin-left: 1rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
 }
 .ml-1 {
   margin-left: 0.25rem;
@@ -915,6 +921,9 @@ select {
 }
 .p-2 {
   padding: 0.5rem;
+}
+.p-1 {
+  padding: 0.25rem;
 }
 .px-4 {
   padding-left: 1rem;

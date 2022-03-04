@@ -23,6 +23,10 @@
     <link href="{{ url('/') }}/css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+        rel="stylesheet">
+    <link href="{{ url('/') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -76,12 +80,9 @@
     <script src="{{ url('/') }}/js/plugins/pace/pace.min.js"></script>
 
     <!-- Scripts -->
-
-
     <script src="{{ url('/') }}/js/plugins/dataTables/dataTables.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/dataTables/fixedHeader.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/dataTables/colreorder.min.js"></script>
-
     <script src="{{ url('/') }}/js/plugins/switchery/switchery.js"></script>
     <script src="{{ url('/') }}/js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/leaflet/leaflet.js"></script>
@@ -89,6 +90,9 @@
     <script src="{{ url('/') }}/js/plugins/select2/select2.full.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/summernote/summernote-bs4.js"></script>
     <script src="{{ url('/') }}/js/plugins/dropzone/dropzone.js"></script>
+    <script src="{{ url('/') }}/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/iCheck/icheck.min.js"></script>
+
 
     <script>
         toastr.options = {
@@ -109,6 +113,8 @@
             "hideMethod": "fadeOut"
         }
     </script>
+
+
     <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('scripts')
 
@@ -122,7 +128,6 @@
                     jackColor: '#f3f3f4'
                 });
             });
-
 
         })
     </script>
