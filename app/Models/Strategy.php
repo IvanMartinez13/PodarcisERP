@@ -17,6 +17,10 @@ class Strategy extends Model
         "description",
         "performances",
         "indicator",
+        "increase",
+        "target",
+        "base_year",
+        "target_year",
         "token",
         "objective_id"
     ];

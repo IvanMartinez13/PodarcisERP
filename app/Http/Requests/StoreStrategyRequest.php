@@ -29,6 +29,10 @@ class StoreStrategyRequest extends FormRequest
             "description"  => ['required', 'string', 'max:255'],
             "performances"  => ['required', 'string'],
             "indicator"  => ['required', 'string', 'max:255'],
+            "increase" => ['required', 'numeric'],
+            "target" => ['required', 'numeric'],
+            "base_year" => ['required', 'numeric'],
+            "target_year" => ['required', 'numeric'],
         ];
     }
 
@@ -39,6 +43,11 @@ class StoreStrategyRequest extends FormRequest
             "description"  => "Descripción",
             "performances"  => "Actuaciones",
             "indicator"  => "Indicador",
+            'increase' => 'Incremento | Reducción',
+            'target' => 'Objetivo',
+            'base_year' => 'Año de referencia',
+            'target_year' => 'Año del objetivo',
+
         ];
     }
 }

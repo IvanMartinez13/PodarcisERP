@@ -54,6 +54,9 @@ class OdsController extends Controller
         $objective = new Objective($data);
         $objective->save();
         //3) RETURN REDIRECT
+        if ($request->strategy) {
+            return redirect(route('ods.strategy.create', $objective->token))->with('message', 'Objetivo creado.')->with('status', 'success');
+        }
         return redirect(route('ods.index'))->with('message', 'Objetivo creado.')->with('status', 'success');
     }
 
@@ -79,7 +82,12 @@ class OdsController extends Controller
         ];
         //2) UPDATE DATA
         $objective = Objective::where('token', $request->token)->update($data);
+        $objective = Objective::where('token', $request->token)->first();
         //3) RETURN REDIRECT
+        if ($request->strategy) {
+            return redirect(route('ods.strategy.index', $objective->token))->with('message', 'Objetivo editado.')->with('status', 'success');
+        }
+
         return redirect(route('ods.index'))->with('message', 'Objetivo editado.')->with('status', 'success');
     }
 
@@ -299,6 +307,10 @@ class OdsController extends Controller
             "indicator" => $request->indicator,
             "description" => $request->description,
             "performances" => $request->performances,
+            "increase" => $request->increase,
+            "target" => $request->target,
+            "base_year" => $request->base_year,
+            "target_year" => $request->target_year,
             "token" => md5($request->title . '+' . date('Y')),
             "objective_id" => $objective->id
         ];
@@ -331,6 +343,10 @@ class OdsController extends Controller
             "indicator" => $request->indicator,
             "description" => $request->description,
             "performances" => $request->performances,
+            "increase" => $request->increase,
+            "target" => $request->target,
+            "base_year" => $request->base_year,
+            "target_year" => $request->target_year,
         ];
 
         $strategy = Strategy::where('token', $request->token)->update($data);

@@ -18,6 +18,8 @@ return [
     'update' => 'Actualizar',
     'evaluate' => 'Evaluar',
     'send' => 'Enviar',
+    'save_strategy' => 'Guardar y crear estrategias',
+    'strategy' => 'Guardar y visualizar estrategias',
 
     //LABELS
     'name' => 'Nombre',

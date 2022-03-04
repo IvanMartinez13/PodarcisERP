@@ -67,12 +67,6 @@
                                 <td class="align-middle">{{ $objective->target_year }}</td>
                                 <td class="align-middle text-center">
                                     <div class="btn-group-vertical">
-                                        @can('store Ods')
-                                            <a href="{{ route('ods.strategy.index', $objective->token) }}"
-                                                class="btn btn-link" title="Estrategias y parametros">
-                                                <i class="fa-solid fa-gears"></i>
-                                            </a>
-                                        @endcan
 
                                         @can('update Ods')
                                             <a href="{{ route('ods.objective.edit', $objective->token) }}"
