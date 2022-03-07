@@ -104,6 +104,11 @@
                                     href="#comments">{{ __('modules.comments') }}</a></li>
                             <li><a class="nav-link" data-toggle="tab"
                                     href="#sub_tasks">{{ __('modules.sub_tasks') }}</a></li>
+                            <li>
+                                <a class="nav-link" data-toggle="tab"
+                                    href="#files">{{ __('modules.files') }}
+                                </a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             {{-- TAB COMMENTS --}}
@@ -194,6 +199,33 @@
                                     <subtasks task={{ json_encode($task->token) }}></subtasks>
                                 </div>
                             </div>
+
+                             {{-- TAB FILES --}}
+                             <div role="tabpanel" id="files" class="tab-pane">
+                                <div class="panel-body">
+                                    <form action="{{url('/')}}" method="POST" class="dropzone  mb-5" id="add-files">
+                                        @csrf
+
+                                        <input name="token" type="hidden" value="{{$task->token}}">
+
+                                        <div class="dz-message" style="height:200px;">
+                                            Arrastra aqui tus documentos.
+                                        </div>
+
+                                        <div class="dropzone-previews"></div>
+                                        
+                                    </form>
+
+                                    <table class="table table-striped table-hover table-bordered js_datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>{{__('columns.name')}}</th>
+                                                <th>{{__('columns.actions')}}</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -224,13 +256,55 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ url('/') }}/js/tables.js"></script>
+
+    
+
     <script>
         $(document).ready(() => {
             $('#comment').summernote({
                 placeholder: "{{ __('forms.comment') }}...",
                 height: 100
             })
-        })
+        });
+
+        Dropzone.options.addFiles = {
+            autoProcessQueue: true,
+            uploadMultiple: true,
+            maxFilezise: 10,
+            maxFiles: 100,
+
+            init: function() {
+                var submitBtn = document.querySelector("#submit");
+
+                myDropzone = this;
+
+                this.on("addedfile", function(file) {
+                    console.log(file)
+
+                    var data = new FileReader;
+                    data.readAsDataURL(file);
+
+                    $(data).on("load", function(event) {
+
+                        var path = event.target.result;
+
+                        $("#imgUser").attr("src", path);
+
+                    })
+                });
+
+                this.on("complete", function(file) {
+                    myDropzone.removeFile(file);
+                    console.log('hola')
+                });
+
+                this.on("success", (file, response) => {
+                    toastr.success(response.message)
+                    myDropzone.processQueue.bind(myDropzone)
+                });
+            }
+        }
     </script>
 
     @foreach ($errors->all() as $error)

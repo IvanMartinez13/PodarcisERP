@@ -25,6 +25,7 @@ return [
     'projects' => 'Proyectos',
     'configuration' => 'Configuración',
     'comments' => 'Comentarios',
-    'sub_tasks' => 'Subtareas'
+    'sub_tasks' => 'Subtareas',
+    'files' => 'Documentos',
 
 ];

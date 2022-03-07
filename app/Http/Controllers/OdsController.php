@@ -383,7 +383,7 @@ class OdsController extends Controller
 
         $strategies_id = $strategies->pluck('id');
 
-        $evaluations = Evaluation::whereIn('strategy_id', $strategies_id)->get();
+        $evaluations = Evaluation::whereIn('strategy_id', $strategies_id)->orderBy('year', 'ASC')->get();
 
         $years = $evaluations->unique('year')->pluck('year');
 
