@@ -110,6 +110,8 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/strategy/{token}/create', [OdsController::class, 'strategy_store'])->name('ods.strategy.store');
     Route::get('/strategy/{token_objective}/edit/{token_strategy}', [OdsController::class, 'strategy_edit'])->name('ods.strategy.edit');
     Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
+    Route::post('/dashboard', [OdsController::class, 'dashboard'])->name('ods.dashboard');
+    Route::post('/dashboard/objective/evolution', [OdsController::class, 'objective_evolution'])->name('ods.dashboard.objective_evolution');
 });
 
 //TASKS MODULE
