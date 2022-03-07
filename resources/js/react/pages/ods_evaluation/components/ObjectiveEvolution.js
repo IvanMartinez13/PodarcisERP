@@ -30,7 +30,7 @@ class ObjectiveEvolution extends React.Component{
                         <h5>Evolución de los objetivos</h5>
                     </div>
 
-                    <div className="ibox-content bg-light">
+                    <div className="ibox-content bg-light animated fadeIn">
                         <div className="spiner-example">
                             <div className="sk-spinner sk-spinner-double-bounce">
                                 <div className="sk-double-bounce1"></div>
@@ -68,7 +68,7 @@ class ObjectiveEvolution extends React.Component{
                         }
                     </select>
 
-                    <canvas id="objective_evolution" height={200}></canvas>
+                    <canvas id="objective_evolution" className="animated fadeIn" height={200}></canvas>
                     
                 </div>
 
@@ -86,6 +86,7 @@ class ObjectiveEvolution extends React.Component{
             
             let evaluations =  response.data.evaluations;
             let years = response.data.years;
+            let objective = response.data.objective;
 
             var data = [];
 

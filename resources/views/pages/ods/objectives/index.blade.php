@@ -56,9 +56,7 @@
                                         <th style="10%">{{ __('columns.title') }}</th>
                                         <th style="width: 20%">{{ __('columns.description') }}</th>
                                         <th style="width: 15%">{{ __('columns.indicator') }}</th>
-                                        <th style="width: 15%">
-                                            {{ __('columns.increase') . ' | ' . __('columns.decrease') }}
-                                        </th>
+                                        <th style="width: 15%">{{ __('columns.increase') . ' | ' . __('columns.decrease') }} </th>
                                         <th style="width: 10%">{{ __('columns.target') }}</th>
                                         <th style="width: 12.5%">{{ __('columns.base_year') }}</th>
                                         <th style="width: 12.5%">{{ __('columns.target_year') }}</th>
@@ -71,9 +69,7 @@
                                             <td class="align-middle">{{ $objective->title }}</td>
                                             <td class="align-middle">{!! $objective->description !!}</td>
                                             <td class="align-middle">{{ $objective->indicator }}</td>
-                                            <td class="align-middle">
-                                                {{ $objective->increase == 0 ? __('columns.decrease') : __('columns.increase') }}
-                                            </td>
+                                            <td class="align-middle">{{ $objective->increase == 0 ? __('columns.decrease') : __('columns.increase') }}</td>
                                             <td class="align-middle">{{ $objective->target }} %</td>
                                             <td class="align-middle">{{ $objective->base_year }}</td>
                                             <td class="align-middle">{{ $objective->target_year }}</td>

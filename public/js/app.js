@@ -6551,7 +6551,7 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
               children: "Evoluci\xF3n de los objetivos"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-            className: "ibox-content bg-light",
+            className: "ibox-content bg-light animated fadeIn",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "spiner-example",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -6591,6 +6591,7 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
             id: "objective_evolution",
+            className: "animated fadeIn",
             height: 200
           })]
         })]
@@ -6607,6 +6608,7 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         var evaluations = response.data.evaluations;
         var years = response.data.years;
+        var objective = response.data.objective;
         var data = [];
         years.map(function (year) {
           var suma = 0;
