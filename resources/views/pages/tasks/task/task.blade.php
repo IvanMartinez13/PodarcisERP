@@ -24,7 +24,7 @@
         </div>
 
         <div class="col-2 text-right">
-            <a href="{{ route('dashboard') }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
+            <a href="{{ route('tasks.project.details', $project->token) }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
         </div>
 
     </div>
@@ -89,11 +89,10 @@
                         <div class="col-sm-10 text-left">
                             <dd>
                                 <div class="progress m-b-1">
-                                    <div style="width: 60%;"
+                                    <div id="progress" style="width: {{$progress}}%;"
                                         class="progress-bar progress-bar-striped progress-bar-animated"></div>
                                 </div>
-                                <small>Project completed in <strong>60%</strong>. Remaining close the project, sign a
-                                    contract and invoice.</small>
+                                <small>Completado en un <strong id="progress_text">{{$progress}}%</strong>.</small>
                             </dd>
                         </div>
                     </div>

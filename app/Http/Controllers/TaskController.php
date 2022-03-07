@@ -118,7 +118,30 @@ class TaskController extends Controller
     {
         $project = Project::where('token', $token)->first();
 
-        $tasks = Task::where('project_id', $project->id)->get();
+        $tasks = Task::where('project_id', $project->id)->where('task_id', null)->get();
+
+        foreach($tasks as $key => $task){
+
+            $subtasks = Task::where('task_id', $task->id)->get();
+
+            $done = 0;
+    
+            foreach ($subtasks as $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+            $tasks[$key]['progress'] = $progress; 
+        }
+
+
 
         return view('pages.tasks.task.index', compact('project', 'tasks'));
     }
@@ -183,8 +206,22 @@ class TaskController extends Controller
         $task = Task::where('token', $token_task)->with('departaments')->first();
         $sub_tasks = Task::where('task_id', $task->id)->get();
         $comments = Comment::where('task_id', $task->id)->with('user')->orderBy('created_at', 'DESC')->get();
+        $done = 0;
+
+        foreach ($sub_tasks as $key => $sub_task) {
+            if ($sub_task->is_done == 1) {
+                $done += 1;
+            }
+        }
+        if (count($sub_tasks) > 0) {
+            $progress = ($done/count($sub_tasks)) * 100;
+        }else{
+            $progress = 0;
+        }
+        
+        
         //RETURN VIEW WITH DATA
-        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments'));
+        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments', 'progress'));
     }
 
     public function task_comment(Request $request)
@@ -259,8 +296,24 @@ class TaskController extends Controller
 
         $subtask->departaments()->sync($departaments);
 
+
+        $subtasks = Task::where('task_id', $task->id)->get();
+
+        $done = 0;
+
+        foreach ($subtasks as $key => $sub_task) {
+            if ($sub_task->is_done == 1) {
+                $done += 1;
+            }
+        }
+        if (count($subtasks) > 0) {
+            $progress = ($done/count($subtasks)) * 100;
+        }else{
+            $progress = 0;
+        }
+
         //4) RETURN RESPONSE
-        return response()->json(["status" => "success", "message" => "Subtarea Creada."]);
+        return response()->json(["status" => "success", "message" => "Subtarea Creada.", "progress" => $progress]);
     }
 
     public function get_subtask(Request $request)
@@ -280,12 +333,80 @@ class TaskController extends Controller
         if ($request->value) {
 
             $task = Task::where('token', $request->task)->update(['is_done' => 1]);
+            $task = Task::where('token', $request->task)->first();
 
-            return response()->json(["status" => "status", "message" => "Se finalizado una tarea."]);
+            $parent_task = Task::where('id', $task->task_id)->first();
+
+            $subtasks = Task::where('task_id', $parent_task->id)->get();
+
+            $done = 0;
+
+            foreach ($subtasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+
+            return response()->json(["status" => "status", "message" => "Se finalizado una tarea.", "progress" => $progress]);
         } else {
             $task = Task::where('token', $request->task)->update(['is_done' => 0]);
 
-            return response()->json(["status" => "error", "message" => "Se ha abierto una tarea."]);
+            $task = Task::where('token', $request->task)->first();
+
+            $parent_task = Task::where('id', $task->task_id)->first();
+
+            $subtasks = Task::where('task_id', $parent_task->id)->get();
+
+            $done = 0;
+
+            foreach ($subtasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+            return response()->json(["status" => "error", "message" => "Se ha abierto una tarea.", "progress" => $progress]);
         }
+
+        
+    }
+
+    public function update_subtask(Request $request)
+    {
+        
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+        ];
+
+        //2) VALIDATE DATA
+        $rules = [
+            "name" => ["string", "required"],
+            "description" => ["string", "required"],
+            "task" => ["string", "required"],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(["status" => "error", "message" => "se ha producido un error."]);
+        }
+
+        $task = Task::where('token', $request->task)->update($data);
+
+        return response()->json(["status" => "success", "message" => "Subtarea Editada."]);
     }
 }

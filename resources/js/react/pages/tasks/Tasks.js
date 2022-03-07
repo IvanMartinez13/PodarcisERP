@@ -72,9 +72,9 @@ class Tasks extends React.Component{
                                                     </td>
                                                     <td className="align-middle">
                                                         <div className="progress m-b-1">
-                                                            <div style={{width: "0%"}} className="progress-bar progress-bar-striped progress-bar-animated"></div>
+                                                            <div style={{width: task.progress+"%"}} className="progress-bar progress-bar-striped progress-bar-animated"></div>
                                                         </div>
-                                                        <small>0%</small>
+                                                        <small>Completado en un <strong>{task.progress}%</strong>.</small>
                                                     </td>
                                                     <td className="align-middle text-center">
                                                         <div className="btn-group-vertical">
