@@ -28,8 +28,11 @@ class UpdateStrategyRequest extends FormRequest
             "title" => ['required', 'string', 'max:255'],
             "description"  => ['required', 'string', 'max:255'],
             "performances"  => ['required', 'string'],
-            "indicator"  => ['required', 'string', 'max:255'],
-            "token" => ['required', 'string'],
+            "increase" => ['required', 'numeric'],
+            "target" => ['required', 'numeric'],
+            "base_year" => ['required', 'numeric'],
+            "target_year" => ['required', 'numeric'],
+            "token" => ['required', 'string']
         ];
     }
 
@@ -40,7 +43,11 @@ class UpdateStrategyRequest extends FormRequest
             "description"  => "Descripción",
             "performances"  => "Actuaciones",
             "indicator"  => "Indicador",
-            "token"  => "Token",
+            'increase' => 'Incremento | Reducción',
+            'target' => 'Objetivo',
+            'base_year' => 'Año de referencia',
+            'target_year' => 'Año del objetivo',
+            'token' => 'Token'
         ];
     }
 }

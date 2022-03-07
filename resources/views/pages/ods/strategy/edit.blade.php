@@ -50,16 +50,10 @@
                 @method('put')
                 <input type="hidden" value="{{ $strategy->token }}" name="token">
                 <div class="row">
-                    <div class="col-lg-6 mt-3 @error('title') has-error @enderror">
+                    <div class="col-lg-12 mt-3 @error('title') has-error @enderror">
                         <label for="title">{{ __('forms.title') }}:</label>
                         <input type="text" name="title" id="title" placeholder="{{ __('forms.title') }}..."
                             class="form-control" value="{{ $strategy->title }}">
-                    </div>
-
-                    <div class="col-lg-6 mt-3 @error('indicator') has-error @enderror">
-                        <label for="indicator">{{ __('forms.indicator') }}:</label>
-                        <input type="text" name="indicator" id="indicator" placeholder="{{ __('forms.indicator') }}..."
-                            class="form-control" value="{{ $strategy->indicator }}">
                     </div>
 
                     <div class="col-lg-6 mt-3  @error('description') has-error @enderror">
@@ -72,6 +66,44 @@
                         <label for="performances">{{ __('forms.performances') }}:</label>
                         <textarea type="text" name="performances" id="performances" class="form-conteol"
                             placeholder="{{ __('forms.performances') }}...">{{ $strategy->performances }}</textarea>
+                    </div>
+
+                    <div class="col-lg-4 mt-3 @error('indicator') has-error @enderror">
+                        <label for="indicator">{{ __('forms.indicator') }}:</label>
+                        <input id="indicator" type="text" name="indicator" class="form-control"
+                            placeholder="{{ __('forms.indicator') }}..." value="{{ $strategy->indicator }}">
+                    </div>
+
+                    <div class="col-lg-4 mt-3 @error('increase') has-error @enderror">
+                        <label for="increase">{{ __('forms.increase') . ' | ' . __('forms.decrease') }}:</label>
+                        <select name="increase" id="increase" class="form-control select2">
+                            <option></option>{{-- DEFAULT NULL --}}
+                            <option value="1" @if ($strategy->increase == 1) selected @endif>
+                                {{ __('forms.increase') }}</option>
+                            <option value="0" @if ($strategy->increase == 0) selected @endif>
+                                {{ __('forms.decrease') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 mt-3 @error('target') has-error @enderror">
+                        <label for="target">{{ __('forms.target') }}(%):</label>
+                        <input id="target" type="number" name="target" class="form-control"
+                            placeholder="{{ __('forms.target') }}..." value="{{ $strategy->target }}" min="0"
+                            max="100" step="any">
+                    </div>
+
+                    <div class="col-lg-4 mt-3 @error('base_year') has-error @enderror">
+                        <label for="base_year">{{ __('forms.base_year') }}:</label>
+                        <input id="base_year" type="number" name="base_year" class="form-control"
+                            placeholder="{{ __('forms.base_year') }}..." value="{{ $strategy->base_year }}"
+                            min="2000">
+                    </div>
+
+                    <div class="col-lg-4 mt-3 @error('target_year') has-error @enderror">
+                        <label for="target_year">{{ __('forms.target_year') }}:</label>
+                        <input id="target_year" type="number" name="target_year" class="form-control"
+                            placeholder="{{ __('forms.target_year') }}..." value="{{ $strategy->target_year }}"
+                            min="2000">
                     </div>
                 </div>
 
@@ -100,6 +132,12 @@
         $('#performances').summernote({
             placeholder: 'Actuaciones...',
             height: 200,
+        });
+
+        $("#increase").select2({
+            theme: 'bootstrap4',
+            placeholder: "Selecciona una opcion...",
+            allowClear: true
         });
     </script>
 

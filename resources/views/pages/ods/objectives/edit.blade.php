@@ -79,14 +79,14 @@
                     </div>
 
                     <div class="col-lg-4 mt-3 @error('base_year') has-error @enderror">
-                        <label for="base_year">{{ __('forms.base_year') }}(%):</label>
+                        <label for="base_year">{{ __('forms.base_year') }}:</label>
                         <input id="base_year" type="number" name="base_year" class="form-control"
                             placeholder="{{ __('forms.base_year') }}..." value="{{ $objective->base_year }}"
                             min="2000">
                     </div>
 
                     <div class="col-lg-4 mt-3 @error('target_year') has-error @enderror">
-                        <label for="target_year">{{ __('forms.target_year') }}(%):</label>
+                        <label for="target_year">{{ __('forms.target_year') }}:</label>
                         <input id="target_year" type="number" name="target_year" class="form-control"
                             placeholder="{{ __('forms.target_year') }}..." value="{{ $objective->target_year }}"
                             min="2000">
@@ -95,6 +95,12 @@
                 </div>
 
                 <div class="text-right">
+                    @can('store Ods')
+                        <button type="submit" class="btn  btn-white" name="strategy" value="strategy">
+                            {{ __('forms.strategy') }}
+                        </button>
+                    @endcan
+
                     <button type="submit" class="btn btn-primary">
                         {{ __('forms.edit') }}
                     </button>

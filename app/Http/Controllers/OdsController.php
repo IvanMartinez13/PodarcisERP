@@ -54,6 +54,9 @@ class OdsController extends Controller
         $objective = new Objective($data);
         $objective->save();
         //3) RETURN REDIRECT
+        if ($request->strategy) {
+            return redirect(route('ods.strategy.create', $objective->token))->with('message', 'Objetivo creado.')->with('status', 'success');
+        }
         return redirect(route('ods.index'))->with('message', 'Objetivo creado.')->with('status', 'success');
     }
 
@@ -79,7 +82,12 @@ class OdsController extends Controller
         ];
         //2) UPDATE DATA
         $objective = Objective::where('token', $request->token)->update($data);
+        $objective = Objective::where('token', $request->token)->first();
         //3) RETURN REDIRECT
+        if ($request->strategy) {
+            return redirect(route('ods.strategy.index', $objective->token))->with('message', 'Objetivo editado.')->with('status', 'success');
+        }
+
         return redirect(route('ods.index'))->with('message', 'Objetivo editado.')->with('status', 'success');
     }
 
@@ -299,6 +307,10 @@ class OdsController extends Controller
             "indicator" => $request->indicator,
             "description" => $request->description,
             "performances" => $request->performances,
+            "increase" => $request->increase,
+            "target" => $request->target,
+            "base_year" => $request->base_year,
+            "target_year" => $request->target_year,
             "token" => md5($request->title . '+' . date('Y')),
             "objective_id" => $objective->id
         ];
@@ -331,6 +343,10 @@ class OdsController extends Controller
             "indicator" => $request->indicator,
             "description" => $request->description,
             "performances" => $request->performances,
+            "increase" => $request->increase,
+            "target" => $request->target,
+            "base_year" => $request->base_year,
+            "target_year" => $request->target_year,
         ];
 
         $strategy = Strategy::where('token', $request->token)->update($data);
@@ -343,4 +359,60 @@ class OdsController extends Controller
     /*======================================
     |           END STRATEGY               |
     ======================================*/
+
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $customer_id = $user->customer->id;
+
+        $objectives = Objective::where('customer_id', $customer_id)->get();
+
+        $response = [
+            "user" => $user,
+            "objectives" => $objectives,
+        ];
+
+        return response()->json($response);
+    }
+
+    public function objective_evolution(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+
+        $strategies = Strategy::where("objective_id", $objective->id)->get();
+
+        $strategies_id = $strategies->pluck('id');
+
+        $evaluations = Evaluation::whereIn('strategy_id', $strategies_id)->get();
+
+        $years = $evaluations->unique('year')->pluck('year');
+
+        $evaluations_array = [];
+
+        //año
+        foreach ($years as $year) {
+            //evaluaciones
+            foreach ($evaluations as $evaluation) {
+                if ($year == $evaluation->year) {
+
+                    if (!isset($evaluations_array[$year][0])) {
+
+                        $evaluations_array[$year] = [];
+                    }
+
+                    array_push($evaluations_array[$year], $evaluation);
+                }
+            }
+        }
+
+
+        //RETURN DATA
+
+        $response = [
+            "evaluations" => $evaluations_array,
+            "years" => $years
+        ];
+
+        return response()->json($response);
+    }
 }
