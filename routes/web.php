@@ -130,7 +130,8 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::post('/project/task/get_subtask', [TaskController::class, 'get_subtask'])->name('tasks.project.task.get_subtask');
     Route::post('/project/task/subtask/changeState', [TaskController::class, 'changeState'])->name('tasks.project.task.changeState');
     Route::post('/project/task/update_subtask', [TaskController::class, 'update_subtask'])->name('tasks.project.update_subtask');
-
+    Route::post('/project/task/addFiles', [TaskController::class, 'addFiles'])->name('tasks.project.addFiles');
+    Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
     
 });
 

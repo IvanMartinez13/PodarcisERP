@@ -363,7 +363,7 @@ class OdsController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $customer_id = $user->customer->id;
+        $customer_id = $user->customer_id;
 
         $objectives = Objective::where('customer_id', $customer_id)->get();
 

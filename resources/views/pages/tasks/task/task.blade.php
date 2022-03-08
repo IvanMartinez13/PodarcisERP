@@ -203,13 +203,13 @@
                              {{-- TAB FILES --}}
                              <div role="tabpanel" id="files" class="tab-pane">
                                 <div class="panel-body">
-                                    <form action="{{url('/')}}" method="POST" class="dropzone  mb-5" id="add-files">
+                                    <form action="{{route('tasks.project.addFiles')}}" method="POST" class="dropzone  mb-5" id="add-files">
                                         @csrf
 
                                         <input name="token" type="hidden" value="{{$task->token}}">
 
                                         <div class="dz-message" style="height:200px;">
-                                            Arrastra aqui tus documentos.
+                                            {{__('forms.files')}}
                                         </div>
 
                                         <div class="dropzone-previews"></div>
@@ -223,6 +223,39 @@
                                                 <th>{{__('columns.actions')}}</th>
                                             </tr>
                                         </thead>
+
+                                        <tbody id="files_list">
+                                            @foreach ($tasks_files as $file)
+                                                <tr>
+                                                    <td class="align-middle">
+                                                        {{$file->name}}
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <div class="btn-group-vertical">
+
+                                                            @can('update Tareas')
+                                                                <button class="btn btn-link" data-toggle="modal" data-target="#updateFile_{{$file->token}}">
+                                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </button>
+                                                            @endcan
+
+
+                                                            <a class="btn btn-link" target="_BLANK" href="{{url('/storage').$file->path}}">
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                                            </a>
+
+                                                            @can('delete Tareas')
+                                                                <button class="btn btn-link">
+                                                                    <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                                                </button>
+                                                            @endcan
+ 
+                                                            
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -253,6 +286,51 @@
 
         </div>
     </div>
+
+    @foreach ($tasks_files as $file)
+    
+        <div class="modal fade" id="updateFile_{{$file->token}}" tabindex="-1" aria-labelledby="updateFile_{{$file->token}}Label" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-primary">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateFile_{{$file->token}}Label">{{__('forms.update')}} {{__('modules.files')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('tasks.file.update')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('put')
+
+                    <input name="token" type="hidden" value="{{$file->token}}">
+                    <div class="modal-body bg-white text-dark">
+                        <div class="form-group">
+                          <label for="name_{{$file->token}}">{{__('forms.name')}}:</label>
+                          <input type="text" name="name" id="name_{{$file->token}}" class="form-control" placeholder="{{__('forms.name')}}..." value="{{$file->name}}">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="name_{{$file->token}}">{{__('forms.fileLabel')}}:</label>
+                            <div class="custom-file">
+                                <input id="file{{$file->token}}" name="file" type="file" class="custom-file-input">
+                                <label for="file{{$file->token}}" class="custom-file-label">{{__('forms.file')}}</label>
+                            </div> 
+                        </div>
+    
+                    </div>
+
+                    <div class="modal-footer bg-white text-dark">
+                   
+                        <button type="submit" class="btn btn-primary">{{__('forms.update')}}</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('forms.close')}}</button>
+                    </div>
+                </form>
+
+
+            </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @push('scripts')
@@ -265,8 +343,11 @@
             $('#comment').summernote({
                 placeholder: "{{ __('forms.comment') }}...",
                 height: 100
-            })
+            });
+
+            bsCustomFileInput.init();
         });
+        
 
         Dropzone.options.addFiles = {
             autoProcessQueue: true,
@@ -275,7 +356,6 @@
             maxFiles: 100,
 
             init: function() {
-                var submitBtn = document.querySelector("#submit");
 
                 myDropzone = this;
 
@@ -296,12 +376,29 @@
 
                 this.on("complete", function(file) {
                     myDropzone.removeFile(file);
-                    console.log('hola')
+                    
                 });
 
                 this.on("success", (file, response) => {
                     toastr.success(response.message)
                     myDropzone.processQueue.bind(myDropzone)
+                    //ADD ROW TO TABLE
+                    console.log(response.task_file)
+                    $('#files_list').append(
+                        `<tr>
+                            <td class="align-middle">
+                                ${response.name}
+                            </td>
+                            <td class="align-middle text-center">
+                                <div class="btn-group-vertical">
+                                    <button class="btn btn-link">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                         </tr>`
+                    )
                 });
             }
         }

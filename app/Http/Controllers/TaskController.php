@@ -9,10 +9,10 @@ use App\Models\Comment;
 use App\Models\Departament;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\Task_file;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Ui\Presets\Vue;
 
 class TaskController extends Controller
 {
@@ -206,6 +206,8 @@ class TaskController extends Controller
         $task = Task::where('token', $token_task)->with('departaments')->first();
         $sub_tasks = Task::where('task_id', $task->id)->get();
         $comments = Comment::where('task_id', $task->id)->with('user')->orderBy('created_at', 'DESC')->get();
+        $tasks_files = Task_file::where('task_id', $task->id)->get();
+        
         $done = 0;
 
         foreach ($sub_tasks as $key => $sub_task) {
@@ -221,7 +223,7 @@ class TaskController extends Controller
         
         
         //RETURN VIEW WITH DATA
-        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments', 'progress'));
+        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments', 'progress', 'tasks_files'));
     }
 
     public function task_comment(Request $request)
@@ -408,5 +410,102 @@ class TaskController extends Controller
         $task = Task::where('token', $request->task)->update($data);
 
         return response()->json(["status" => "success", "message" => "Subtarea Editada."]);
+    }
+
+    public function addFiles(Request $request)
+    {
+        //1) GET DATA
+        $customer_id = Auth::user()->customer_id;
+        $task = Task::where('token', $request->token)->first();
+        $files = $request->file('file');
+        
+        foreach($files as $file){
+
+            $filename = $file->getClientOriginalName();
+
+            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+
+            $token = md5($filename.'+'.date('d/m/Y H:i:s'));
+
+            $ext = '.'.$file->guessExtension();
+
+            if (!is_dir(storage_path('app/public').$folder)) {
+                
+                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            }
+
+            $data = [
+                "name" => $filename,
+                "task_id" => $task->id,
+                "token" => $token,
+                "path" => $folder.'/'.$token.$ext
+            ];
+
+            //2) STORE DATA
+            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+            $task_file = new Task_file($data);
+            $task_file->save();
+            
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Documentos guardados.', 'task_file' => $task_file]);
+    }
+
+    public function updateFiles(Request $request)
+    {
+        //1) GET DATA
+        $token = $request->token;
+        $task_file = Task_file::where('token', $token)->first();
+        $task = Task::where('id', $task_file->task_id)->first();
+        $customer_id = Auth::user()->customer_id;
+
+        $data = ['name' => $request->name];
+
+        //2) VALIDATE DATA
+        $rules = [
+            'name' => ['string', 'required', 'max:255'],
+            'token' => ['string', 'required', 'max:255'],
+            'file' => ['file', 'nullable']
+        ];
+
+        $attributes = [
+            'name' => 'Nombre',
+            'token' => 'Token',
+            'file' => 'Documento'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, [], $attributes);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        //3) UPDATE DATA
+        $file = $request->file('file');
+
+        if ($file != null) {
+            //change file
+            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+
+            if (!is_dir(storage_path('app/public').$folder)) {
+                
+                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            }
+
+            $ext = '.'.$file->guessExtension();
+
+            $data["path"] = $folder.'/'.$token.$ext;
+
+            if (is_file(storage_path('app/public').$task_file->path)) {
+                unlink(storage_path('app/public').$task_file->path);
+            }
+
+            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+        }
+
+        $task_file = Task_file::where('token', $token)->update($data);
+
+        //4) RETURN REDIRECT
+        return redirect()->back()->with('status', 'success')->with('message', 'Documento editado.');
     }
 }
