@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\UserMailable;
 use App\Models\Branch;
 use App\Models\Departament;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -52,7 +53,7 @@ class UserController extends Controller
     {
         //1) GET DATA
 
-        $customer = Auth::user()->customer->id;
+        $customer = Auth::user()->customer;
 
         $data = [
             'name' => $request->name,
@@ -84,6 +85,10 @@ class UserController extends Controller
         $user->syncPermissions($permissions);
         $user->branches()->sync($branches);
         $user->departaments()->sync($departaments);
+        
+        //SEND MAIL
+        $mail = new UserMailable($user, $request->password);
+        Mail::to($user->email)->send($mail);
 
         //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario creado.')->with('status', 'success');
@@ -178,6 +183,15 @@ class UserController extends Controller
         $user->syncPermissions($permissions);
         $user->branches()->sync($branches);
         $user->departaments()->sync($departaments);
+
+        //SEND MAIL
+        if ($request->password != null) {
+            $mail = new UserMailable($user, $request->password);
+        }else{
+            $mail = new UserMailable($user, null);
+        }
+        
+        Mail::to($user->email)->send($mail);
 
         //3) RETURN REDIRECT
         return redirect(route('users.index'))->with('message', 'Usuario editado.')->with('status', 'success');

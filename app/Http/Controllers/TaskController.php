@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Mail\CommentTaskMailable;
+use App\Mail\SubtaskChangeMailable;
 use App\Models\Branch;
 use App\Models\Comment;
 use App\Models\Departament;
@@ -12,6 +14,7 @@ use App\Models\Task;
 use App\Models\Task_file;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
@@ -229,7 +232,9 @@ class TaskController extends Controller
     public function task_comment(Request $request)
     {
         //1) GET DATA
-        $task = Task::where('token', $request->token)->first();
+        $task = Task::where('token', $request->token)->with('departaments')->first();
+        $project = Project::where('id', $task->project_id)->first();
+        
 
         $data = [
             "comment" => $request->comment,
@@ -259,6 +264,35 @@ class TaskController extends Controller
         $comment = new Comment($data);
         $comment->save();
 
+        //SEND MAIL
+        $mail = new CommentTaskMailable($task, $project,  Auth::user(), $comment);
+
+        $departamentsId = [$task->departaments->pluck('id')];
+        $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
+        $emails =  [];
+
+        foreach($departaments as $departament){
+            $users = $departament->users;
+
+            $users = $users->pluck('email');
+            foreach($users as $user_email)
+            {
+                if (!array_search($user_email, $emails)) {
+                    
+                    array_push($emails, $user_email);
+                }
+            }
+
+        }
+
+        foreach ($emails as $key => $email) {
+
+            if ($email != Auth::user()->email) {
+                Mail::to($email)->send($mail);
+            }
+            
+        }
+        
         //4) RETURN REDIRECT
         return redirect()->back()->with('status', 'success')->with('message', 'Tarea comentada.');
     }
@@ -341,6 +375,8 @@ class TaskController extends Controller
 
             $subtasks = Task::where('task_id', $parent_task->id)->get();
 
+            $project = Project::where('id', $parent_task->project_id)->first();
+
             $done = 0;
 
             foreach ($subtasks as $key => $sub_task) {
@@ -352,6 +388,34 @@ class TaskController extends Controller
                 $progress = ($done/count($subtasks)) * 100;
             }else{
                 $progress = 0;
+            }
+
+            $mail = new SubtaskChangeMailable($parent_task, $project,  Auth::user(), $task, false);
+
+            $departamentsId = [$task->departaments->pluck('id')];
+            $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
+            $emails =  [];
+
+            foreach($departaments as $departament){
+                $users = $departament->users;
+
+                $users = $users->pluck('email');
+                foreach($users as $user_email)
+                {
+                    if (!array_search($user_email, $emails)) {
+                        
+                        array_push($emails, $user_email);
+                    }
+                }
+
+            }
+
+            foreach ($emails as $key => $email) {
+
+                if ($email != Auth::user()->email) {
+                    Mail::to($email)->send($mail);
+                }
+                
             }
 
 
@@ -365,6 +429,8 @@ class TaskController extends Controller
 
             $subtasks = Task::where('task_id', $parent_task->id)->get();
 
+            $project = Project::where('id', $parent_task->project_id)->first();
+
             $done = 0;
 
             foreach ($subtasks as $key => $sub_task) {
@@ -377,6 +443,34 @@ class TaskController extends Controller
                 $progress = ($done/count($subtasks)) * 100;
             }else{
                 $progress = 0;
+            }
+
+            $mail = new SubtaskChangeMailable($parent_task, $project,  Auth::user(), $task, true);
+
+            $departamentsId = [$task->departaments->pluck('id')];
+            $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
+            $emails =  [];
+
+            foreach($departaments as $departament){
+                $users = $departament->users;
+
+                $users = $users->pluck('email');
+                foreach($users as $user_email)
+                {
+                    if (!array_search($user_email, $emails)) {
+                        
+                        array_push($emails, $user_email);
+                    }
+                }
+
+            }
+
+            foreach ($emails as $key => $email) {
+
+                if ($email != Auth::user()->email) {
+                    Mail::to($email)->send($mail);
+                }
+                
             }
 
             return response()->json(["status" => "error", "message" => "Se ha abierto una tarea.", "progress" => $progress]);
