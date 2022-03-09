@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-2 text-right">
-            <a href="{{ route('dashboard') }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
+            <a href="{{ route('tasks.index') }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
         </div>
 
     </div>

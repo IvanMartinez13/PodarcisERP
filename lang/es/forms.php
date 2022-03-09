@@ -20,6 +20,7 @@ return [
     'send' => 'Enviar',
     'save_strategy' => 'Guardar y crear estrategias',
     'strategy' => 'Guardar y visualizar estrategias',
+    'close' => 'Cerrar',
 
     //LABELS
     'name' => 'Nombre',
@@ -53,6 +54,9 @@ return [
     'image' => 'Imagen',
     'color' => 'Color',
     'comment' => 'Comentario',
+    'fileLabel' => 'Documento',
+    'file' => 'Elige un documento...',
+    'files' => 'Arrastra aquí tus documentos...',
 
     //PERMISSIONS
     'store' => 'Crear',

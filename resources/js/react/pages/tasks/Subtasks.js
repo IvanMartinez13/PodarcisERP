@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import  ReactDOM  from "react-dom";
 import Create_subtask from "./components/Create_subtask";
+import Edit_subtask from "./components/Edit_subtask";
 
 class Subtasks extends React.Component{
 
@@ -72,7 +73,23 @@ class Subtasks extends React.Component{
                                             <td className="align-middle" dangerouslySetInnerHTML={{
                                                 __html: subtask.description
                                             }}></td>
-                                            <td className="align-middle"></td>
+                                            <td className="align-middle text-center">
+
+                                                <div className="btn-group-vertical">
+                                                    <button className="btn btn-link"
+                                                            onClick={() => {
+                                                                $('#editModalSubtask'+subtask.token).modal('show');
+                                                            }}
+                                                    >
+                                                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                                                    </button>
+
+                                                    <button className="btn btn-link">
+                                                        <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+
+                                            </td>
                                         </tr>
                                     );
                                 } )
@@ -85,6 +102,14 @@ class Subtasks extends React.Component{
                 </div>
 
                 <Create_subtask task={this.task} setLoading={this.setLoading} setSaving={this.setSaving}></Create_subtask>
+
+                {
+                    this.subtasks.map( (subtask, index) => {
+                        return(
+                            <Edit_subtask key={"updateSubtask_"+subtask.token} task={this.task} setLoading={this.setLoading} setSaving={this.setSaving} id={subtask.token} subtask={subtask}></Edit_subtask>
+                        );
+                    })
+                }
             </div>
 
             
@@ -142,9 +167,36 @@ class Subtasks extends React.Component{
     
                 this.setState({loading: false, save: false});
             } ).then( () =>{
+
                 $('.i-checks').iCheck({
                     checkboxClass: 'icheckbox_square-green',
                     radioClass: 'iradio_square-green',
+                });
+    
+                const handleFinishTask = (data) => {
+                    this.finishTask(data)
+                } 
+    
+                $('.i-checks').on('ifChecked', function(event){
+                    let task = event.target.value;
+                    
+                    let data = {
+                        task: task,
+                        value: true,
+                    }
+    
+                    handleFinishTask(data);
+                    
+                });
+                $('.i-checks').on('ifUnchecked', function(event){
+                    let task = event.target.value;
+                                    
+                    let data = {
+                        task: task,
+                        value: false,
+                    }
+    
+                    handleFinishTask(data);
                 });
             } )
         }
@@ -164,6 +216,9 @@ class Subtasks extends React.Component{
 
             console.log(response)
             toastr.success(response.data.message);
+
+            $('#progress').css({'width': response.data.progress+"%"})
+            $('#progress_text').text(response.data.progress+"%")
             
         } );
     }

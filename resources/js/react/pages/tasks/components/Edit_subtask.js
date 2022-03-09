@@ -1,14 +1,16 @@
 import axios from "axios";
 import React from "react";
 
-class Create_subtask extends React.Component{
+class Edit_subtask extends React.Component{
 
     constructor(props){
         super(props);
         
-        this.name = '';
-        this.description = '';
+        this.id = this.props.id;
+        this.name = this.props.subtask.name;
+        this.description = this.props.subtask.description;
         this.task = this.props.task;
+        this.subtask = this.props.subtask;
 
         this.setLoading = (data) => {
             this.props.setLoading(data);
@@ -23,17 +25,17 @@ class Create_subtask extends React.Component{
 
     render(){
         return(
-            <div className="modal fade" id="modalSubtask" tabIndex="-1" role="dialog" aria-labelledby="modalSubtaskLabel" aria-hidden="true">
+            <div className="modal fade" id={"editModalSubtask"+this.id} tabIndex="-1" role="dialog" aria-labelledby={"editModalSubtaskLabel"+this.id} aria-hidden="true">
                 <div className="modal-dialog modal-xl" role="document">
                     <div className="modal-content bg-primary">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="modalSubtaskLabel">Añadir subtarea</h5>
+                            <h5 className="modal-title" id={"editModalSubtaskLabel"+this.id}>Editar subtarea</h5>
                             <button
                                 type="button"
                                 className="close"
                                 aria-label="Close"
                                 onClick={() => {
-                                    $('#modalSubtask').modal('hide');
+                                    $('#editModalSubtask'+this.id).modal('hide');
                                 }}
                             >
                                 <span aria-hidden="true">&times;</span>
@@ -42,23 +44,25 @@ class Create_subtask extends React.Component{
                         <div className="modal-body bg-white text-dark">
                             <div className="row">
                                 <div className="col-lg-12 my-3">
-                                    <label htmlFor="name">Nombre:</label>
+                                    <label htmlFor={"name"+this.id}>Nombre:</label>
                                     <input
-                                        id="name"
+                                        id={"name"+this.id}
                                         className="form-control"
                                         name="name"
                                         placeholder="Nombre..."
+                                        defaultValue={this.subtask.name}
                                     ></input>
                                 </div>
 
                                 <div className="col-lg-12 my-3">
-                                    <label htmlFor="description">Descripción:</label>
+                                    <label htmlFor={"description"+this.id}>Descripción:</label>
                                     <textarea
-                                        id="description"
+                                        id={"description"+this.id}
                                         className="form-control"
                                         name="description"
                                         placeholder="Descripción..."
                                         rows={5}
+                                        defaultValue={this.subtask.description}
                                     ></textarea>
                                 </div>
                             </div>
@@ -70,12 +74,12 @@ class Create_subtask extends React.Component{
                                 onClick={() => {
                                     this.save();
                                 }}
-                            >Crear</button>
+                            >Editar</button>
                             <button
                                 type="button"
                                 className="btn btn-secondary"
                                 onClick={() => {
-                                    $('#modalSubtask').modal('hide');
+                                    $('#editModalSubtask'+this.id).modal('hide');
                                 }}
                             >Cerrar</button>
                             
@@ -88,7 +92,7 @@ class Create_subtask extends React.Component{
 
     componentDidMount(){
         
-        $('#description').summernote({
+        $('#description'+this.id).summernote({
             placeholder: "Descripción...",
             height: 200
         });
@@ -97,13 +101,13 @@ class Create_subtask extends React.Component{
             this.prepareData(key, value);
         }
 
-        $("#name").on("input", function(e){
+        $("#name"+this.id).on("input", function(e){
             let value = e.target.value;
 
             handlePrepareValue("name", value);
         })
 
-        $("#description").on("summernote.change", function (e) {   // callback as jquery custom event 
+        $("#description"+this.id).on("summernote.change", function (e) {   // callback as jquery custom event 
             let value = e.target.value;
 
             handlePrepareValue("description", value);
@@ -129,7 +133,7 @@ class Create_subtask extends React.Component{
         let data = {
             name: this.name,
             description: this.description,
-            task: this.task,
+            task: this.subtask.token,
         }
 
         //VALIDATE DATA
@@ -147,22 +151,19 @@ class Create_subtask extends React.Component{
         }
 
         if (!has_errors) {
-            axios.post('/tasks/project/task/add_subtask', data).then( (response) => {
+            axios.post('/tasks/project/task/update_subtask', data).then( (response) => {
                 if (response.data.status  == 'success') {
                     toastr.success(response.data.message);
 
                     //CLOSE MODAL
-                    $('#modalSubtask').modal('hide');
+                    $('#editModalSubtask'+this.id).modal('hide');
                     
                     this.description = '';
                     this.name = '';
 
-                    $('#name').val(null);
-                    $('#description').val(null);
-                    $('#description').summernote('reset');
-
-                    $('#progress').css({'width': response.data.progress+"%"})
-                    $('#progress_text').text(response.data.progress+"%")
+                    $('#name'+this.id).val(null);
+                    $('#description'+this.id).val(null);
+                    $('#description'+this.id).summernote('reset');
 
                     //UPLOAD PARENT
                     this.setLoading(true);
@@ -180,4 +181,4 @@ class Create_subtask extends React.Component{
     }
 }
 
-export default Create_subtask;
+export default Edit_subtask;

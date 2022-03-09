@@ -9,10 +9,10 @@ use App\Models\Comment;
 use App\Models\Departament;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\Task_file;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Ui\Presets\Vue;
 
 class TaskController extends Controller
 {
@@ -118,7 +118,30 @@ class TaskController extends Controller
     {
         $project = Project::where('token', $token)->first();
 
-        $tasks = Task::where('project_id', $project->id)->get();
+        $tasks = Task::where('project_id', $project->id)->where('task_id', null)->get();
+
+        foreach($tasks as $key => $task){
+
+            $subtasks = Task::where('task_id', $task->id)->get();
+
+            $done = 0;
+    
+            foreach ($subtasks as $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+            $tasks[$key]['progress'] = $progress; 
+        }
+
+
 
         return view('pages.tasks.task.index', compact('project', 'tasks'));
     }
@@ -183,8 +206,24 @@ class TaskController extends Controller
         $task = Task::where('token', $token_task)->with('departaments')->first();
         $sub_tasks = Task::where('task_id', $task->id)->get();
         $comments = Comment::where('task_id', $task->id)->with('user')->orderBy('created_at', 'DESC')->get();
+        $tasks_files = Task_file::where('task_id', $task->id)->get();
+        
+        $done = 0;
+
+        foreach ($sub_tasks as $key => $sub_task) {
+            if ($sub_task->is_done == 1) {
+                $done += 1;
+            }
+        }
+        if (count($sub_tasks) > 0) {
+            $progress = ($done/count($sub_tasks)) * 100;
+        }else{
+            $progress = 0;
+        }
+        
+        
         //RETURN VIEW WITH DATA
-        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments'));
+        return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments', 'progress', 'tasks_files'));
     }
 
     public function task_comment(Request $request)
@@ -259,8 +298,24 @@ class TaskController extends Controller
 
         $subtask->departaments()->sync($departaments);
 
+
+        $subtasks = Task::where('task_id', $task->id)->get();
+
+        $done = 0;
+
+        foreach ($subtasks as $key => $sub_task) {
+            if ($sub_task->is_done == 1) {
+                $done += 1;
+            }
+        }
+        if (count($subtasks) > 0) {
+            $progress = ($done/count($subtasks)) * 100;
+        }else{
+            $progress = 0;
+        }
+
         //4) RETURN RESPONSE
-        return response()->json(["status" => "success", "message" => "Subtarea Creada."]);
+        return response()->json(["status" => "success", "message" => "Subtarea Creada.", "progress" => $progress]);
     }
 
     public function get_subtask(Request $request)
@@ -280,12 +335,178 @@ class TaskController extends Controller
         if ($request->value) {
 
             $task = Task::where('token', $request->task)->update(['is_done' => 1]);
+            $task = Task::where('token', $request->task)->first();
 
-            return response()->json(["status" => "status", "message" => "Se finalizado una tarea."]);
+            $parent_task = Task::where('id', $task->task_id)->first();
+
+            $subtasks = Task::where('task_id', $parent_task->id)->get();
+
+            $done = 0;
+
+            foreach ($subtasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+
+            return response()->json(["status" => "status", "message" => "Se finalizado una tarea.", "progress" => $progress]);
         } else {
             $task = Task::where('token', $request->task)->update(['is_done' => 0]);
 
-            return response()->json(["status" => "error", "message" => "Se ha abierto una tarea."]);
+            $task = Task::where('token', $request->task)->first();
+
+            $parent_task = Task::where('id', $task->task_id)->first();
+
+            $subtasks = Task::where('task_id', $parent_task->id)->get();
+
+            $done = 0;
+
+            foreach ($subtasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+
+            if (count($subtasks) > 0) {
+                $progress = ($done/count($subtasks)) * 100;
+            }else{
+                $progress = 0;
+            }
+
+            return response()->json(["status" => "error", "message" => "Se ha abierto una tarea.", "progress" => $progress]);
         }
+
+        
+    }
+
+    public function update_subtask(Request $request)
+    {
+        
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+        ];
+
+        //2) VALIDATE DATA
+        $rules = [
+            "name" => ["string", "required"],
+            "description" => ["string", "required"],
+            "task" => ["string", "required"],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(["status" => "error", "message" => "se ha producido un error."]);
+        }
+
+        $task = Task::where('token', $request->task)->update($data);
+
+        return response()->json(["status" => "success", "message" => "Subtarea Editada."]);
+    }
+
+    public function addFiles(Request $request)
+    {
+        //1) GET DATA
+        $customer_id = Auth::user()->customer_id;
+        $task = Task::where('token', $request->token)->first();
+        $files = $request->file('file');
+        $task_files = [];
+        
+        foreach($files as $file){
+
+            $filename = $file->getClientOriginalName();
+
+            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+
+            $token = md5($filename.'+'.date('d/m/Y H:i:s'));
+
+            $ext = '.'.$file->guessExtension();
+
+            if (!is_dir(storage_path('app/public').$folder)) {
+                
+                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            }
+
+            $data = [
+                "name" => $filename,
+                "task_id" => $task->id,
+                "token" => $token,
+                "path" => $folder.'/'.$token.$ext
+            ];
+
+            //2) STORE DATA
+            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+            $task_file = new Task_file($data);
+            $task_file->save();
+            array_push($task_files, $task_file);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Documentos guardados.', 'task_files' => $task_files]);
+    }
+
+    public function updateFiles(Request $request)
+    {
+        //1) GET DATA
+        $token = $request->token;
+        $task_file = Task_file::where('token', $token)->first();
+        $task = Task::where('id', $task_file->task_id)->first();
+        $customer_id = Auth::user()->customer_id;
+
+        $data = ['name' => $request->name];
+
+        //2) VALIDATE DATA
+        $rules = [
+            'name' => ['string', 'required', 'max:255'],
+            'token' => ['string', 'required', 'max:255'],
+            'file' => ['file', 'nullable']
+        ];
+
+        $attributes = [
+            'name' => 'Nombre',
+            'token' => 'Token',
+            'file' => 'Documento'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, [], $attributes);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        //3) UPDATE DATA
+        $file = $request->file('file');
+
+        if ($file != null) {
+            //change file
+            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+
+            if (!is_dir(storage_path('app/public').$folder)) {
+                
+                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            }
+
+            $ext = '.'.$file->guessExtension();
+
+            $data["path"] = $folder.'/'.$token.$ext;
+
+            if (is_file(storage_path('app/public').$task_file->path)) {
+                unlink(storage_path('app/public').$task_file->path);
+            }
+
+            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+        }
+
+        $task_file = Task_file::where('token', $token)->update($data);
+
+        //4) RETURN REDIRECT
+        return redirect()->back()->with('status', 'success')->with('message', 'Documento editado.');
     }
 }
