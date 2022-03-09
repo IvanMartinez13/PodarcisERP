@@ -418,6 +418,7 @@ class TaskController extends Controller
         $customer_id = Auth::user()->customer_id;
         $task = Task::where('token', $request->token)->first();
         $files = $request->file('file');
+        $task_files = [];
         
         foreach($files as $file){
 
@@ -445,10 +446,10 @@ class TaskController extends Controller
             move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
             $task_file = new Task_file($data);
             $task_file->save();
-            
+            array_push($task_files, $task_file);
         }
 
-        return response()->json(['status' => 'success', 'message' => 'Documentos guardados.', 'task_file' => $task_file]);
+        return response()->json(['status' => 'success', 'message' => 'Documentos guardados.', 'task_files' => $task_files]);
     }
 
     public function updateFiles(Request $request)

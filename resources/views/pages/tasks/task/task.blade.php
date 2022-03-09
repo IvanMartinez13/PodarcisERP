@@ -379,26 +379,86 @@
                     
                 });
 
-                this.on("success", (file, response) => {
+                this.on("successmultiple", (file, response) => {
                     toastr.success(response.message)
                     myDropzone.processQueue.bind(myDropzone)
                     //ADD ROW TO TABLE
-                    console.log(response.task_file)
-                    $('#files_list').append(
+                    response.task_files.map( (task_file) => {
+                        $('#files_list').append(
                         `<tr>
                             <td class="align-middle">
-                                ${response.name}
+                                ${task_file.name}
                             </td>
                             <td class="align-middle text-center">
                                 <div class="btn-group-vertical">
-                                    <button class="btn btn-link">
+
+                                    
+                                    <button class="btn btn-link" data-toggle="modal" data-target="#updateFile_${task_file.token}">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
+
+                                    <a class="btn btn-link" target="_BLANK" href="/storage/${task_file.path}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+
+                                    <button class="btn btn-link">
+                                        <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                    </button>
+
                                     
                                 </div>
                             </td>
                          </tr>`
-                    )
+                    );
+
+                    $('body').append(
+                        `
+                        <div class="modal fade" id="updateFile_${task_file.token}" tabindex="-1" aria-labelledby="updateFile_${task_file.token}Label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                            <div class="modal-content bg-primary">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="updateFile_${task_file.token}Label">{{__('forms.update')}} {{__('modules.files')}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="/tasks/project/task/file/update" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('put')
+
+                                    <input name="token" type="hidden" value="${task_file.token}">
+                                    <div class="modal-body bg-white text-dark">
+                                        <div class="form-group">
+                                        <label for="name_${task_file.token}">{{__('forms.name')}}:</label>
+                                        <input type="text" name="name" id="name_${task_file.token}" class="form-control" placeholder="{{__('forms.name')}}..." value="${task_file.name}">
+                                        </div>
+                    
+                                        <div class="form-group">
+                                            <label for="name_${task_file.token}">{{__('forms.fileLabel')}}:</label>
+                                            <div class="custom-file">
+                                                <input id="file${task_file.token}" name="file" type="file" class="custom-file-input">
+                                                <label for="file${task_file.token}" class="custom-file-label">{{__('forms.file')}}</label>
+                                            </div> 
+                                        </div>
+                    
+                                    </div>
+
+                                    <div class="modal-footer bg-white text-dark">
+                                
+                                        <button type="submit" class="btn btn-primary">{{__('forms.update')}}</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('forms.close')}}</button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                            </div>
+                        </div>
+                        `
+                    );
+                    } )
+                    
+
                 });
             }
         }
