@@ -17,7 +17,8 @@ use Spatie\Permission\Models\Permission;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
-
+use App\Mail\UserMailable;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -69,9 +70,11 @@ class CustomerController extends Controller
         //4) LINK USER AND CUSTOMER
         $customer = Customer::where('token', $customer_data['token'])->update(["user_id" => $user->id]);
 
-        $customer = Customer::where('token', $request->token)->first();
+        $customer = Customer::where('token', $customer_data['token'])->first();
         $customer->modules()->sync($request->modules);
-
+        
+        $mail = new UserMailable($user, $request->password);
+        Mail::to($user->email)->send($mail);
 
 
         return redirect(route('customers.index'))->with("status", "success")->with("message", "Cliente creado.");
