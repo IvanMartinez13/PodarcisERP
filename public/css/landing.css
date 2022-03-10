@@ -1,0 +1,139 @@
+.header{
+    margin-right: auto;
+    margin-left: auto;
+   
+}
+
+.bg-gray{
+    background-color: #f4f4f4;
+}
+
+.bg-charts{
+    background-image: url('/img/landing/charts.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.carousel{
+    height: 470px;
+    overflow: hidden;
+}
+
+.carousel-indicators {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+}
+
+.carousel-indicators > li {
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.text-header{
+    margin: 150px 20%;
+    font-size: 50px;
+    font-weight: bold;
+    width: 60%;
+}
+
+.zoom{
+    transition: 0.5s ease;
+}
+
+.zoom:hover{
+    transform: scale(1.1);
+}
+
+.card-caracteristicas{
+    border: 1px solid rgba(0,0,0,.1);
+   
+    padding: 5px;
+    transition: 0.5s ease;
+    overflow: hidden;
+}
+
+.card-caracteristicas > h5{
+    font-size: 30px;
+}
+
+.card-caracteristicas > .icon{
+    font-size: 50px;
+    margin: 10px auto;
+}
+
+
+
+.text-caracteristicas{
+    padding: 5px 30px;
+    text-align: justify;
+    transition: 0.5s linear;
+}
+
+
+.separador{
+    width: 20%!important;
+    border: 0;
+    border-top: 2px solid rgba(0,0,0,.1);
+    transition: 0.5s ease;
+}
+
+.card-caracteristicas:hover{
+    border: 1px solid #1AB394;
+}
+
+.card-caracteristicas:hover > .separador{
+    width: 50%!important;
+    margin: 5% auto;
+    border-top: 2px solid #1AB394;
+}
+
+.to-right{
+    width: 40%;
+    margin-left: 60%;
+    padding: 5% 5%;
+}
+
+@media (max-width: 700px ){
+    .text-header{
+        margin: 100px 0;
+        font-size: 45px;
+        font-weight: bold;
+        width: 100%;
+    }
+
+
+    .to-right{
+        width: 100%;
+        margin-left: 0%;
+        padding: 5% 5%;
+    }
+}
