@@ -17,7 +17,10 @@ class ObjectiveEvolution extends React.Component{
         this.dataSets = [];
         this.years = [];
         this.chart = {};
-        this.selectedObjective = this.objectives[0].token;
+        if (this.objectives.length > 0) {
+            this.selectedObjective = this.objectives[0].token;
+        }
+        
 
     }
 
@@ -78,94 +81,99 @@ class ObjectiveEvolution extends React.Component{
     }
 
     componentDidMount(){
-
-        let value = this.objectives[0].token;
-
-        axios.post('/ods/dashboard/objective/evolution', {token: value}).then( (response) => {
-
+        
+        if (this.objectives.length > 0) {
+            let value = this.objectives[0].token;
             
-            let evaluations =  response.data.evaluations;
-            let years = response.data.years;
-            let objective = response.data.objective;
-
-            var data = [];
-
-            years.map( (year) => {
-
-                let suma = 0;
-                evaluations[year].map( (evaluation) => {
-                    suma += Number(evaluation.value);
+            axios.post('/ods/dashboard/objective/evolution', {token: value}).then( (response) => {
+                
+            
+                let evaluations =  response.data.evaluations;
+                let years = response.data.years;
+                let objective = response.data.objective;
+    
+                var data = [];
+    
+                years.map( (year) => {
+    
+                    let suma = 0;
+                    evaluations[year].map( (evaluation) => {
+                        suma += Number(evaluation.value);
+                        
+                    } )
                     
+                    data.push(suma);
+    
                 } )
+    
+                this.dataSets = data;
+                this.years = years;
+    
                 
-                data.push(suma);
-
-            } )
-
-            this.dataSets = data;
-            this.years = years;
-
-            
-            this.setState({loading: false, update: false});
-            
-        }).then( () => {
-            let ctx = document.getElementById('objective_evolution').getContext('2d');
-
-            const config = {
-                type: 'line',
+                this.setState({loading: false, update: false});
                 
-                data:{
-                    labels: this.years,
-                    datasets: [{
-                        label: "Evolución",
-                        data: this.dataSets,
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                        backgroundColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
-                    }],
-                },
-
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: '',
+            }).then( () => {
+                let ctx = document.getElementById('objective_evolution').getContext('2d');
+    
+                const config = {
+                    type: 'line',
+                    
+                    data:{
+                        labels: this.years,
+                        datasets: [{
+                            label: "Evolución",
+                            data: this.dataSets,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }],
+                    },
+    
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: '',
+                            }
                         }
                     }
                 }
-            }
-
-            this.chart = new Chart(ctx, config);
-
-            //INIT SELECT2
-            $('#objective_selector').select2(
-                {
-                    placeholder: "Selecciona un objetivo",
-                    theme: "bootstrap4"
-                }
-            );
-            const handleChangeObjective = (value) => {
-                this.changeObjective(value);
-            }
-
-            //ON CHANGE
-            
-            $('#objective_selector').on('change', function(e){
-                
-                let value = e.target.value;
-               
-                handleChangeObjective(
-                    value
+    
+                this.chart = new Chart(ctx, config);
+    
+                //INIT SELECT2
+                $('#objective_selector').select2(
+                    {
+                        placeholder: "Selecciona un objetivo",
+                        theme: "bootstrap4"
+                    }
                 );
-
+                const handleChangeObjective = (value) => {
+                    this.changeObjective(value);
+                }
+    
+                //ON CHANGE
                 
-            });
-        } );
+                $('#objective_selector').on('change', function(e){
+                    
+                    let value = e.target.value;
+                   
+                    handleChangeObjective(
+                        value
+                    );
+    
+                    
+                });
+            } );
+        }
+        
+
+
 
         
 

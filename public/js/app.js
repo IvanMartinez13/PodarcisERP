@@ -6535,7 +6535,11 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
     _this.dataSets = [];
     _this.years = [];
     _this.chart = {};
-    _this.selectedObjective = _this.objectives[0].token;
+
+    if (_this.objectives.length > 0) {
+      _this.selectedObjective = _this.objectives[0].token;
+    }
+
     return _this;
   }
 
@@ -6602,73 +6606,75 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var value = this.objectives[0].token;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard/objective/evolution', {
-        token: value
-      }).then(function (response) {
-        var evaluations = response.data.evaluations;
-        var years = response.data.years;
-        var objective = response.data.objective;
-        var data = [];
-        years.map(function (year) {
-          var suma = 0;
-          evaluations[year].map(function (evaluation) {
-            suma += Number(evaluation.value);
+      if (this.objectives.length > 0) {
+        var value = this.objectives[0].token;
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard/objective/evolution', {
+          token: value
+        }).then(function (response) {
+          var evaluations = response.data.evaluations;
+          var years = response.data.years;
+          var objective = response.data.objective;
+          var data = [];
+          years.map(function (year) {
+            var suma = 0;
+            evaluations[year].map(function (evaluation) {
+              suma += Number(evaluation.value);
+            });
+            data.push(suma);
           });
-          data.push(suma);
-        });
-        _this2.dataSets = data;
-        _this2.years = years;
+          _this2.dataSets = data;
+          _this2.years = years;
 
-        _this2.setState({
-          loading: false,
-          update: false
-        });
-      }).then(function () {
-        var ctx = document.getElementById('objective_evolution').getContext('2d');
-        var config = {
-          type: 'line',
-          data: {
-            labels: _this2.years,
-            datasets: [{
-              label: "Evolución",
-              data: _this2.dataSets,
-              fill: false,
-              borderColor: 'rgb(75, 192, 192)',
-              backgroundColor: 'rgb(75, 192, 192)',
-              tension: 0.1
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'top'
-              },
-              title: {
-                display: true,
-                text: ''
+          _this2.setState({
+            loading: false,
+            update: false
+          });
+        }).then(function () {
+          var ctx = document.getElementById('objective_evolution').getContext('2d');
+          var config = {
+            type: 'line',
+            data: {
+              labels: _this2.years,
+              datasets: [{
+                label: "Evolución",
+                data: _this2.dataSets,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top'
+                },
+                title: {
+                  display: true,
+                  text: ''
+                }
               }
             }
-          }
-        };
-        _this2.chart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, config); //INIT SELECT2
+          };
+          _this2.chart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, config); //INIT SELECT2
 
-        $('#objective_selector').select2({
-          placeholder: "Selecciona un objetivo",
-          theme: "bootstrap4"
+          $('#objective_selector').select2({
+            placeholder: "Selecciona un objetivo",
+            theme: "bootstrap4"
+          });
+
+          var handleChangeObjective = function handleChangeObjective(value) {
+            _this2.changeObjective(value);
+          }; //ON CHANGE
+
+
+          $('#objective_selector').on('change', function (e) {
+            var value = e.target.value;
+            handleChangeObjective(value);
+          });
         });
-
-        var handleChangeObjective = function handleChangeObjective(value) {
-          _this2.changeObjective(value);
-        }; //ON CHANGE
-
-
-        $('#objective_selector').on('change', function (e) {
-          var value = e.target.value;
-          handleChangeObjective(value);
-        });
-      });
+      }
     }
   }, {
     key: "componentDidUpdate",

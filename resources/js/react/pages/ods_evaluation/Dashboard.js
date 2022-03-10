@@ -35,7 +35,7 @@ class DashboardOds extends React.Component{
             <div>
                 <div className="row">
                     <div className="col-lg-4">
-
+                        
                         <ObjectiveEvolution objectives={this.objectives}></ObjectiveEvolution>
                         
                     </div>
