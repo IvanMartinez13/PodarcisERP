@@ -112,6 +112,26 @@
     
             </div>
 
+                        {{--CHARTS--}}
+
+                        <div class="container-fluid bg-charts">
+                            <div class="to-right">
+            
+                                <div class="ibox">
+                                    <div class="ibox-title">
+                                        <h5>Toda la información a tu alcance</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
+                                    </div>
+                                </div>
+            
+                            </div>
+            
+            
+                        </div>
+
 
             {{-- CARACTERISTICAS --}}
             <div class="container-fluid text-center bg-gray">
@@ -229,25 +249,7 @@
     
             </div>
 
-            {{--CHARTS--}}
 
-            <div class="container-fluid bg-charts">
-                <div class="to-right">
-
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>Toda la información a tu alcance</h5>
-                        </div>
-                        <div class="ibox-content">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
         </main>
 
 

@@ -1,48 +1,59 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.guest')
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@section('content')
+    <div class="auth_wrapper ibox">
+        <div class="ibox-title bg-primary">
+            <h5>{{ __('Reset Password')}}</h5>
+        </div>
+        
+        <div class="ibox-content">
+            <form method="POST" action="{{ route('password.update') }}">
+                @csrf
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+                <div class="container">
+                    <div class="row mt-3">
+                        <div class="col-12 mb-3">
+                            <label for="email">{{__('forms.email')}}: </label>
+                            <input type="email" id="email" class="form-control" name="email" placeholder="{{__('forms.email')}}..." value="{{$request->email}}">
+                        </div>
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                        <!-- Password -->
+                        <div class="col-12 mb-3">
+                            <label for="password"> {{__('Password')}}</label>
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+                            <input id="password" class="form-control" type="password" name="password" placeholder="{{__('forms.password')}}..." required />
+                        </div>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            </div>
+                        <!-- Confirm Password -->
+                        <div class="col-12 mb-3">
+                            <label for="password_confirmation">{{__('Confirm Password')}}</label>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                            <input id="password_confirmation" class="form-control"
+                                                type="password"
+                                                name="password_confirmation" placeholder="{{__('forms.password_confirmation')}}..." required />
+                        </div>
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
+                        
+                    </div>
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+                    <div class="col-12">
+                        <button class="ml-3 btn btn-primary">
+                            {{ __('Reset Password') }}
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            
+        </div>
+
+        <div class="ibox-footer">
+            Podarcis SL. &copy;
+        </div>
+
+    
+    </div>
+@endsection
