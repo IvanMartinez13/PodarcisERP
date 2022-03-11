@@ -1,7 +1,16 @@
 .header{
     margin-right: auto;
     margin-left: auto;
+    position: relative;
    
+}
+.nav-init{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .bg-gray{
@@ -60,7 +69,7 @@
 
 .text-header{
     margin: 150px 20%;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
     width: 60%;
 }
@@ -119,13 +128,13 @@
 .to-right{
     width: 40%;
     margin-left: 60%;
-    padding: 5% 5%;
+    padding: 8% 5%;
 }
 
 @media (max-width: 700px ){
     .text-header{
         margin: 100px 0;
-        font-size: 45px;
+        font-size: 40px;
         font-weight: bold;
         width: 100%;
     }
@@ -135,5 +144,13 @@
         width: 100%;
         margin-left: 0%;
         padding: 5% 5%;
+    }
+
+    .nav-init{
+        position: relative;
+       
+        width: 100%;
+        z-index: 100;
+        background-color: #1AB394 !important;
     }
 }

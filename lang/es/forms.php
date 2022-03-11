@@ -57,6 +57,7 @@ return [
     'fileLabel' => 'Documento',
     'file' => 'Elige un documento...',
     'files' => 'Arrastra aquí tus documentos...',
+    'message' => 'Mensaje',
 
     //PERMISSIONS
     'store' => 'Crear',

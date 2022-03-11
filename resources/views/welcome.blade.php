@@ -22,43 +22,44 @@
 
     <body class="bg-white">
 
-        {{--NAVBAR LANDING--}}
-        <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#">{{env('APP_NAME')}}</a>
-            <button style="border: none" class="navbar-toggler border-none btn btn-primary" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav ml-auto">
-                    @if (Route::has('login'))
-                        @auth
-                            <li class="nav-item">
-                                <a href="{{  url('/dashboard') }}" class="nav-link">Dashboard</a>
-                            </li>
-                        @else
-
-                            <li class="nav-item">
-                                <a href="{{ route('login') }}" class="nav-link">Log in</a>
-                            </li>
-                            
-
-                            @if (Route::has('register'))
-                                
-                                <li class="nav-item">
-                                    <a href="{{ route('register') }}" class="nav-link">Register</a>
-                                </li>
-                            @endif
-                        @endauth
-                    @endif
-                </ul>
-
-
-            </div>
-        </nav>
-        {{--END NAVBAR LANDING--}}
         
         <header class="header">
+                    {{--NAVBAR LANDING--}}
+                        <nav id="navbar_top" class="navbar navbar-expand-lg navbar-dark bg-primary nav-init">
+                            <a class="navbar-brand" href="#">{{env('APP_NAME')}}</a>
+                            <button style="border: none" class="navbar-toggler border-none btn btn-primary" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+
+                            <div class="collapse navbar-collapse" id="navbarContent">
+                                <ul class="navbar-nav ml-auto">
+                                    @if (Route::has('login'))
+                                        @auth
+                                            <li class="nav-item">
+                                                <a href="{{  url('/dashboard') }}" class="nav-link">Dashboard</a>
+                                            </li>
+                                        @else
+
+                                            <li class="nav-item">
+                                                <a href="{{ route('login') }}" class="nav-link">Log in</a>
+                                            </li>
+                                            
+
+                                            @if (Route::has('register'))
+                                                
+                                                <li class="nav-item">
+                                                    <a href="{{ route('register') }}" class="nav-link">Register</a>
+                                                </li>
+                                            @endif
+                                        @endauth
+                                    @endif
+                                </ul>
+
+
+                            </div>
+                        </nav>
+                    {{--END NAVBAR LANDING--}}
             <div id="carousel" class="carousel slide " data-ride="carousel">
                 <ol class="carousel-indicators">
                   <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -68,7 +69,7 @@
                   <div class="carousel-item active">
                     <img src="{{url('/')}}/img/landing/header_one.jpg" class="d-block mx-auto" alt="...">
                     <div class="carousel-caption">
-                        <div class="text-header wow fadeInUp">
+                        <div class="text-header wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
                             
                             <p>Some representative placeholder content for the first slide.</p>
                         </div>
@@ -78,7 +79,7 @@
                   <div class="carousel-item">
                     <img src="{{url('/')}}/img/landing/header_two.png" class="d-block  mx-auto" alt="...">
                     <div class="carousel-caption">
-                        <div class="text-header wow fadeInUp">
+                        <div class="text-header wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
                             
                             <p>Some representative placeholder content for the first slide.</p>
                         </div>
@@ -92,16 +93,14 @@
 
         <main>
             {{-- DASHBOARD --}}
-            <div class="container-fluid">
+            <div class="container-fluid py-5">
                 <div class="container py-5">
                     <div class="row">
-    
-    
-                        <div class="col-md-7 wow fadeInLeft">
+                        <div class="col-md-7 wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.5s">
                             <img class="img-fluid zoom" src="{{url('/')}}/img/landing/perspective.png" alt="">
                         </div>
     
-                        <div class="col-md-5 wow fadeInRight">
+                        <div class="col-md-5 wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.5s">
                             <p class="mt-5">
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo facilis eaque molestias harum iure eos, rerum neque soluta accusamus in fuga voluptatum ipsam libero nulla doloremque nostrum commodi obcaecati ab.
                             </p>
@@ -112,35 +111,35 @@
     
             </div>
 
-                        {{--CHARTS--}}
+            {{--CHARTS--}}
 
-                        <div class="container-fluid bg-charts">
-                            <div class="to-right">
-            
-                                <div class="ibox">
-                                    <div class="ibox-title">
-                                        <h5>Toda la información a tu alcance</h5>
-                                    </div>
-                                    <div class="ibox-content">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
-                                    </div>
-                                </div>
-            
-                            </div>
-            
-            
+            <div class="container-fluid bg-charts">
+                <div class="to-right">
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Toda la información a tu alcance</h5>
                         </div>
+                        <div class="ibox-content">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error laudantium omnis, vero asperiores doloribus eius ut ipsa nesciunt architecto laboriosam dolore consequatur corporis, saepe consectetur illum, rem ipsam? Quisquam.
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
 
 
             {{-- CARACTERISTICAS --}}
             <div class="container-fluid text-center bg-gray">
                 <div class="py-5">
-                    <h1 class="wow fadeInUp">Características</h1>
+                    <h1 class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">Características</h1>
                     <div class="m-xl">
                         <div class="row">
     
-                            <div class="col-lg-4 col-md-6 my-3 wow fadeInLeft">
+                            <div class="col-lg-4 col-md-6 my-3 wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.5s">
          
                                 <div class="card-caracteristicas">
         
@@ -157,7 +156,7 @@
                                 
                             </div>
          
-                             <div class="col-lg-4 col-md-6 my-3 wow fadeInDown">
+                             <div class="col-lg-4 col-md-6 my-3 wow fadeInDown" data-wow-duration="2s" data-wow-delay="0.5s">
                                  
          
                                 <div class="card-caracteristicas">
@@ -174,7 +173,7 @@
                                 </div>
                              </div>
          
-                             <div class="col-lg-4 col-md-6 my-3 wow fadeInRight">
+                             <div class="col-lg-4 col-md-6 my-3 wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.5s">
                                  
                                 <div class="card-caracteristicas">
         
@@ -191,7 +190,7 @@
          
                              </div>
          
-                             <div class="col-lg-4 col-md-6 my-3 wow fadeInLeft">
+                             <div class="col-lg-4 col-md-6 my-3 wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.5s">
                                  
                                 <div class="card-caracteristicas">
         
@@ -208,7 +207,7 @@
                                 </div>
                              </div>
          
-                             <div class="col-lg-4 col-md-6 my-3 wow fadeInUp">
+                             <div class="col-lg-4 col-md-6 my-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
                                  
     
                                 <div class="card-caracteristicas">
@@ -225,7 +224,7 @@
                                 </div>
                              </div>
          
-                             <div class="col-lg-4 col-md-6 my-3 wow fadeInRight">
+                             <div class="col-lg-4 col-md-6 my-3 wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.5s">
                                  
     
                                  <div class="card-caracteristicas">
@@ -249,18 +248,82 @@
     
             </div>
 
+            {{-- UN PROBLEMA UNA APLICACION --}}
+            <div class="container-fluid bg-primary">
+
+                <div class="mx-lg-5 py-5 bg-light text-dark">
+                    <h1 class="text-center">Un problema, una app</h1>
+
+                    <p  class="text-center">AQUI MOSTRARIAMOS LOS MÓDULOS DE LA APP</p>
+                </div>
+
+            </div>
 
         </main>
 
 
 
-        <footer class="p-3 border-top">
-            <div class="float-right">
-                Todos los derechos reservados.
+        <footer>
+
+            <div class="py-3 px-5 border-top-dark bg-dark text-white">
+
+                <div class="pt-5">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h3>{{env('APP_NAME')}}</h3>
+        
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum exercitationem, earum sed ratione et maxime tenetur labore vel facilis placeat. Nam temporibus aut, fugiat consequuntur dolorem incidunt voluptate similique dolore.</p>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <h3 class="text-center">Contáctanos</h3>
+
+                            <div class="container-form" style="width: 50%; margin: 0 25%;">
+                                <div class="mb-3">
+                                    <label for="name">{{__('forms.name')}}:</label>
+                                    <input type="text" id="name" name="name" placeholder="{{__('forms.name')}}..." class="form-control">    
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email">{{__('forms.email')}}:</label>
+                                    <input type="email" id="email" name="email" placeholder="{{__('forms.email')}}..." class="form-control">    
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="message">{{__('forms.message')}}:</label>
+                                    <textarea rows="10" type="text" id="message" name="message" placeholder="{{__('forms.message')}}..." class="form-control"></textarea>
+                                </div>
+
+                                <button class="btn btn-primary">
+                                    Guardar
+                                </button>
+                               
+
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-5">
+
+                    <div class="float-right">
+                        Todos los derechos reservados.
+                    </div>
+                    <div>
+                        <strong>Copyright</strong> Podarcis SL. &copy; {{ date('Y') }}
+                    </div>
+                    
+                </div>
+    
+                
             </div>
-            <div>
-                <strong>Copyright</strong> Podarcis SL. &copy; {{ date('Y') }}
-            </div>
+
+
+
+ 
+
         </footer>
 
         <!-- Mainly scripts -->
@@ -273,10 +336,12 @@
             document.addEventListener("DOMContentLoaded", function(){
                 window.addEventListener('scroll', function() {
                     if (window.scrollY > 500) {
+                        document.getElementById('navbar_top').classList.remove('nav-init');
                         document.getElementById('navbar_top').classList.add('fixed-top');
                         document.getElementById('navbar_top').classList.add('animated-fast');
                         document.getElementById('navbar_top').classList.add('slideInDown');
                         document.getElementById('navbar_top').classList.add('bg-primary');
+                        
                         // add padding top to show content behind navbar
                         navbar_height = document.querySelector('.navbar').offsetHeight;
                         document.body.style.paddingTop = navbar_height + 'px';
@@ -284,6 +349,7 @@
                         document.getElementById('navbar_top').classList.remove('fixed-top');
                         document.getElementById('navbar_top').classList.remove('animated-fast');
                         document.getElementById('navbar_top').classList.remove('slideInDown');
+                        document.getElementById('navbar_top').classList.add('nav-init');
                         // remove padding top from body
                         document.body.style.paddingTop = '0';
                     } 
