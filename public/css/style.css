@@ -9978,3 +9978,20 @@ body.md-skin {
         margin: 0;
     }
 }
+
+
+.auth_wrapper{
+    width: 40%;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    z-index: 10;
+}
+
+.video{
+    
+    min-height: 100%;
+    position: relative;
+    z-index: 1;
+
+}
