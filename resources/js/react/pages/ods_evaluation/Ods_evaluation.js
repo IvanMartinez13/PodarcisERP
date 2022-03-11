@@ -312,6 +312,7 @@ class Ods_evaluation extends React.Component{
 
         //1) GET DATA
         let data = {
+            index: 0,
             id: childData.id,
             strategy: childData.strategy,
             indicator: childData.indicator,
@@ -344,6 +345,7 @@ class Ods_evaluation extends React.Component{
         rows.map( (row, index) => {
             if(row.id == childData.id){
                 //UPDATE ROW
+                data.index = row.index;
                 rows[index] = data;
             }
         } )

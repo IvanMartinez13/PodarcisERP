@@ -108,7 +108,11 @@ class OdsController extends Controller
         foreach ($rows as $key => $row) {
 
             if ($row['strategy'] != null) { //prevent NULL VALUES
+                
                 //1) CHECK IF NEED UPDATE OR STORE
+
+                $row['id'] = strval($row['id']); // no entiendo porque pero lee el token como un número WTF
+
                 $evaluation = Evaluation::where('token', $row['id'])->exists();
 
                 if ($evaluation && $row['id'] != 0) {
@@ -131,7 +135,10 @@ class OdsController extends Controller
 
 
                     if (!$validator->fails()) {
+                        
                         //4) SAVE DATA
+                        
+
                         $evaluation = Evaluation::where('token', $row['id'])->update($data);
                         $files = $row['files'];
 
@@ -162,6 +169,8 @@ class OdsController extends Controller
                                 $file_save->save();
                             }
                         }
+
+                        
                     }
                 } else {
 
@@ -185,8 +194,9 @@ class OdsController extends Controller
                     $validator = Validator::make($data, $rules);
 
                     if (!$validator->fails()) {
-
                         //4) SAVE DATA
+
+                        
                         $evaluation = new Evaluation($data);
                         $evaluation->save();
 
@@ -218,6 +228,8 @@ class OdsController extends Controller
                                 $file_save->save();
                             }
                         }
+
+                        
                     }
                 }
             }

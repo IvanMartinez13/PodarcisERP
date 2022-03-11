@@ -5913,6 +5913,7 @@ var Ods_evaluation = /*#__PURE__*/function (_React$Component) {
     value: function setRows(childData) {
       //1) GET DATA
       var data = {
+        index: 0,
         id: childData.id,
         strategy: childData.strategy,
         indicator: childData.indicator,
@@ -5943,6 +5944,7 @@ var Ods_evaluation = /*#__PURE__*/function (_React$Component) {
       rows.map(function (row, index) {
         if (row.id == childData.id) {
           //UPDATE ROW
+          data.index = row.index;
           rows[index] = data;
         }
       });
