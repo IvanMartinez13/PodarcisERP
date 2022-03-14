@@ -9,8 +9,7 @@ class FlileManager extends React.Component{
 
         this.state = {files: this.props.files};
 
-        
-
+    
         this.setFiles = (data) => {
             this.props.setFiles(data);
         }

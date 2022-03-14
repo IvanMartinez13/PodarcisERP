@@ -5363,6 +5363,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./react/pages/ods_evaluation/Ods_evaluation */ "./resources/js/react/pages/ods_evaluation/Ods_evaluation.js");
 
+__webpack_require__(/*! ./react/pages/ods_evaluation/Evaluation */ "./resources/js/react/pages/ods_evaluation/Evaluation.js");
+
 __webpack_require__(/*! ./react/pages/ods_evaluation/Dashboard */ "./resources/js/react/pages/ods_evaluation/Dashboard.js");
 
 __webpack_require__(/*! ./react/pages/tasks/Tasks */ "./resources/js/react/pages/tasks/Tasks.js");
@@ -5532,6 +5534,430 @@ var DashboardOds = /*#__PURE__*/function (_React$Component) {
 if (document.getElementsByTagName('dashboard-ods').length >= 1) {
   var component = document.getElementsByTagName('dashboard-ods')[0];
   react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(DashboardOds, {}), component);
+}
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/ods_evaluation/Evaluation.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/react/pages/ods_evaluation/Evaluation.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_RowEvaluation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/RowEvaluation */ "./resources/js/react/pages/ods_evaluation/components/RowEvaluation.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Evaluation = /*#__PURE__*/function (_React$Component) {
+  _inherits(Evaluation, _React$Component);
+
+  var _super = _createSuper(Evaluation);
+
+  function Evaluation(props) {
+    var _this;
+
+    _classCallCheck(this, Evaluation);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      loading: true,
+      save: false,
+      rows: []
+    };
+    _this.yearToday = new Date().getFullYear();
+    _this.years = [];
+    _this.strategy = _this.props.strategy;
+    _this.objective = _this.props.objective;
+    _this.updateRows = _this.updateRows.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Evaluation, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      {
+        /* LOADING */
+      }
+
+      if (this.state.loading) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "col-lg-9",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "ibox",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox-title",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                  children: this.strategy.title
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-tools",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                    className: "collapse-link",
+                    href: "",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                      className: "fa fa-chevron-up"
+                    })
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox-content",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "spiner-example",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    className: "sk-spinner sk-spinner-double-bounce",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                      className: "sk-double-bounce1"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                      className: "sk-double-bounce2"
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                  className: "text-center",
+                  children: "Cargando..."
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox-footer",
+                children: ["Podarcis SL. \xA9 ", this.yearToday]
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "col-lg-3 d-none d-lg-block",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h4", {
+              children: [" ", this.objective.title, " "]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+              dangerouslySetInnerHTML: {
+                __html: this.objective.description
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("small", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("strong", {
+                children: "A\xF1o base:"
+              }), " ", this.objective.base_year]
+            }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("small", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("strong", {
+                children: "Indicador:"
+              }), " ", this.objective.indicator]
+            })]
+          })]
+        });
+      }
+
+      {
+        /* EVALUATION TABLE */
+      }
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "col-lg-9",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "ibox",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "ibox-title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                children: this.strategy.title
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "ibox-tools",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                  role: 'button',
+                  className: "collapse-link",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                    className: "fa fa-chevron-up",
+                    "aria-hidden": "true"
+                  })
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "ibox-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "row mb-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Descripci\xF3n"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                    dangerouslySetInnerHTML: {
+                      __html: this.strategy.description
+                    }
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Actuaciones"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                    dangerouslySetInnerHTML: {
+                      __html: this.strategy.performances
+                    }
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Indicador"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                    children: this.strategy.indicator
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "col-md-6",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h5", {
+                    children: ["Evoluci\xF3n ", this.strategy.title]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                    children: "gr\xE1fico de la evolucion"
+                  })]
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "row mb-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "col-6 text-left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    className: "btn btn-primary",
+                    onClick: function onClick() {
+                      _this2.newRow();
+                    },
+                    children: "Nueva fila..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "col-6 text-right",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    className: "btn btn-primary",
+                    onClick: function onClick() {
+                      _this2.save();
+                    },
+                    children: "Guardar"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "table-responsive mb-3",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+                  className: "table table-hover table-striped table-bordered",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        children: "Archivo"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        children: "A\xF1o seleccionado"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        children: "Valor observado"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                        children: "Eliminar"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                    children: this.state.rows.map(function (row, index) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_RowEvaluation__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                        id: row.id,
+                        year: row.year,
+                        value: row.value,
+                        years: _this2.years,
+                        updateRows: _this2.updateRows,
+                        files: row.files
+                      }, row.id);
+                    })
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "row mb-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "col-6 text-left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    className: "btn btn-primary",
+                    children: "Nueva fila..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "col-6 text-right",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    className: "btn btn-primary",
+                    children: "Guardar"
+                  })
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "ibox-footer",
+              children: ["Podarcis SL. \xA9 ", this.yearToday]
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "col-lg-3 d-none d-lg-block",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h4", {
+            children: [" ", this.objective.title, " "]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            dangerouslySetInnerHTML: {
+              __html: this.objective.description
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("small", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("strong", {
+              children: "A\xF1o base:"
+            }), " ", this.objective.base_year]
+          }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("small", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("strong", {
+              children: "Indicador:"
+            }), " ", this.objective.indicator]
+          })]
+        })]
+      });
+    } //ON MOUNT
+
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/evaluate/get_evaluations', {
+        token: this.strategy.token
+      }).then(function (response) {
+        //GET YEARS
+        for (var index = _this3.objective.base_year; index <= _this3.objective.target_year; index++) {
+          _this3.years.push(index);
+        } //PUSH ROWS
+
+
+        var rows = _this3.state.rows;
+        var evaluations = response.data.evaluations;
+
+        if (evaluations != null) {
+          //EVALUATIONS NOT NULL
+          evaluations.map(function (evaluation, index) {
+            var item = {
+              index: rows.length,
+              id: evaluation.token,
+              year: evaluation.year,
+              value: evaluation.value,
+              files: evaluation.files
+            };
+            rows.push(item); //PUSH ITEM
+          });
+        } else {
+          //EVALUATIONS IS NULL
+          var item = {
+            index: 0,
+            id: 'row_0',
+            year: '',
+            value: '',
+            files: []
+          };
+          rows.push(item); //PUSH EMPTY ITEM
+        }
+
+        _this3.setState({
+          loading: false,
+          rows: rows,
+          save: false
+        });
+      });
+    } //METHODS
+
+  }, {
+    key: "newRow",
+    value: function newRow() {
+      var rows = this.state.rows;
+      var item = {
+        index: rows.length,
+        id: 'row_' + rows.length,
+        year: '',
+        value: '',
+        files: []
+      };
+      rows.unshift(item); //PUSH TO TOP
+
+      this.setState({
+        loading: false,
+        rows: rows
+      });
+      console.log(rows);
+    }
+  }, {
+    key: "updateRows",
+    value: function updateRows(data) {
+      var id = data.id;
+      var rows = this.state.rows;
+      rows.map(function (row, index) {
+        if (id == row.id) {
+          rows[index] = data;
+        }
+      });
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      var _this4 = this;
+
+      var rows = this.state.rows;
+      var token = this.strategy.token;
+      this.setState({
+        loading: true
+      });
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/evaluate/save', {
+        data: rows,
+        token: token
+      }).then(function (response) {
+        var data = response.data;
+
+        if (data.status == "success") {
+          toastr.success(data.message);
+
+          _this4.setState({
+            loading: false
+          });
+        } else {
+          toastr.error(data.message);
+
+          _this4.setState({
+            loading: false
+          });
+        }
+      });
+    }
+  }]);
+
+  return Evaluation;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Evaluation);
+
+if (document.getElementsByTagName('evaluation').length >= 1) {
+  var component = document.getElementsByTagName('evaluation')[0];
+  var strategy = JSON.parse(component.getAttribute('strategy'));
+  var objective = JSON.parse(component.getAttribute('objective'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Evaluation, {
+    strategy: strategy,
+    objective: objective
+  }), component);
 }
 
 /***/ }),
@@ -6767,6 +7193,203 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObjectiveEvolution);
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/ods_evaluation/components/RowEvaluation.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/react/pages/ods_evaluation/components/RowEvaluation.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _FileManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileManager */ "./resources/js/react/pages/ods_evaluation/components/FileManager.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var RowEvaluation = /*#__PURE__*/function (_React$Component) {
+  _inherits(RowEvaluation, _React$Component);
+
+  var _super = _createSuper(RowEvaluation);
+
+  function RowEvaluation(props) {
+    var _this;
+
+    _classCallCheck(this, RowEvaluation);
+
+    _this = _super.call(this, props);
+    _this.year = _this.props.year;
+    _this.value = _this.props.value;
+    _this.id = _this.props.id;
+    _this.years = _this.props.years;
+
+    _this.updateRows = function (data) {
+      _this.props.updateRows(data);
+    };
+
+    _this.files = _this.props.files;
+    _this.setFiles = _this.setFiles.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(RowEvaluation, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+          className: "text-center align-middle",
+          children: [this.files.length <= 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            id: "buttonFiles" + this.id,
+            className: "btn btn-link",
+            "data-toggle": "modal",
+            "data-target": "#file_manager" + this.id,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-file-upload"
+            })
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            id: "buttonFiles" + this.id,
+            className: "btn btn-link text-navy",
+            "data-toggle": "modal",
+            "data-target": "#file_manager" + this.id,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fas fa-file-upload"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_FileManager__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            id: this.id,
+            setFiles: this.setFiles,
+            files: this.files
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          className: "align-middle",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
+            id: "year_selector_" + this.id,
+            defaultValue: this.year,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {}), this.years.map(function (year) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+                value: year,
+                children: year
+              }, year);
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          className: "text-center align-middle",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            type: 'number',
+            id: 'value_input' + this.id,
+            className: "form-control",
+            defaultValue: this.value,
+            placeholder: "Valor observado..."
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          className: "text-center align-middle",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "btn btn-link",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fa fa-trash-alt",
+              "aria-hidden": "true"
+            })
+          })
+        })]
+      }, this.id);
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      //PREPARE SELECTOR
+      $("#year_selector_" + this.id).select2({
+        theme: 'bootstrap4',
+        placeholder: "Selecciona un año...",
+        width: '100%'
+      }); //HANDLE CHANGE VALUE
+
+      var handleChangeValue = function handleChangeValue(key, value) {
+        return _this2.changeValue(key, value);
+      }; //EVENT TRIGGER
+
+
+      $("#year_selector_" + this.id).on('change', function (event) {
+        var value = event.target.value;
+        handleChangeValue('year', value);
+      });
+      $("#value_input" + this.id).on('input', function (event) {
+        var value = event.target.value;
+        handleChangeValue('value', value);
+      });
+    }
+  }, {
+    key: "changeValue",
+    value: function changeValue(key, value) {
+      if (key == "year") {
+        this.year = value;
+      }
+
+      if (key == "value") {
+        this.value = value;
+      }
+
+      if (key == "files") {
+        this.value = this.files;
+      } //PREPARE DATA
+
+
+      var data = {
+        id: this.id,
+        year: this.year,
+        value: this.value,
+        files: this.files
+      }; //SEND DATA TO PARENT
+
+      this.updateRows(data);
+    }
+  }, {
+    key: "setFiles",
+    value: function setFiles(files) {
+      this.changeValue('files', files); //SET BUTTON COLOR
+
+      if (this.files != []) {
+        $('#buttonFiles' + this.id).addClass('text-navy');
+      } else {
+        $('#buttonFiles' + this.id).removeClass('text-navy');
+      }
+    }
+  }]);
+
+  return RowEvaluation;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowEvaluation);
 
 /***/ }),
 
