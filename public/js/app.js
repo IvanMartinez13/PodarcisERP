@@ -5600,6 +5600,7 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       loading: true,
       save: false,
+      saved: false,
       rows: []
     };
     _this.yearToday = new Date().getFullYear();
@@ -5863,7 +5864,8 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
               id: evaluation.token,
               year: evaluation.year,
               value: evaluation.value,
-              files: evaluation.files
+              files: evaluation.files,
+              "delete": false
             };
             rows.push(item); //PUSH ITEM
           });
@@ -5874,7 +5876,8 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
             id: 'row_0',
             year: '',
             value: '',
-            files: []
+            files: [],
+            "delete": false
           };
           rows.push(item); //PUSH EMPTY ITEM
         }
@@ -5885,6 +5888,59 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
           save: false
         });
       });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this4 = this;
+
+      if (this.state.save == true && this.state.saved == true) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/evaluate/get_evaluations', {
+          token: this.strategy.token
+        }).then(function (response) {
+          //GET YEARS
+          for (var index = _this4.objective.base_year; index <= _this4.objective.target_year; index++) {
+            _this4.years.push(index);
+          } //PUSH ROWS
+
+
+          var rows = [];
+          var evaluations = response.data.evaluations;
+
+          if (evaluations != null) {
+            //EVALUATIONS NOT NULL
+            evaluations.map(function (evaluation, index) {
+              var item = {
+                index: rows.length,
+                id: evaluation.token,
+                year: evaluation.year,
+                value: evaluation.value,
+                files: evaluation.files,
+                "delete": false
+              };
+              rows.push(item); //PUSH ITEM
+            });
+          } else {
+            //EVALUATIONS IS NULL
+            var item = {
+              index: 0,
+              id: 'row_0',
+              year: '',
+              value: '',
+              files: [],
+              "delete": false
+            };
+            rows.push(item); //PUSH EMPTY ITEM
+          }
+
+          _this4.setState({
+            loading: false,
+            rows: rows,
+            save: false,
+            saved: false
+          });
+        });
+      }
     } //METHODS
 
   }, {
@@ -5896,7 +5952,8 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
         id: 'row_' + rows.length,
         year: '',
         value: '',
-        files: []
+        files: [],
+        "delete": false
       };
       rows.unshift(item); //PUSH TO TOP
 
@@ -5916,16 +5973,21 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
           rows[index] = data;
         }
       });
+      this.setState({
+        loading: false,
+        rows: rows
+      });
     }
   }, {
     key: "save",
     value: function save() {
-      var _this4 = this;
+      var _this5 = this;
 
       var rows = this.state.rows;
       var token = this.strategy.token;
       this.setState({
-        loading: true
+        loading: true,
+        save: true
       });
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/evaluate/save', {
         data: rows,
@@ -5936,15 +5998,17 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
         if (data.status == "success") {
           toastr.success(data.message);
 
-          _this4.setState({
-            loading: false
-          });
+          _this5.setState({
+            saved: true
+          }); //NOW CAN UPDATE ALL
+
         } else {
           toastr.error(data.message);
 
-          _this4.setState({
-            loading: false
-          });
+          _this5.setState({
+            saved: true
+          }); //NOW CAN UPDATE ALL
+
         }
       });
     }
@@ -7256,6 +7320,7 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
     _this.year = _this.props.year;
     _this.value = _this.props.value;
     _this.id = _this.props.id;
+    _this["delete"] = false;
     _this.years = _this.props.years;
 
     _this.updateRows = function (data) {
@@ -7270,7 +7335,10 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
   _createClass(RowEvaluation, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+        id: this.id,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
           className: "text-center align-middle",
           children: [this.files.length <= 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
@@ -7319,6 +7387,9 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
           className: "text-center align-middle",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             className: "btn btn-link",
+            onClick: function onClick() {
+              _this2.deleteRow();
+            },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fa fa-trash-alt",
               "aria-hidden": "true"
@@ -7330,7 +7401,7 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       //PREPARE SELECTOR
       $("#year_selector_" + this.id).select2({
@@ -7340,7 +7411,7 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
       }); //HANDLE CHANGE VALUE
 
       var handleChangeValue = function handleChangeValue(key, value) {
-        return _this2.changeValue(key, value);
+        return _this3.changeValue(key, value);
       }; //EVENT TRIGGER
 
 
@@ -7373,7 +7444,8 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
         id: this.id,
         year: this.year,
         value: this.value,
-        files: this.files
+        files: this.files,
+        "delete": this["delete"]
       }; //SEND DATA TO PARENT
 
       this.updateRows(data);
@@ -7388,6 +7460,21 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
       } else {
         $('#buttonFiles' + this.id).removeClass('text-navy');
       }
+    }
+  }, {
+    key: "deleteRow",
+    value: function deleteRow() {
+      //PREPARE DATA
+      var data = {
+        id: this.id,
+        year: this.year,
+        value: this.value,
+        files: this.files,
+        "delete": true
+      }; //SEND DATA TO PARENT
+
+      this.updateRows(data);
+      $('#' + this.id).remove();
     }
   }]);
 

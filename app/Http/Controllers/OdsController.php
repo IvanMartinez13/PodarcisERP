@@ -129,10 +129,14 @@ class OdsController extends Controller
     
                     $validator = Validator::make($data, $rules);
     
-                    if (!$validator->fails()) {
+                    if (!$validator->fails() || $evaluation['delete'] != true) {
                         //3) UPDATE DATA
                         $update = Evaluation::where('token', $evaluation['id']);
                         $update->update($data);
+                    }
+
+                    if ($evaluation['delete'] == true) {
+                        $update = Evaluation::where('token', $evaluation['id'])->delete();
                     }
 
                     $update = Evaluation::where('token', $evaluation['id'])->first();
@@ -179,7 +183,7 @@ class OdsController extends Controller
     
                     $validator = Validator::make($data, $rules);
     
-                    if (!$validator->fails()) {
+                    if (!$validator->fails()  || $evaluation['delete'] != true) {
                         //3) STORE DATA
                         $store = new Evaluation($data);
                         $store->save();

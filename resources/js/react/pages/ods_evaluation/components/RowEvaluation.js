@@ -9,6 +9,8 @@ class RowEvaluation extends React.Component{
         this.year = this.props.year;
         this.value = this.props.value;
         this.id = this.props.id;
+        this.delete = false;
+
         this.years = this.props.years;
 
         this.updateRows = (data) => {
@@ -21,7 +23,7 @@ class RowEvaluation extends React.Component{
 
     render(){
         return(
-            <tr key={this.id}>
+            <tr id={this.id} key={this.id}>
                 <td className="text-center align-middle">
 
                     {
@@ -58,7 +60,7 @@ class RowEvaluation extends React.Component{
                     <input type={'number'} id={'value_input'+this.id} className="form-control" defaultValue={this.value} placeholder="Valor observado..."></input>
                 </td>
                 <td className="text-center align-middle">
-                    <button className="btn btn-link">
+                    <button className="btn btn-link" onClick={() => { this.deleteRow() }}>
                         <i className="fa fa-trash-alt" aria-hidden="true"></i>
                     </button>
                 </td>
@@ -120,7 +122,8 @@ class RowEvaluation extends React.Component{
             id: this.id,
             year: this.year,
             value: this.value,
-            files: this.files
+            files: this.files,
+            delete: this.delete,
         }
 
         //SEND DATA TO PARENT
@@ -137,6 +140,24 @@ class RowEvaluation extends React.Component{
             $('#buttonFiles'+this.id).removeClass('text-navy')
         }
     }
+
+    deleteRow(){
+        //PREPARE DATA
+        let data = {
+            id: this.id,
+            year: this.year,
+            value: this.value,
+            files: this.files,
+            delete: true,
+        }
+        
+        //SEND DATA TO PARENT
+        this.updateRows(data);
+
+
+        $('#'+this.id).remove();
+    }
+    
 }
 
 export default RowEvaluation;

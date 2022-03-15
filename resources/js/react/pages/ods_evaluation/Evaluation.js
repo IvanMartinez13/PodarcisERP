@@ -13,6 +13,7 @@ class Evaluation extends React.Component{
         this.state = {
             loading: true,
             save: false,
+            saved: false,
             rows: [],
         };
 
@@ -232,6 +233,7 @@ class Evaluation extends React.Component{
                         year: evaluation.year,
                         value: evaluation.value,
                         files: evaluation.files,
+                        delete: false,
                     }
 
                     rows.push(item); //PUSH ITEM
@@ -244,7 +246,8 @@ class Evaluation extends React.Component{
                     id: 'row_0',
                     year: '',
                     value: '',
-                    files: []
+                    files: [],
+                    delete: false,
         
                 }
 
@@ -253,6 +256,61 @@ class Evaluation extends React.Component{
             
             this.setState({loading:false, rows: rows, save: false});
         });
+    }
+
+    componentDidUpdate()
+    {
+        if (this.state.save == true && this.state.saved == true) {
+            axios.post('/ods/evaluate/get_evaluations', {token: this.strategy.token}).then( (response) => {
+
+                //GET YEARS
+                for (let index = this.objective.base_year; index <= this.objective.target_year; index++) {
+                    this.years.push(index);
+                }
+    
+                //PUSH ROWS
+                let rows = [];
+    
+                let evaluations = response.data.evaluations;
+    
+    
+                if (evaluations != null) {
+                    
+                    //EVALUATIONS NOT NULL
+                    evaluations.map( (evaluation, index) => {
+    
+                        let item = {
+                            index: rows.length,
+                            id: evaluation.token,
+                            year: evaluation.year,
+                            value: evaluation.value,
+                            files: evaluation.files,
+                            delete: false,
+                        }
+    
+                        rows.push(item); //PUSH ITEM
+                    } );
+                }else{
+    
+                    //EVALUATIONS IS NULL
+                    let item = {
+                        index: 0,
+                        id: 'row_0',
+                        year: '',
+                        value: '',
+                        files: [],
+                        delete: false,
+            
+                    }
+    
+                    rows.push(item); //PUSH EMPTY ITEM
+                }
+                
+                
+                this.setState({loading:false, rows: rows, save: false, saved: false});
+            });
+        }
+
     }
     
     //METHODS
@@ -265,7 +323,8 @@ class Evaluation extends React.Component{
             id: 'row_'+rows.length,
             year: '',
             value: '',
-            files: []
+            files: [],
+            delete: false,
 
         }
 
@@ -291,6 +350,11 @@ class Evaluation extends React.Component{
                 rows[index] = data;
             }
         } );
+
+        this.setState({
+            loading: false,
+            rows: rows,
+        });
     }
 
     save(){
@@ -298,7 +362,7 @@ class Evaluation extends React.Component{
         let rows = this.state.rows;
         let token = this.strategy.token;
         
-        this.setState({loading: true});
+        this.setState({loading: true, save: true});
 
         axios.post('/ods/evaluate/save', {data: rows, token: token}).then( (response) => {
             let data = response.data;
@@ -306,11 +370,11 @@ class Evaluation extends React.Component{
             if (data.status == "success") {
                 
                 toastr.success(data.message);
-                this.setState({loading: false});
+                this.setState({saved: true}); //NOW CAN UPDATE ALL
 
             }else{
                 toastr.error(data.message);
-                this.setState({loading: false});
+                this.setState({saved: true}); //NOW CAN UPDATE ALL
             }
 
         } );
