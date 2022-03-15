@@ -79,6 +79,13 @@
                                             </a>
                                         @endcan
 
+                                        @can('delete Ods')
+                                            <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}" class="btn btn-link">
+                                                <i class="fa-solid fa-recycle"></i>
+                                            </a>
+                                        @endcan
+                                        
+                                        
                                         
 
                                         @can('delete Ods')

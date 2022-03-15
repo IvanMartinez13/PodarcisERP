@@ -112,6 +112,10 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::post('/dashboard', [OdsController::class, 'dashboard'])->name('ods.dashboard');
     Route::post('/dashboard/objective/evolution', [OdsController::class, 'objective_evolution'])->name('ods.dashboard.objective_evolution');
     Route::post('/strategy/evolution_chart', [OdsController::class, 'evolution_chart'])->name('ods.strategy.evolution_chart');
+    Route::get('/strategy/{token}/deleted_evaluations', [OdsController::class, 'deleted_evaluations'])->name('ods.evaluations.deleted');
+    Route::put('/strategy/evaluation/recover', [OdsController::class, 'recover_evaluation'])->name('ods.evaluations.recover');
+    Route::put('/strategy/evaluation/true_delete', [OdsController::class, 'true_delete_evaluation'])->name('ods.evaluations.true_delete');
+    
     
     
 });

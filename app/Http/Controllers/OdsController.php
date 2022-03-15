@@ -442,4 +442,34 @@ class OdsController extends Controller
 
         return response()->json($response);
     }
+
+
+
+    //GO TO PAGE RECYCLE EVALUATIONS
+    public function deleted_evaluations($token){
+        $strategy = Strategy::where('token', $token)->with('objective')->first();
+        $deletedEvaluations = Evaluation::where('strategy_id', $strategy->id)->onlyTrashed()->get(); 
+
+        return view('pages.ods.strategy.recover_evaluations', compact('deletedEvaluations', 'strategy'));
+    }
+
+    //RECOVER EVALUATION
+    public function recover_evaluation(Request $request)
+    {
+        $token = $request->token;
+
+        $evaluation = Evaluation::where('token', $token)->restore();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Evaluacion recuperada.');
+    }
+
+    //TRUE DELETE EVALUATION
+    public function true_delete_evaluation(Request $request)
+    {
+        $token = $request->token;
+
+        $evaluation = Evaluation::where('token', $token)->forceDelete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Evaluacion eliminada permanentemente.');
+    }
 }
