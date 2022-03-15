@@ -84,9 +84,9 @@
                                                     @endcan
 
                                                     @can('read Ods')
-                                                        <a href="{{ route('ods.objective.evaluate', $objective->token) }}"
-                                                            class="btn btn-link" title="Seguimiento">
-                                                            <i class="fa-solid fa-clipboard-check"></i>
+                                                        <a href="{{ route('ods.strategy.index', $objective->token) }}"
+                                                            class="btn btn-link" title="Estrategias">
+                                                            <i class="fa-solid fa-gears"></i>
                                                         </a>
                                                     @endcan
 

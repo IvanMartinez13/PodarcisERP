@@ -72,6 +72,22 @@
                                             </a>
                                         @endcan
 
+                                        @can('read Ods')
+                                            <a href="{{ route('ods.objective.evaluate', $strategy->token) }}"
+                                                class="btn btn-link">
+                                                <i class="fas fa-clipboard-check"></i>
+                                            </a>
+                                        @endcan
+
+                                        @can('delete Ods')
+                                            <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}" class="btn btn-link">
+                                                <i class="fa-solid fa-recycle"></i>
+                                            </a>
+                                        @endcan
+                                        
+                                        
+                                        
+
                                         @can('delete Ods')
                                             <button class="btn btn-link">
                                                 <i class="fa fa-trash-alt" aria-hidden="true"></i>
