@@ -20,7 +20,7 @@ return [
     'departaments' => 'Departamentos',
     'ods' => 'Ods',
     'targets' => 'Objetivos',
-    'strategy' => 'Estrategia',
+    'strategy' => 'Estrategias',
     'tasks' => 'Tareas',
     'projects' => 'Proyectos',
     'configuration' => 'Configuración',
