@@ -413,7 +413,7 @@ class OdsController extends Controller
         $token = $request->token;
         $strategy = Strategy::where('token', $request->token)->first();
 
-        $evaluations = Evaluation::where('strategy_id', $strategy->id)->get();
+        $evaluations = Evaluation::where('strategy_id', $strategy->id)->orderBy('year', 'ASC')->get();
 
         $years = $evaluations->unique('year')->pluck('year');
 
