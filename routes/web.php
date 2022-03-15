@@ -111,6 +111,8 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
     Route::post('/dashboard', [OdsController::class, 'dashboard'])->name('ods.dashboard');
     Route::post('/dashboard/objective/evolution', [OdsController::class, 'objective_evolution'])->name('ods.dashboard.objective_evolution');
+
+    
 });
 
 //TASKS MODULE
@@ -127,10 +129,11 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::put('/project/task/comment', [TaskController::class, 'task_comment'])->name('tasks.project.task_comment');
     Route::post('/project/task/add_subtask', [TaskController::class, 'add_subtask'])->name('tasks.project.add_subtask');
     Route::post('/project/task/get_subtask', [TaskController::class, 'get_subtask'])->name('tasks.project.task.get_subtask');
-    Route::post('/project/task/subtask/changeState', [TaskController::class, 'changeState'])->name('tasks.project.task.changeState');
+    Route::post('/project/task/subtask/changeState', [TaskController::class, 'changeState'])->name('tasks.project.subtask.changeState');
     Route::post('/project/task/update_subtask', [TaskController::class, 'update_subtask'])->name('tasks.project.update_subtask');
     Route::post('/project/task/addFiles', [TaskController::class, 'addFiles'])->name('tasks.project.addFiles');
     Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
+    Route::post('/project/task/changeState', [TaskController::class, 'changeState_task'])->name('tasks.project.task.changeState');
     
 });
 

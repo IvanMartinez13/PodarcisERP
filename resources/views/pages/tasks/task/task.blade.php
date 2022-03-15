@@ -50,8 +50,8 @@
 
                         <div class="col-sm-10 text-left">
                             <dd>
-                                <span class="label {{ $task->id_done ? 'label-primary' : 'label-danger' }}">
-                                    {{ $task->id_done ? 'Finalizado' : 'Activo' }}
+                                <span id="stateLabel" onclick="changeState()" style="cursor: pointer" class="label  @if($task->is_done == 1) label-primary @else label-danger @endif ">
+                                    @if($task->is_done == 1) Finalizado @else Activo @endif 
                                 </span>
                             </dd>
                         </div>
@@ -461,6 +461,27 @@
 
                 });
             }
+        }
+
+        function changeState(){
+            axios.post('/tasks/project/task/changeState', {token: '{{$task->token}}'}).then( (response) => {
+                toastr.success(response.data.message);
+
+                if (response.data.close == 1) {
+                    $('#stateLabel').text('Finalizado');
+                    document.getElementById('stateLabel').classList.remove('label-danger');
+                    document.getElementById('stateLabel').classList.add('label-primary');
+
+                }else{
+                    $('#stateLabel').text('Activo');
+
+                    document.getElementById('stateLabel').classList.remove('label-primary');
+                    document.getElementById('stateLabel').classList.add('label-danger');
+
+                }
+                
+                
+            } )
         }
     </script>
 
