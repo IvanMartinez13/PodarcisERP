@@ -111,7 +111,8 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/strategy/{token}/update', [OdsController::class, 'strategy_update'])->name('ods.strategy.update');
     Route::post('/dashboard', [OdsController::class, 'dashboard'])->name('ods.dashboard');
     Route::post('/dashboard/objective/evolution', [OdsController::class, 'objective_evolution'])->name('ods.dashboard.objective_evolution');
-
+    Route::post('/strategy/evolution_chart', [OdsController::class, 'evolution_chart'])->name('ods.strategy.evolution_chart');
+    
     
 });
 

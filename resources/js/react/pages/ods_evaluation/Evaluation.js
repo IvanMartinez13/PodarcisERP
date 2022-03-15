@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM  from "react-dom";
 import axios from "axios";
 import RowEvaluation from "./components/RowEvaluation";
+import StrategyEvolution from "./components/StrategyEvolution";
 
 class Evaluation extends React.Component{
 
@@ -95,24 +96,21 @@ class Evaluation extends React.Component{
 
                             {/* DESCRIPCIÓN */}
                             <div className="row mb-3">
-                                <div className="col-md-6">
+                                <div className="col-lg-4">
                                     <h5>Descripción</h5>
                                     <p dangerouslySetInnerHTML={{ __html: this.strategy.description }}></p>
-                                </div>
-
-                                <div className="col-md-6">
-                                    <h5>Actuaciones</h5>
-                                    <p dangerouslySetInnerHTML={{ __html: this.strategy.performances }}></p>
-                                </div>
-
-                                <div className="col-md-6">
                                     <h5>Indicador</h5>
                                     <p>{this.strategy.indicator}</p>
                                 </div>
 
-                                <div className="col-md-6">
+                                <div className="col-lg-4">
+                                    <h5>Actuaciones</h5>
+                                    <p dangerouslySetInnerHTML={{ __html: this.strategy.performances }}></p>
+                                </div>
+
+                                <div className="col-lg-4">
                                     <h5>Evolución {this.strategy.title}</h5>
-                                    <p>gráfico de la evolucion</p>
+                                    <StrategyEvolution strategy={this.strategy}></StrategyEvolution>
                                 </div>
                             </div>
 
@@ -169,15 +167,19 @@ class Evaluation extends React.Component{
                                 </table>
                             </div>
 
-                            {/* BOTONES */} 
+                            {/* BOTONES */}
                             <div className="row mb-3">
                                 <div className="col-6 text-left">
-                                    <button className="btn btn-primary">
+                                    <button className="btn btn-primary" onClick={ () => {
+                                        this.newRow()
+                                    } }>
                                         Nueva fila...
                                     </button>
                                 </div>
                                 <div className="col-6 text-right">
-                                    <button className="btn btn-primary">
+                                    <button className="btn btn-primary" onClick={ () => {
+                                        this.save();
+                                    } }>
                                         Guardar
                                     </button>
                                 </div>

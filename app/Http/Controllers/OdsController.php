@@ -403,4 +403,39 @@ class OdsController extends Controller
 
         return response()->json($response);
     }
+
+    public function evolution_chart(Request $request)
+    {
+        $token = $request->token;
+        $strategy = Strategy::where('token', $request->token)->first();
+
+        $evaluations = Evaluation::where('strategy_id', $strategy->id)->get();
+
+        $years = $evaluations->unique('year')->pluck('year');
+
+        $evaluations_array = [];
+
+        //año
+        foreach ($years as $year) {
+            //evaluaciones
+            foreach ($evaluations as $evaluation) {
+                if ($year == $evaluation->year) {
+
+                    if (!isset($evaluations_array[$year][0])) {
+
+                        $evaluations_array[$year] = [];
+                    }
+
+                    array_push($evaluations_array[$year], $evaluation);
+                }
+            }
+        }
+
+        $response = [
+            "evaluations" => $evaluations_array,
+            "years" => $years
+        ];
+
+        return response()->json($response);
+    }
 }
