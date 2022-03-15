@@ -603,4 +603,22 @@ class TaskController extends Controller
         //4) RETURN REDIRECT
         return redirect()->back()->with('status', 'success')->with('message', 'Documento editado.');
     }
+
+
+    public function changeState_task(Request $request)
+    {
+        $task = Task::where('token', $request->token)->first();
+
+        if ($task->is_done == 0) {
+            $task = Task::where('token', $request->token)->update( ['is_done' => 1] );
+            $response = ['status' => 'success', 'message' => 'Se ha finalizado una tarea.', 'close' => 1];
+
+        }else{
+            $task = Task::where('token', $request->token)->update( ['is_done' => 0] );
+            $response = ['status' => 'success', 'message' => 'Se ha abierto una tarea.', 'close' => 0];
+
+        }
+
+        return response()->json($response);
+    }
 }

@@ -39,6 +39,10 @@ return [
     'target' => 'Objetivo',
     'base_year' => 'Año de referencia',
     'target_year' => 'Año del objetivo',
+    'year' => 'Año',
+    'value' => 'Valor',
+    'deleted_at' => 'Fecha de eliminación',
+    'deleted_at_time' => 'Hora de eliminación',
 
 
 ];
