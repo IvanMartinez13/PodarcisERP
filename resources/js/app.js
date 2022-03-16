@@ -6,3 +6,4 @@ require('./react/pages/ods_evaluation/Dashboard');
 
 require('./react/pages/tasks/Tasks');
 require('./react/pages/tasks/Subtasks');
+require('./react/components/BasicMap');

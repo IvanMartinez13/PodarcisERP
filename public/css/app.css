@@ -661,6 +661,10 @@ select {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1033,6 +1037,9 @@ select {
 }
 .pt-1 {
   padding-top: 0.25rem;
+}
+.pb-5 {
+  padding-bottom: 1.25rem;
 }
 .pt-6 {
   padding-top: 1.5rem;

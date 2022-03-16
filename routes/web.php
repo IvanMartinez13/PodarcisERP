@@ -9,6 +9,8 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OdsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VaoController;
+
 
 
 /*
@@ -142,6 +144,17 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     
 });
 
+
+//VAO MODULE
+Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->group( function() {
+    Route::get('/', [VaoController::class, 'index'])->name('vao.index');
+    Route::get('/create', [VaoController::class, 'create'])->name('vao.create');
+    Route::put('/create', [VaoController::class, 'store'])->name('vao.store');
+    Route::get('/edit/{token}', [VaoController::class, 'edit'])->name('vao.edit');
+    Route::put('/update', [VaoController::class, 'update'])->name('vao.update');
+    Route::get('/{token}', [VaoController::class, 'details'])->name('vao.details');
+    
+} );
 
 
 

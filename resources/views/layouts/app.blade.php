@@ -26,6 +26,7 @@
     <link href="{{ url('/') }}/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css">
     <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -92,6 +93,7 @@
     <script src="{{ url('/') }}/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/iCheck/icheck.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/sweetalert/sweetalert.min.js"></script>
+    
 
     <script>
         toastr.options = {
