@@ -167,6 +167,15 @@
                     </a>
                 </li>
             @endcan
+
+            @can('read Vigilancia Ambiental')
+                <li class="{{ request()->is('vao*') ? 'active' : '' }}">
+                    <a href="{{ route('vao.index') }}">
+                        <i class="fa-solid fa-helmet-safety"></i>
+                        <span class="nav-label">{{ __('modules.vao') }}</span>
+                    </a>
+                </li>
+            @endcan
         </ul>
 
     </div>

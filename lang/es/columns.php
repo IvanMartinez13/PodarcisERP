@@ -29,6 +29,9 @@ return [
     'status' => 'Estado',
     'departaments' => 'Departamentos',
     'progress' => 'Progreso',
+    'starts_at' => 'Fecha de inicio',
+    'code' => 'Código',
+    'state' => 'Estado',
 
     //ODS MODULE
     'title' => 'Título',

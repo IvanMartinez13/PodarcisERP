@@ -723,5 +723,9 @@
     "You will not be able to recover this file!": "No podrá recuperar este archivo!",
     "You will recover this file!": "¡Recuperarás este archivo!",
     "You will not be able to recover this evaluation!": "No podrá recuperar esta evaluación!",
-    "You will recover this evaluation!": "¡Recuperarás esta evaluación!"
+    "You will recover this evaluation!": "¡Recuperarás esta evaluación!",
+    "Start pending": "Pendiente de Inicio",
+    "In process": "En proceso",
+    "Stopped": "Parado",
+    "Finished": "Finalizado"
 }
