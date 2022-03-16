@@ -30,9 +30,7 @@
 
     <div class="row">
         <div class="col-lg-6 mb-4 mb-lg-0">
-            <div id="map" style="height: 75vh" class="bg-danger">
-                
-            </div>
+            <basic-map location="{{ json_encode($vao->location) }}"></basic-map>
         </div>
 
         <div class="col-lg-6">
@@ -176,6 +174,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
