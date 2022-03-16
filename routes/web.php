@@ -152,6 +152,7 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::put('/create', [VaoController::class, 'store'])->name('vao.store');
     Route::get('/edit/{token}', [VaoController::class, 'edit'])->name('vao.edit');
     Route::put('/update', [VaoController::class, 'update'])->name('vao.update');
+    Route::get('/{token}', [VaoController::class, 'details'])->name('vao.details');
     
 } );
 

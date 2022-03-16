@@ -137,5 +137,13 @@ class VaoController extends Controller
         return redirect( route('vao.index') )->with('status', 'success')->with('message', 'Vigilancia ambiental editada.');
     }
 
+    //VAO DETAILS
+    public function details($token)
+    {
+        $vao = Vao::where('token', $token)->first();
+        
+        return view('pages.vao.details', compact('vao'));
+    }
+
     
 }

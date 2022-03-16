@@ -87,11 +87,12 @@
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                        @endcan
- 
 
-                                       <button class="btn btn-link">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                        </button>
+                                       @can('read Vigilancia Ambiental')
+                                            <a href="{{route('vao.details', $vao->token)}}" class="btn btn-link">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
 
                                         <button class="btn btn-link">
                                             <i class="fa fa-trash-alt" aria-hidden="true"></i>

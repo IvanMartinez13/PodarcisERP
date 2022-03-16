@@ -727,5 +727,8 @@
     "Start pending": "Pendiente de Inicio",
     "In process": "En proceso",
     "Stopped": "Parado",
-    "Finished": "Finalizado"
+    "Finished": "Finalizado",
+    "Admin kmz": "Administrar kmz",
+    "% Compliance": "% Cumplimiento",
+    "Incidents and notices": "Incidencias y avisos"
 }
