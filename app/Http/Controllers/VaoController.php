@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLayerGroup;
 use App\Http\Requests\StoreVaoRequest;
 use App\Http\Requests\UpdateVaoRequest;
+use App\Models\Layer_group;
 use App\Models\Vao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -145,5 +147,24 @@ class VaoController extends Controller
         return view('pages.vao.details', compact('vao'));
     }
 
+
+    /* LAYER GROUP FOR THIS VAO */
+
+    public function create_layer_group(StoreLayerGroup $request)
+    {
+        $vao = Vao::where('token', $request->token)->first();
+
+        $data = [
+            'name' => $request->name,
+            'vao_id' => $vao->id,
+            'token' => md5( $request->name.'+'.date('d/m/Y H:i:s') )
+        ];
+
+        $layer_group = new Layer_group($data);
+        $layer_group->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Grupo de layers guardado.']);
+    
+    }
     
 }
