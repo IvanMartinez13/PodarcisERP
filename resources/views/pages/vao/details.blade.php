@@ -28,7 +28,8 @@
 
     </div>
 
-    <div class="row">
+    <vao data="{{ json_encode($vao) }}"></vao>
+    <!--<div class="row">
         <div class="col-lg-6 mb-4 mb-lg-0">
             <basic-map location="{{ json_encode($vao->location) }}"></basic-map>
         </div>
@@ -180,5 +181,5 @@
         </div>
 
 
-    </div>
+    </div>-->
 @endsection
