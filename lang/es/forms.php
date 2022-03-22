@@ -62,6 +62,8 @@ return [
     'starts_at' => 'Fecha de inicio',
     'state' => 'Estado',
     'direction' => 'Dirección',
+    'type' => 'Tipo',
+    'group' => 'Grupo',
 
     //PERMISSIONS
     'store' => 'Crear',
