@@ -20,7 +20,8 @@
     <link href="{{ url('/') }}/css/plugins/dataTables/dataTables.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/switchery/switchery.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/leaflet/leaflet.css" rel="stylesheet">
-    <link src="{{ url('/') }}/js/plugins/leaflet/groupLayerControl/dist/leaflet.groupedlayercontrol.min.css" rel="stylesheet">
+    <link src="{{ url('/') }}/js/plugins/leaflet/groupLayerControl/dist/leaflet.groupedlayercontrol.min.css"
+        rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
@@ -28,7 +29,7 @@
     <link href="{{ url('/') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <link href='{{ url('/') }}/js/plugins/leaflet/fullscreen/dist/leaflet.fullscreen.css' rel='stylesheet' />
-    
+
     <!-- Styles -->
     <link href="{{ url('/') }}/css/animate.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
@@ -88,7 +89,8 @@
     <script src="{{ url('/') }}/js/plugins/switchery/switchery.js"></script>
     <script src="{{ url('/') }}/js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/leaflet/leaflet.js"></script>
-    <script src="{{ url('/') }}/js/plugins/leaflet/groupLayerControl/dist/leaflet.groupedlayercontrol.min.js"></script>
+    <script src="{{ url('/') }}/js/plugins/leaflet/groupLayerControl/dist/leaflet.groupedlayercontrol.min.js">
+    </script>
     <script src="{{ url('/') }}/js/plugins/toastr/toastr.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/select2/select2.full.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/summernote/summernote-bs4.js"></script>
@@ -96,14 +98,15 @@
     <script src="{{ url('/') }}/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/iCheck/icheck.min.js"></script>
     <script src="{{ url('/') }}/js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js" integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"
+        integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/leaflet-kmz@latest/dist/leaflet-kmz.js"></script>
     <script src="{{ url('/') }}/js/plugins/leaflet/shapes/shp.js"></script>
-	<script src="{{ url('/') }}/js/plugins/leaflet/shapes/leaflet.shpfile.js"></script>
-
+    <script src="{{ url('/') }}/js/plugins/leaflet/shapes/leaflet.shpfile.js"></script>
     <script src='{{ url('/') }}/js/plugins/leaflet/fullscreen/dist/Leaflet.fullscreen.min.js'></script>
 
-    
+
     <script>
         toastr.options = {
             "closeButton": true,

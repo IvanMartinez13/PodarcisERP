@@ -10016,7 +10016,7 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         id: "map",
         style: {
-          height: '100%',
+          height: '97%',
           width: '100%',
           minHeight: '500px'
         }

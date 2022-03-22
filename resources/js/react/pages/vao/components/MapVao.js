@@ -30,7 +30,7 @@ class MapVao extends React.Component{
             ) 
         }
         return(
-            <div id="map" style={{height: '100%', width: '100%', minHeight: '500px'}}></div>
+            <div id="map" style={{height: '97%', width: '100%', minHeight: '500px'}}></div>
         )
     }
 
