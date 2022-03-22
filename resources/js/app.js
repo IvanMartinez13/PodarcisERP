@@ -9,4 +9,4 @@ require('./react/pages/tasks/Subtasks');
 require('./react/pages/vao/Vao');
 
 //COMPONENTS
-require('./react/components/BasicMap');
+

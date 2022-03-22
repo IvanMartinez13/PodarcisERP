@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLayerGroup;
 use App\Http\Requests\StoreVaoRequest;
 use App\Http\Requests\UpdateVaoRequest;
+use App\Models\Layer;
 use App\Models\Layer_group;
 use App\Models\Vao;
 use Illuminate\Http\Request;
@@ -165,6 +166,109 @@ class VaoController extends Controller
 
         return response()->json(['status' => 'success', 'message' => 'Grupo de layers guardado.']);
     
+    }
+
+    public function addlayer_index(Request $request)
+    {
+        $vao = Vao::where('token', $request->token)->first();
+
+        $layer_groups = Layer_group::where('vao_id', $vao->id)->get();
+
+        $response = ['layer_groups' => $layer_groups];
+
+        return response()->json($response);
+    }
+
+    public function addLayer(Request $request)
+    {
+
+        //1) GET DATA
+        $user = Auth::user();
+        $vao = Vao::where('token', $request->token)->first();
+        $layer_group = Layer_group::where('token', $request->group)->first();
+
+        if ($layer_group != null) {
+            $data = [
+                "name" => $request->name,
+                "type" => $request->type,
+                "layer_group_id" => $layer_group->id,
+                "vao_id" => $vao->id,
+                "token" => md5($request->name.'+'.date('d/m/Y H:i:s'))
+            ];
+        }else{
+
+            $data = [
+                "name" => $request->name,
+                "type" => $request->type,
+                "layer_group_id" => null,
+                "vao_id" => $vao->id,
+                "token" => md5($request->name.'+'.date('d/m/Y H:i:s'))
+            ];
+        }
+
+        $file = $request->file;
+
+        //2) STORE DATA
+
+        //CREATE FOLDER
+        $folder = '/vao/'.$user->customer_id.'/'.$vao->token.'/layers';
+
+        if ( !is_dir(storage_path('/app/public').$folder) ) {
+            
+            mkdir(storage_path('/app/public').$folder, 0777, true);
+        }
+
+        //STORE FILE
+        $ext = ".".$file->guessExtension();
+        
+
+        if ($data['type'] == 'kml') {
+            # code...
+            
+            if ($ext == '.xml') {
+                
+                $ext = '.kml';
+
+            }else{
+                $ext = '.kmz';
+            }
+            
+        }
+
+        
+
+        $path = $folder.'/'.$data['token'].$ext;
+        
+
+        move_uploaded_file($file,  storage_path('/app/public').$path); //upload file
+
+        $data['path'] = $path;
+        
+        
+        //STORE LAYER ON BBDD
+
+        $layer = new Layer($data);
+
+        $layer->save();
+
+        //3) RETURN RESPONSE
+        $response = ['status' => 'success', 'message' => 'Layer guardado.'];
+        return response()->json($response);
+
+
+    }
+
+    public function get_layers(Request $request)
+    {
+        $vao = Vao::where('token', $request->token)->first();
+
+        //$layer_group = Layer_group::where('vao_id', $vao->id)->get(); LUEGO FILTRAMOS POR GRUPOS
+        
+        $layers = Layer::where('vao_id', $vao->id)->with('group')->get();
+
+        $response = ['layers' => $layers];
+
+        return response()->json($response);
     }
     
 }

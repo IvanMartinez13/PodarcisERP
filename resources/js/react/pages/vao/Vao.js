@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import ReactDOM  from "react-dom";
+import AddLayer from "./components/AddLayer";
 import CreateGroup from "./components/CreateGroup";
 import MapVao from "./components/MapVao";
 
@@ -19,14 +21,28 @@ class Vao extends React.Component{
 
     render()
     {
-        return(
-            <div>
-                <div className="row">
-                    <div className="col-lg-6">
-                        <MapVao location={this.vao.location}></MapVao>
+        if (this.state.loading) {
+            return(
+                <div className="text-center">
+                    <div className="spiner-example">
+                        <div className="sk-spinner sk-spinner-double-bounce">
+                            <div className="sk-double-bounce1"></div>
+                            <div className="sk-double-bounce2"></div>
+                        </div>
                     </div>
 
-                    <div className="col-lg-6">
+                    Cargando...
+                </div>
+            )
+        }
+        return(
+            <div className="animated fadeIn">
+                <div className="row">
+                    <div className="col-lg-6 mb-lg-0 mb-4 animated fadeInLeft">
+                        <MapVao vao_token={this.vao.token} location={this.vao.location}></MapVao>
+                    </div>
+
+                    <div className="col-lg-6 mb-lg-0 mb-4 animated fadeInRight">
                         <div className="row">
                             {/* DETAILS */}
                             <div className="col-lg-12">
@@ -109,7 +125,11 @@ class Vao extends React.Component{
                                                 Crear grupo de layers...
                                             </button>
 
-                                            <button className="btn btn-secondary btn-block mb-3 rounded">
+                                            <button className="btn btn-secondary btn-block mb-3 rounded" onClick={
+                                                () => {
+                                                    $("#addLayer").modal('show');
+                                                }
+                                            }>
                                                 Añadir archivo...
                                             </button>
 
@@ -175,9 +195,18 @@ class Vao extends React.Component{
                 </div>
 
                 <CreateGroup vao_token={this.vao.token}></CreateGroup>
+                <AddLayer vao_token={this.vao.token}></AddLayer>
             </div>
 
         )
+    }
+
+    componentDidMount()
+    {
+        setTimeout( () =>  {
+            this.setState({loading: false});
+        }, 1000 )
+        
     }
 
     formatStatus(state)

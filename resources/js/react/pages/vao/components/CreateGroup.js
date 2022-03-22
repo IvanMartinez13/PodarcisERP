@@ -35,7 +35,7 @@ class CreateGroup extends React.Component{
         return(
 
             <div className="modal fade" id="createGroup" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                <div className="modal-dialog modal-xl" role="document">
+                <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content bg-primary">
                             <div className="modal-header">
                                     <h5 className="modal-title"> Crear grupo de layers</h5>

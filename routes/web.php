@@ -154,6 +154,10 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::put('/update', [VaoController::class, 'update'])->name('vao.update');
     Route::get('/{token}', [VaoController::class, 'details'])->name('vao.details');
     Route::post('/create_layer_group', [VaoController::class, 'create_layer_group'])->name('vao.create_layer_group');
+    Route::post('/addlayer_index', [VaoController::class, 'addlayer_index'])->name('vao.addlayer_index');
+    Route::post('/addLayer', [VaoController::class, 'addLayer'])->name('vao.addLayer');
+    Route::post('/get_layers', [VaoController::class, 'get_layers'])->name('vao.get_layers');
+    
     
 } );
 
