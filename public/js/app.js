@@ -7439,7 +7439,7 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
       }
 
       if (key == "files") {
-        this.value = this.files;
+        this.files = value;
       } //PREPARE DATA
 
 

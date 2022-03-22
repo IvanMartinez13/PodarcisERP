@@ -114,7 +114,7 @@ class RowEvaluation extends React.Component{
 
         if (key == "files") {
             
-            this.value = this.files;
+            this.files = value;
         }
 
         //PREPARE DATA
