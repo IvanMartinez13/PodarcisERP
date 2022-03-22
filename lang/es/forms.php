@@ -58,6 +58,12 @@ return [
     'file' => 'Elige un documento...',
     'files' => 'Arrastra aquí tus documentos...',
     'message' => 'Mensaje',
+    'code' => 'Código',
+    'starts_at' => 'Fecha de inicio',
+    'state' => 'Estado',
+    'direction' => 'Dirección',
+    'type' => 'Tipo',
+    'group' => 'Grupo',
 
     //PERMISSIONS
     'store' => 'Crear',

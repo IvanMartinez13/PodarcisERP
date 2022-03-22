@@ -110,110 +110,104 @@ class OdsController extends Controller
 
         //try{
 
-            foreach ($evaluations as $key => $evaluation) {
+        foreach ($evaluations as $key => $evaluation) {
 
-                $checkEvaluation = Evaluation::where('token', $evaluation['id'])->exists();
-    
-                if ($checkEvaluation) {
-    
-                    //2)PREPARE DATA
-                    $data = [
-                        'year' => $evaluation['year'],
-                        'value' => $evaluation['value']
-                    ];
-    
-                    $rules = [
-                        'year' => ['required', 'numeric'],
-                        'value' => ['required', 'numeric'],
-                    ];
-    
-                    $validator = Validator::make($data, $rules);
-    
-                    if (!$validator->fails() || $evaluation['delete'] != true) {
-                        //3) UPDATE DATA
-                        $update = Evaluation::where('token', $evaluation['id']);
-                        $update->update($data);
-                    }
+            $checkEvaluation = Evaluation::where('token', $evaluation['id'])->exists();
 
-                    if ($evaluation['delete'] == true) {
-                        $update = Evaluation::where('token', $evaluation['id'])->delete();
-                    }
+            if ($checkEvaluation) {
 
-                    $update = Evaluation::where('token', $evaluation['id'])->first();
-                    foreach ($evaluation['files'] as $key => $file) {
-                        //CHECK DATA
-                        if( isset($file['token']) )
-                        {
-                            $data=[
-                                'name' => $file['name'],
-                               
-                            ];
+                //2)PREPARE DATA
+                $data = [
+                    'year' => $evaluation['year'],
+                    'value' => $evaluation['value']
+                ];
 
-                            $file = Evaluation_file::where('token', $file['token'])->update($data);
-                        }else{
+                $rules = [
+                    'year' => ['required', 'numeric'],
+                    'value' => ['required', 'numeric'],
+                ];
 
-                            $data=[
-                                'name' => $file['name'],
-                                'path' => $file['path'],
-                                'evaluation_id' => $update->id,
-                                'token' => md5( $file['name'].'+'.date('d/m/Y H:i:s') ),
-                            ];
+                $validator = Validator::make($data, $rules);
 
-                            $file = new Evaluation_file($data);
-                            $file->save();
-                        }
-                    }
-    
-    
-    
-                }else{
-    
-                    //2)PREPARE DATA
-                    $data = [
-                        'year' => $evaluation['year'],
-                        'value' => $evaluation['value'],
-                        'strategy_id' => $strategy->id,
-                        'token' => md5($evaluation['year'].'+'.$evaluation['value'].'+'.date('d/m/Y H:i:s')),
-                    ];
-    
-                    $rules = [
-                        'year' => ['required', 'numeric'],
-                        'value' => ['required', 'numeric'],
-                    ];
-    
-                    $validator = Validator::make($data, $rules);
-    
-                    if (!$validator->fails()  || $evaluation['delete'] != true) {
-                        //3) STORE DATA
-                        $store = new Evaluation($data);
-                        $store->save();
-                    }
+                if (!$validator->fails() || $evaluation['delete'] != true) {
+                    //3) UPDATE DATA
+                    $update = Evaluation::where('token', $evaluation['id']);
+                    $update->update($data);
+                }
 
-                    foreach ($evaluation['files'] as $key => $file) {
-                        //CHECK DATA
+                if ($evaluation['delete'] == true) {
+                    $update = Evaluation::where('token', $evaluation['id'])->delete();
+                }
+
+                $update = Evaluation::where('token', $evaluation['id'])->first();
+
+                foreach ($evaluation['files'] as $key => $file) {
+                    //CHECK DATA
+                    if (isset($file['token'])) {
+                        $data = [
+                            'name' => $file['name'],
+
+                        ];
+
+                        $file = Evaluation_file::where('token', $file['token'])->update($data);
+                    } else {
+
                         $data = [
                             'name' => $file['name'],
                             'path' => $file['path'],
-                            'evaluation_id' => $store->id,
-                            'token' => md5( $file['name'].'+'.date('d/m/Y H:i:s') ),
+                            'evaluation_id' => $update->id,
+                            'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
                         ];
 
                         $file = new Evaluation_file($data);
                         $file->save();
                     }
-    
-    
-    
+                }
+            } else {
+
+                //2)PREPARE DATA
+                $data = [
+                    'year' => $evaluation['year'],
+                    'value' => $evaluation['value'],
+                    'strategy_id' => $strategy->id,
+                    'token' => md5($evaluation['year'] . '+' . $evaluation['value'] . '+' . date('d/m/Y H:i:s')),
+                ];
+
+                $rules = [
+                    'year' => ['required', 'numeric'],
+                    'value' => ['required', 'numeric'],
+                ];
+
+                $validator = Validator::make($data, $rules);
+
+                if (!$validator->fails()  || $evaluation['delete'] != true) {
+                    //3) STORE DATA
+                    $store = new Evaluation($data);
+                    $store->save();
+                }
+
+                foreach ($evaluation['files'] as $key => $file) {
+                    //CHECK DATA
+                    $data = [
+                        'name' => $file['name'],
+                        'path' => $file['path'],
+                        'evaluation_id' => $store->id,
+                        'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
+                    ];
+
+                    $file = new Evaluation_file($data);
+                    $file->save();
                 }
             }
+        }
 
-            //4) RETURN RESPONSE
-            $response = [
-                'status' => 'success',
-                'message' => 'Evaluaciones guardadas.'
-            ];
+        //4) RETURN RESPONSE
+        $response = [
+            'status' => 'success',
+            'message' => 'Evaluaciones guardadas.'
+        ];
 
-            return response()->json($response);
+        return response()->json($response);
 
         /*}catch(\Throwable $th){
 
@@ -225,13 +219,6 @@ class OdsController extends Controller
 
             return response()->json($response);
         }*/
-
-
-
-        
-
-
-
     }
 
     public function get_evaluations(Request $request)
@@ -338,7 +325,7 @@ class OdsController extends Controller
             "target" => $request->target,
             "base_year" => $request->base_year,
             "target_year" => $request->target_year,
-            
+
         ];
 
         $strategy = Strategy::where('token', $request->token)->update($data);
@@ -446,9 +433,10 @@ class OdsController extends Controller
 
 
     //GO TO PAGE RECYCLE EVALUATIONS
-    public function deleted_evaluations($token){
+    public function deleted_evaluations($token)
+    {
         $strategy = Strategy::where('token', $token)->with('objective')->first();
-        $deletedEvaluations = Evaluation::where('strategy_id', $strategy->id)->onlyTrashed()->get(); 
+        $deletedEvaluations = Evaluation::where('strategy_id', $strategy->id)->onlyTrashed()->get();
 
         return view('pages.ods.strategy.recover_evaluations', compact('deletedEvaluations', 'strategy'));
     }
