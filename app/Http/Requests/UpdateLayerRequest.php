@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreLayerGroup extends FormRequest
+class UpdateLayerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,8 @@ class StoreLayerGroup extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('store Vigilancia Ambiental');
+
+        return Auth::user()->can('update Vigilancia Ambiental');
     }
 
     /**
@@ -25,8 +26,11 @@ class StoreLayerGroup extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'token' => ['required', 'string'],
+            'name' => ['string', 'required', 'max:255'],
+            'type' => ['string', 'required', 'max:255'],
+            'group' => ['string', 'required', 'max:255'],
+            'file' => ['nullable'],
+            'token' => ['string', 'required'],
         ];
     }
 
@@ -34,6 +38,9 @@ class StoreLayerGroup extends FormRequest
     {
         return [
             'name' => 'Nombre',
+            'type' => 'Tipo',
+            'group' => 'Grupo',
+            'file' => 'Documento',
             'token' => 'Token',
         ];
     }

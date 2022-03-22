@@ -117,9 +117,6 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/strategy/{token}/deleted_evaluations', [OdsController::class, 'deleted_evaluations'])->name('ods.evaluations.deleted');
     Route::put('/strategy/evaluation/recover', [OdsController::class, 'recover_evaluation'])->name('ods.evaluations.recover');
     Route::put('/strategy/evaluation/true_delete', [OdsController::class, 'true_delete_evaluation'])->name('ods.evaluations.true_delete');
-    
-    
-    
 });
 
 //TASKS MODULE
@@ -141,12 +138,11 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::post('/project/task/addFiles', [TaskController::class, 'addFiles'])->name('tasks.project.addFiles');
     Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
     Route::post('/project/task/changeState', [TaskController::class, 'changeState_task'])->name('tasks.project.task.changeState');
-    
 });
 
 
 //VAO MODULE
-Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->group( function() {
+Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->group(function () {
     Route::get('/', [VaoController::class, 'index'])->name('vao.index');
     Route::get('/create', [VaoController::class, 'create'])->name('vao.create');
     Route::put('/create', [VaoController::class, 'store'])->name('vao.store');
@@ -157,9 +153,10 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::post('/addlayer_index', [VaoController::class, 'addlayer_index'])->name('vao.addlayer_index');
     Route::post('/addLayer', [VaoController::class, 'addLayer'])->name('vao.addLayer');
     Route::post('/get_layers', [VaoController::class, 'get_layers'])->name('vao.get_layers');
-    
-    
-} );
+    Route::get('/{vao_token}/edit/{layer_token}', [VaoController::class, 'layer_edit'])->name('vao.edit.layer');
+    Route::put('/update/layer', [VaoController::class, 'layer_update'])->name('vao.update.layer');
+    Route::post('/delete_layer', [VaoController::class, 'delete_layer'])->name('vao.delete.layer');
+});
 
 
 

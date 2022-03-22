@@ -3,7 +3,9 @@ import React from "react";
 import ReactDOM  from "react-dom";
 import AddLayer from "./components/AddLayer";
 import CreateGroup from "./components/CreateGroup";
+import DeleteFiles from "./components/DeleteFiles";
 import MapVao from "./components/MapVao";
+import UpdateFiles from "./components/UpdateFiles";
 
 class Vao extends React.Component{
 
@@ -49,12 +51,7 @@ class Vao extends React.Component{
                                 <div className="ibox">
                                     <div className="ibox-title bg-primary">
                                         <h5>{this.vao.title}</h5>
-                    
-                                        <div className="ibox-tools">
-                                            <a role="button" className="collapse-link">
-                                                <i className="fa fa-chevron-up text-white" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
+
                                     </div>
                     
                                     <div className="ibox-content">
@@ -107,12 +104,8 @@ class Vao extends React.Component{
                             <div className="col-lg-6">
                                 <div className="ibox">
                                     <div className="ibox-title bg-primary">
-                                        <h5>Administrar archivos cartograficos</h5>
-                                        <div className="ibox-tools">
-                                            <a role={'button'} className="collapse-link">
-                                                <i className="fa fa-chevron-up text-white" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
+                                        <h5>Administrar archivos cartográficos</h5>
+
                                     </div>
 
                                     <div className="ibox-content">
@@ -133,11 +126,22 @@ class Vao extends React.Component{
                                                 Añadir archivo...
                                             </button>
 
-                                            <button className="btn btn-secondary btn-block mb-3 rounded">
+                                            <button className="btn btn-secondary btn-block mb-3 rounded" onClick={
+                                                () => {
+                                                    $("#updateFiles").modal('show');
+                                                }
+                                            }>
+                                            
                                                 Editar archivo...
                                             </button>
 
-                                            <button className="btn btn-danger btn-block rounded">
+                                            <button
+                                                className="btn btn-danger btn-block rounded"
+                                                onClick={
+                                                    () => {
+                                                        $("#deleteFiles").modal('show');
+                                                    }
+                                                }>
                                                 Eliminar archivo...
                                             </button>
                                         </div>
@@ -154,11 +158,7 @@ class Vao extends React.Component{
                                 <div className="ibox">
                                     <div className="ibox-title bg-primary">
                                         <h5>TITULO</h5>
-                                        <div className="ibox-tools">
-                                            <a role={'button'} className="collapse-link">
-                                                <i className="fa fa-chevron-up text-white" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
+            
                                     </div>
 
                                     <div className="ibox-content"></div>
@@ -174,11 +174,7 @@ class Vao extends React.Component{
                                 <div className="ibox">
                                     <div className="ibox-title bg-primary">
                                         <h5>TITULO</h5>
-                                        <div className="ibox-tools">
-                                            <a role={'button'} className="collapse-link">
-                                                <i className="fa fa-chevron-up text-white" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
+           
                                     </div>
 
                                     <div className="ibox-content"></div>
@@ -196,6 +192,8 @@ class Vao extends React.Component{
 
                 <CreateGroup vao_token={this.vao.token}></CreateGroup>
                 <AddLayer vao_token={this.vao.token}></AddLayer>
+                <UpdateFiles vao_token={this.vao.token}></UpdateFiles>
+                <DeleteFiles vao_token={this.vao.token}></DeleteFiles>
             </div>
 
         )

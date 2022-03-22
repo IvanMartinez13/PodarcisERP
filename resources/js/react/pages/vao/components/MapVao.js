@@ -10,6 +10,7 @@ class MapVao extends React.Component{
         this.location = this.props.location;
         this.vao_token = this.props.vao_token;
         this.layers = [];
+        this.overlays = [];
         this.state = {loading: true}
     }
 
@@ -97,12 +98,14 @@ class MapVao extends React.Component{
 
             const handleAddKmz = (name, group , path, map, control) => { this.addKmz(name, group , path, map, control); }
 
+            
+
             // Add remote KMZ files as layers (NB if they are 3rd-party servers, they MUST have CORS enabled)
             this.layers.map( (layer) => {
 
                 if (layer.type == 'kml') {
 
-                    handleAddKmz(layer.name, layer.group.name, '/storage'+layer.path, map, control);
+                    handleAddKmz(layer.name, layer.group.name, '/storage'+layer.path, map, control );
                 }
 
                 if (layer.type == 'shape') {
@@ -169,25 +172,30 @@ class MapVao extends React.Component{
 
                     shpfile.addTo(map);
 
+                    let overlays = this.overlays;
+                    const overlayChange = (value) =>{
+                        this.overlays = value
+                    }
+
                     shpfile.once("data:loaded", function() {
                         
                         map.fitBounds(shpfile.getBounds());
-                        
+                        overlays.push(shpfile);
+                        overlayChange(overlays);
                     });
+                   
 
-                    
-
-                    control.addOverlay(shpfile, layer.name, layer.group.name)
+                    control.addOverlay(shpfile, layer.name, layer.group.name);
                 }
                 
-            } )
-            
+            } );
 
 
 
+        } )
 
-        } );
 
+        
 
     }
 
@@ -196,11 +204,21 @@ class MapVao extends React.Component{
     {
         // Instantiate KMZ layer (async)
         var kmz = L.kmzLayer().addTo(map);
+        let overlays = this.overlays;
+
+        const overlayChange = (value) => {
+            this.overlays = value
+        }
 
         kmz.on('load', function(e) {
             control.addOverlay(e.layer, name, group);
+
             map.fitBounds(kmz.getBounds()); //ZOOM TO LAYER
+
             // e.layer.addTo(map);
+            overlays.push(kmz);
+
+            overlayChange(overlays);
         });
 
         kmz.load(path);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLayerGroup;
 use App\Http\Requests\StoreVaoRequest;
+use App\Http\Requests\UpdateLayerRequest;
 use App\Http\Requests\UpdateVaoRequest;
 use App\Models\Layer;
 use App\Models\Layer_group;
@@ -42,7 +43,7 @@ class VaoController extends Controller
             'location' => $request->location,
             'direction' => $request->direction,
             'customer_id' => $customer_id,
-            'token' => md5( $request->title.'+'.date('d/m/Y H:i:s') )
+            'token' => md5($request->title . '+' . date('d/m/Y H:i:s'))
         ];
 
         $file = $request->file('image');
@@ -52,23 +53,23 @@ class VaoController extends Controller
         //STORE FILE
 
         if ($file) {
-            
-            //check if we need to create a folder
-            $folder = '/vao/'.$customer_id.'/'.$data['token'];
 
-            if ( !is_dir(storage_path('/app/public') . $folder ) ) {
-                
+            //check if we need to create a folder
+            $folder = '/vao/' . $customer_id . '/' . $data['token'];
+
+            if (!is_dir(storage_path('/app/public') . $folder)) {
+
                 mkdir(storage_path('/app/public') . $folder, 0777, true); //create folder
             }
 
-            $extension = '.'.$file->guessExtension();
+            $extension = '.' . $file->guessExtension();
             $filename = $file->getClientOriginalName();
-            $filename = md5( $filename .'+'.date('d/m/Y H:i:s') ).$extension;
-            $path = $folder.'/'.$filename;
+            $filename = md5($filename . '+' . date('d/m/Y H:i:s')) . $extension;
+            $path = $folder . '/' . $filename;
 
             $data['image'] = $path;
 
-            move_uploaded_file( $file, storage_path('/app/public').$path ) ; //upload file to path
+            move_uploaded_file($file, storage_path('/app/public') . $path); //upload file to path
 
         }
 
@@ -78,7 +79,7 @@ class VaoController extends Controller
         $vao->save();
 
         //3) RETURN VIEW
-        return redirect( route('vao.index') )->with('status', 'success')->with('message', 'Vigilancia ambiental creada');
+        return redirect(route('vao.index'))->with('status', 'success')->with('message', 'Vigilancia ambiental creada');
     }
 
     //PAGE EDIT
@@ -109,42 +110,42 @@ class VaoController extends Controller
         // 2) UPDATE DATA
 
         if ($file) {
-            
-            //check if we need to create a folder
-            $folder = '/vao/'.$customer_id.'/'.$data['token'];
 
-            if ( !is_dir(storage_path('/app/public') . $folder ) ) {
-                
+            //check if we need to create a folder
+            $folder = '/vao/' . $customer_id . '/' . $data['token'];
+
+            if (!is_dir(storage_path('/app/public') . $folder)) {
+
                 mkdir(storage_path('/app/public') . $folder, 0777, true); //create folder
             }
 
-            if ( is_file(storage_path('/app/public') . $vao->image ) ) {
-                
+            if (is_file(storage_path('/app/public') . $vao->image)) {
+
                 unlink(storage_path('/app/public') . $vao->image); //delete file
             }
 
-            $extension = '.'.$file->guessExtension();
+            $extension = '.' . $file->guessExtension();
             $filename = $file->getClientOriginalName();
-            $filename = md5( $filename .'+'.date('d/m/Y H:i:s') ).$extension;
-            $path = $folder.'/'.$filename;
+            $filename = md5($filename . '+' . date('d/m/Y H:i:s')) . $extension;
+            $path = $folder . '/' . $filename;
 
             $data['image'] = $path;
 
-            move_uploaded_file( $file, storage_path('/app/public').$path ) ; //upload file to path
+            move_uploaded_file($file, storage_path('/app/public') . $path); //upload file to path
 
         }
 
         $vao = Vao::where('token', $request->token)->update($data);
 
         //3) RETURN VIEW
-        return redirect( route('vao.index') )->with('status', 'success')->with('message', 'Vigilancia ambiental editada.');
+        return redirect(route('vao.index'))->with('status', 'success')->with('message', 'Vigilancia ambiental editada.');
     }
 
     //VAO DETAILS
     public function details($token)
     {
         $vao = Vao::where('token', $token)->first();
-        
+
         return view('pages.vao.details', compact('vao'));
     }
 
@@ -158,14 +159,13 @@ class VaoController extends Controller
         $data = [
             'name' => $request->name,
             'vao_id' => $vao->id,
-            'token' => md5( $request->name.'+'.date('d/m/Y H:i:s') )
+            'token' => md5($request->name . '+' . date('d/m/Y H:i:s'))
         ];
 
         $layer_group = new Layer_group($data);
         $layer_group->save();
 
         return response()->json(['status' => 'success', 'message' => 'Grupo de layers guardado.']);
-    
     }
 
     public function addlayer_index(Request $request)
@@ -193,16 +193,16 @@ class VaoController extends Controller
                 "type" => $request->type,
                 "layer_group_id" => $layer_group->id,
                 "vao_id" => $vao->id,
-                "token" => md5($request->name.'+'.date('d/m/Y H:i:s'))
+                "token" => md5($request->name . '+' . date('d/m/Y H:i:s'))
             ];
-        }else{
+        } else {
 
             $data = [
                 "name" => $request->name,
                 "type" => $request->type,
                 "layer_group_id" => null,
                 "vao_id" => $vao->id,
-                "token" => md5($request->name.'+'.date('d/m/Y H:i:s'))
+                "token" => md5($request->name . '+' . date('d/m/Y H:i:s'))
             ];
         }
 
@@ -211,40 +211,38 @@ class VaoController extends Controller
         //2) STORE DATA
 
         //CREATE FOLDER
-        $folder = '/vao/'.$user->customer_id.'/'.$vao->token.'/layers';
+        $folder = '/vao/' . $user->customer_id . '/' . $vao->token . '/layers';
 
-        if ( !is_dir(storage_path('/app/public').$folder) ) {
-            
-            mkdir(storage_path('/app/public').$folder, 0777, true);
+        if (!is_dir(storage_path('/app/public') . $folder)) {
+
+            mkdir(storage_path('/app/public') . $folder, 0777, true);
         }
 
         //STORE FILE
-        $ext = ".".$file->guessExtension();
-        
+        $ext = "." . $file->guessExtension();
+
 
         if ($data['type'] == 'kml') {
             # code...
-            
-            if ($ext == '.xml') {
-                
-                $ext = '.kml';
 
-            }else{
+            if ($ext == '.xml') {
+
+                $ext = '.kml';
+            } else {
                 $ext = '.kmz';
             }
-            
         }
 
-        
 
-        $path = $folder.'/'.$data['token'].$ext;
-        
 
-        move_uploaded_file($file,  storage_path('/app/public').$path); //upload file
+        $path = $folder . '/' . $data['token'] . $ext;
+
+
+        move_uploaded_file($file,  storage_path('/app/public') . $path); //upload file
 
         $data['path'] = $path;
-        
-        
+
+
         //STORE LAYER ON BBDD
 
         $layer = new Layer($data);
@@ -254,8 +252,6 @@ class VaoController extends Controller
         //3) RETURN RESPONSE
         $response = ['status' => 'success', 'message' => 'Layer guardado.'];
         return response()->json($response);
-
-
     }
 
     public function get_layers(Request $request)
@@ -263,12 +259,94 @@ class VaoController extends Controller
         $vao = Vao::where('token', $request->token)->first();
 
         //$layer_group = Layer_group::where('vao_id', $vao->id)->get(); LUEGO FILTRAMOS POR GRUPOS
-        
+
         $layers = Layer::where('vao_id', $vao->id)->with('group')->get();
 
         $response = ['layers' => $layers];
 
         return response()->json($response);
     }
-    
+
+    public function layer_edit($vao_token, $layer_token)
+    {
+        $vao = Vao::where('token', $vao_token)->first();
+
+        $layer = Layer::where('token', $layer_token)->with('group')->first();
+
+        $layer_groups = Layer_group::where('vao_id', $vao->id)->get();
+
+        return view('pages.vao.layers.edit', compact('vao', 'layer', 'layer_groups'));
+    }
+
+    public function layer_update(UpdateLayerRequest $request)
+    {
+        //1) GET DATA
+        $user = Auth::user();
+        $layer_group = Layer_group::where('token', $request->group)->first();
+        $layer = Layer::where('token', $request->token)->with('group')->first();
+        $vao = Vao::where('id', $layer->vao_id)->first();
+
+        $data = [
+            'name' => $request->name,
+            'type' => $request->type,
+            'layer_group_id' => $layer_group->id,
+        ];
+
+        $file = $request->file;
+
+        //2) UPDATE DATA
+
+        if ($file != null) {
+            $folder = '/vao/' . $user->customer_id . '/' . $vao->token . '/layers';
+
+            if (!is_dir(storage_path('/app/public') . $folder)) {
+
+                mkdir(storage_path('/app/public') . $folder, 0777, true);
+            }
+
+            if (is_file(storage_path('/app/public') . $layer->path)) {
+                unlink(storage_path('/app/public') . $layer->path);
+            }
+
+            //STORE FILE
+            $ext = "." . $file->guessExtension();
+
+
+            if ($data['type'] == 'kml') {
+                # code...
+
+                if ($ext == '.xml') {
+
+                    $ext = '.kml';
+                } else {
+                    $ext = '.kmz';
+                }
+            }
+
+
+
+            $path = $folder . '/' . $layer->token . $ext;
+
+
+            move_uploaded_file($file,  storage_path('/app/public') . $path); //upload file
+
+            $data['path'] = $path;
+        }
+
+        $layer = Layer::where('token', $request->token);
+        $layer->update($data);
+
+        //3) RETURN RESPONSE
+
+        return redirect(route('vao.details', $vao->token));
+    }
+
+    public function delete_layer(Request $request)
+    {
+        $token = $request->token;
+
+        $layer = Layer::where('token', $token)->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Archivo eliminado.']);
+    }
 }

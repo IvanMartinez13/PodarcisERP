@@ -673,6 +673,10 @@ select {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+.mx-5 {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1037,9 +1041,6 @@ select {
 }
 .pt-1 {
   padding-top: 0.25rem;
-}
-.pb-5 {
-  padding-bottom: 1.25rem;
 }
 .pt-6 {
   padding-top: 1.5rem;
