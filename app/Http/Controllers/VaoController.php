@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVaoRequest;
 use App\Http\Requests\StoreVisitRequest;
 use App\Http\Requests\UpdateLayerRequest;
 use App\Http\Requests\UpdateVaoRequest;
+use App\Http\Requests\UpdateVisitRequest;
 use App\Models\Layer;
 use App\Models\Layer_group;
 use App\Models\User;
@@ -411,7 +412,7 @@ class VaoController extends Controller
         return view('pages.vao.visits.edit', compact('vao', 'visit', 'users'));
     }
 
-    public function update_visit(StoreVisitRequest $request)
+    public function update_visit(UpdateVisitRequest $request)
     {
         //1) GET DATA
         $visit = Visit::where('token', $request->token)->with('users')->first();
