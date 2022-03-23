@@ -161,6 +161,7 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::post('/get_visits', [VaoController::class, 'get_visits'])->name('vao.get.visits');
     Route::get('/{token}/edit', [VaoController::class, 'edit_visit'])->name('vao.edit.visits');
     Route::put('/visits/update', [VaoController::class, 'update_visit'])->name('vao.update.visits');
+    Route::post('/delete_visit', [VaoController::class, 'delete_visit'])->name('vao.delete.visits');
 });
 
 

@@ -436,4 +436,11 @@ class VaoController extends Controller
         //3) RETURN REDIRECT
         return redirect(route('vao.details', $vao->token))->with('status', 'success')->with('message', 'Visita editada.');
     }
+
+    public function delete_visit(Request $request)
+    {
+        $visit = Visit::where('token', $request->token)->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Visita eliminada']);
+    }
 }

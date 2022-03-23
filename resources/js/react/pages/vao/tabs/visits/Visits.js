@@ -79,7 +79,7 @@ class Visits extends React.Component{
                                                             <i className="fa fa-pencil" aria-hidden="true"></i>
                                                         </a>
 
-                                                        <button className="btn btn-link">
+                                                        <button onClick={() => this.deleteVisit(visit.token)} className="btn btn-link">
                                                             <i className="fa fa-trash-alt" aria-hidden="true"></i>
                                                         </button>
                                                     </div>
@@ -217,6 +217,33 @@ class Visits extends React.Component{
         let date = new Date(str);
 
         return date.toLocaleDateString('es');
+    }
+
+    deleteVisit(token)
+    {
+        swal({
+            title: "¿Estas seguro?",
+            text: "No porás recuperar esta visita.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ed5565",
+            confirmButtonText: "Si, deseo eliminarla",
+            closeOnConfirm: false,
+            cancelButtonColor: "#ed5565",
+            cancelButtonText: "Cancelar",
+        }, function () {
+            axios.post('/vao/delete_visit', {token: token}).then( (response) => {
+                toastr.success(response.data.message);
+                
+                setTimeout( () => {
+                    
+                    location.reload();
+                }, 2000 )
+
+            } );
+
+            
+        });
     }
 }
 

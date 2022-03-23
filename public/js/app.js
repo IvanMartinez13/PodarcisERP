@@ -11106,6 +11106,9 @@ var Visits = /*#__PURE__*/function (_React$Component) {
                             "aria-hidden": "true"
                           })
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                          onClick: function onClick() {
+                            return _this2.deleteVisit(visit.token);
+                          },
                           className: "btn btn-link",
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                             className: "fa fa-trash-alt",
@@ -11208,6 +11211,30 @@ var Visits = /*#__PURE__*/function (_React$Component) {
     value: function formatDate(str) {
       var date = new Date(str);
       return date.toLocaleDateString('es');
+    }
+  }, {
+    key: "deleteVisit",
+    value: function deleteVisit(token) {
+      swal({
+        title: "¿Estas seguro?",
+        text: "No porás recuperar esta visita.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ed5565",
+        confirmButtonText: "Si, deseo eliminarla",
+        closeOnConfirm: false,
+        cancelButtonColor: "#ed5565",
+        cancelButtonText: "Cancelar"
+      }, function () {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/vao/delete_visit', {
+          token: token
+        }).then(function (response) {
+          toastr.success(response.data.message);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        });
+      });
     }
   }]);
 
