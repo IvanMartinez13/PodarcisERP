@@ -20,7 +20,7 @@ class Visits extends React.Component{
     render(){
         if (this.state.loading) {
             return(
-                <div className="text-center">
+                <div className="text-center animated fadeInRight">
                     <div className="spiner-example">
                         <div className="sk-spinner sk-spinner-double-bounce">
                             <div className="sk-double-bounce1"></div>
@@ -33,71 +33,79 @@ class Visits extends React.Component{
             )
         }
         return(
-            <div className="ibox">
-                <div className="ibox-title">
-                    <h5>Visitas</h5>
+            <div className="animated fadeInRight">
 
-                    <a href={"/vao/"+this.vao.token+"/visits/create"} className="ml-2 btn btn-primary">Crear</a>
+                <div className="ibox">
+                    <div className="ibox-title">
+                        <h5>Visitas</h5>
 
-                </div>
+                        <a href={"/vao/"+this.vao.token+"/visits/create"} className="ml-2 btn btn-primary">Crear</a>
 
-                <div className="ibox-content">
+                    </div>
 
-                    <div className="table-responsive">
-                        <table id="tableVisits" className="table table-hover table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
-                                    <th>Fecha de inicio</th>
-                                    <th>Fecha de fin</th>
-                                    <th>Cumplimiento</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
+                    <div className="ibox-content">
+
+                        <div className="table-responsive">
+                            <table id="tableVisits" className="table table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Fecha de inicio</th>
+                                        <th>Fecha de fin</th>
+                                        <th>Cumplimiento</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
 
 
-                            <tbody>
-                                {
-                                    this.visits.map( (visit, index) => {
-                                        return(
-                                            <tr key={visit.token+index}>
-                                                <td className="align-middle">{visit.name}</td>
-                                                <td className="align-middle">{visit.description}</td>
-                                                <td className="align-middle">{ this.formatDate(visit.starts_at) }</td>
-                                                <td className="align-middle">{ this.formatDate(visit.ends_at)}</td>
-                                                <td className="align-middle">
-                                                    <div className="progress m-b-1">
-                                                        <div style={{width: visit.compilance+"%"}} className="progress-bar progress-bar-striped progress-bar-animated"></div>
-                                                    </div>
-                                                    <small>{visit.compilance}% de cumplimiento.</small>
-                                                    
-                                                </td>
-                                                <td className="align-middle text-center">
-                                                    <div className="btn-group-vertical">
-                                                        <a href={"/vao/"+visit.token+"/edit"} className="btn btn-link">
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i>
-                                                        </a>
+                                <tbody>
+                                    {
+                                        this.visits.map( (visit, index) => {
+                                            return(
+                                                <tr key={visit.token+index}>
+                                                    <td className="align-middle">{visit.name}</td>
+                                                    <td className="align-middle">{visit.description}</td>
+                                                    <td className="align-middle">{ this.formatDate(visit.starts_at) }</td>
+                                                    <td className="align-middle">{ this.formatDate(visit.ends_at)}</td>
+                                                    <td className="align-middle">
+                                                        <div className="progress m-b-1">
+                                                            <div style={{width: visit.compilance+"%"}} className="progress-bar progress-bar-striped progress-bar-animated"></div>
+                                                        </div>
+                                                        <small>{visit.compilance}% de cumplimiento.</small>
+                                                        
+                                                    </td>
+                                                    <td className="align-middle text-center">
+                                                        <div className="btn-group-vertical">
+                                                            <a href={"/vao/"+visit.token+"/edit"} className="btn btn-link">
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i>
+                                                            </a>
 
-                                                        <button onClick={() => this.deleteVisit(visit.token)} className="btn btn-link">
-                                                            <i className="fa fa-trash-alt" aria-hidden="true"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    } )
-                                }
-                            </tbody>
+                                                            <a href={"/vao/visit/"+visit.token} className="btn btn-link">
+                                                                <i className="fa fa-eye" aria-hidden="true"></i>
+                                                            </a>
 
-                        </table>
+                                                            <button onClick={() => this.deleteVisit(visit.token)} className="btn btn-link">
+                                                                <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        } )
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div className="ibox-footer">
+                        Podarcis SL &copy; 2022
                     </div>
                 </div>
-
-                <div className="ibox-footer">
-                    Podarcis SL &copy; 2022
-                </div>
             </div>
+
         )
     }
 

@@ -10,8 +10,7 @@ use App\Http\Controllers\OdsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VaoController;
-
-
+use App\Http\Controllers\VisitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,6 +161,7 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::get('/{token}/edit', [VaoController::class, 'edit_visit'])->name('vao.edit.visits');
     Route::put('/visits/update', [VaoController::class, 'update_visit'])->name('vao.update.visits');
     Route::post('/delete_visit', [VaoController::class, 'delete_visit'])->name('vao.delete.visits');
+    Route::get('/visit/{token_visit}', [VisitController::class, 'details'])->name('vao.visit');
 });
 
 
