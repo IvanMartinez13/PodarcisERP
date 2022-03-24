@@ -116,6 +116,7 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/strategy/{token}/deleted_evaluations', [OdsController::class, 'deleted_evaluations'])->name('ods.evaluations.deleted');
     Route::put('/strategy/evaluation/recover', [OdsController::class, 'recover_evaluation'])->name('ods.evaluations.recover');
     Route::put('/strategy/evaluation/true_delete', [OdsController::class, 'true_delete_evaluation'])->name('ods.evaluations.true_delete');
+    Route::post('/delete_file', [OdsController::class, 'delete_file'])->name('ods.strategy.delete_file');
 });
 
 //TASKS MODULE

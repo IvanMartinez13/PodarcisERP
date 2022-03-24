@@ -5610,6 +5610,8 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
     _this.years = [];
     _this.strategy = _this.props.strategy;
     _this.objective = _this.props.objective;
+    _this.update = _this.props.update;
+    _this.del = _this.props.del;
     _this.updateRows = _this.updateRows.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -5744,7 +5746,7 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
                     strategy: this.strategy
                   })]
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+              }), this.update == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                 className: "row mb-3",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "col-6 text-left",
@@ -5765,6 +5767,9 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
                     children: "Guardar"
                   })
                 })]
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                className: "alert alert-warning",
+                children: "No tienes permisos para modificar esta tabla"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                 className: "table-responsive mb-3",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("table", {
@@ -5789,12 +5794,14 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
                         value: row.value,
                         years: _this2.years,
                         updateRows: _this2.updateRows,
-                        files: row.files
+                        files: row.files,
+                        update: _this2.update,
+                        del: _this2.del
                       }, row.id);
                     })
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+              }), this.update == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                 className: "row mb-3",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "col-6 text-left",
@@ -5815,6 +5822,9 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
                     children: "Guardar"
                   })
                 })]
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                className: "alert alert-warning",
+                children: "No tienes permisos para modificar esta tabla"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
               className: "ibox-footer",
@@ -5964,7 +5974,6 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
         loading: false,
         rows: rows
       });
-      console.log(rows);
     }
   }, {
     key: "updateRows",
@@ -6026,9 +6035,13 @@ if (document.getElementsByTagName('evaluation').length >= 1) {
   var component = document.getElementsByTagName('evaluation')[0];
   var strategy = JSON.parse(component.getAttribute('strategy'));
   var objective = JSON.parse(component.getAttribute('objective'));
+  var update = component.getAttribute('update');
+  var del = component.getAttribute('delete');
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Evaluation, {
     strategy: strategy,
-    objective: objective
+    objective: objective,
+    update: update,
+    del: del
   }), component);
 }
 
@@ -6734,7 +6747,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6762,6 +6777,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var FlileManager = /*#__PURE__*/function (_React$Component) {
   _inherits(FlileManager, _React$Component);
 
@@ -6777,6 +6793,8 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       files: _this.props.files
     };
+    _this.update = _this.props.update;
+    _this.del = _this.props.del;
 
     _this.setFiles = function (data) {
       _this.props.setFiles(data);
@@ -6790,64 +6808,68 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "modal fade",
         id: "file_manager" + this.id,
         tabIndex: "-1",
         role: "dialog",
         "aria-labelledby": "modelTitleId",
         "aria-hidden": "true",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "modal-dialog modal-xl",
           role: "document",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "modal-content bg-primary",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "modal-header",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
                 className: "modal-title",
                 children: "Administrar archivos"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 type: "button",
                 className: "close",
                 "data-dismiss": "modal",
                 "aria-label": "Close",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                   "aria-hidden": "true",
                   children: "\xD7"
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "modal-body bg-white text-dark",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "container-fluid",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("form", {
+                children: [this.update == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("form", {
                   id: "newFile" + this.id,
                   className: "dropzone",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "dz-message",
                     "data-dz-message": true,
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                       children: "Arrasra aqui tus archivos"
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "alert alert-warning",
+                  children: "No tienes permisos para subir archivos."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                   className: "mt-4 table-responsive",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
                     className: "table table-striped table-hover table-bordered",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                           children: "Nombre del archivo"
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                           children: "Acciones"
                         })]
                       })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
                       children: this.state.files.map(function (file, index) {
-                        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                            className: "align-middle",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                               className: "form-control",
                               type: 'text',
                               defaultValue: file.name,
@@ -6857,15 +6879,38 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
                                 _this2.changeFileName(file, value);
                               }
                             })
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
-                              className: "btn btn-link",
-                              href: '/storage' + file.path,
-                              target: '_blank',
-                              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                                className: "fa fa-eye",
-                                "aria-hidden": "true"
-                              })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                            className: "align-middle text-center",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                              className: "btn-group-vertical",
+                              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+                                className: "btn btn-link",
+                                href: '/storage' + file.path,
+                                target: '_blank',
+                                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                                  className: "fa fa-eye",
+                                  "aria-hidden": "true"
+                                })
+                              }), _this2.del == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                                className: "btn btn-link",
+                                onClick: function onClick() {
+                                  _this2.deleteFile(file.token);
+                                },
+                                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                                  className: "fa fa-trash-alt",
+                                  "aria-hidden": "true"
+                                })
+                              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                                disabled: true,
+                                className: "btn btn-link",
+                                onClick: function onClick() {
+                                  console.log('No te pases de listo');
+                                },
+                                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                                  className: "fa fa-trash-alt",
+                                  "aria-hidden": "true"
+                                })
+                              })]
                             })
                           })]
                         }, file.name + index);
@@ -6874,9 +6919,9 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
                   })
                 })]
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "modal-footer bg-white",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 type: "button",
                 className: "btn btn-secondary",
                 "data-dismiss": "modal",
@@ -6897,40 +6942,42 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
       }; //CALL ADD FILE FUNCION
 
 
-      var dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_1__["default"]('#newFile' + this.id, {
-        // The camelized version of the ID of the form element
-        url: '/ods/evaluate/save_file',
-        // The configuration we've talked about above
-        autoProcessQueue: true,
-        uploadMultiple: true,
-        parallelUploads: 100,
-        maxFiles: 100,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        // The setting up of the dropzone
-        init: function init() {
-          var myDropzone = this; // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-          // of the sending event because uploadMultiple is set to true.
+      if (this.update == 1) {
+        var dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_1__["default"]('#newFile' + this.id, {
+          // The camelized version of the ID of the form element
+          url: '/ods/evaluate/save_file',
+          // The configuration we've talked about above
+          autoProcessQueue: true,
+          uploadMultiple: true,
+          parallelUploads: 100,
+          maxFiles: 100,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          // The setting up of the dropzone
+          init: function init() {
+            var myDropzone = this; // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+            // of the sending event because uploadMultiple is set to true.
 
-          this.on("sendingmultiple", function () {// Gets triggered when the form is actually being sent.
-            // Hide the success button or the complete form.
-          });
-          this.on("successmultiple", function (files, response) {
-            // Gets triggered when the files have successfully been sent.
-            // Redirect user or notify of success.
-            response.paths.map(function (path, index) {
-              handleAddFile(path);
+            this.on("sendingmultiple", function () {// Gets triggered when the form is actually being sent.
+              // Hide the success button or the complete form.
             });
-          });
-          this.on("errormultiple", function (files, response) {// Gets triggered when there was an error sending the files.
-            // Maybe show form again, and notify user of error
-          });
-          this.on("addedfile", function (file) {
-            $('.dz-preview').text('');
-          });
-        }
-      });
+            this.on("successmultiple", function (files, response) {
+              // Gets triggered when the files have successfully been sent.
+              // Redirect user or notify of success.
+              response.paths.map(function (path, index) {
+                handleAddFile(path);
+              });
+            });
+            this.on("errormultiple", function (files, response) {// Gets triggered when there was an error sending the files.
+              // Maybe show form again, and notify user of error
+            });
+            this.on("addedfile", function (file) {
+              $('.dz-preview').text('');
+            });
+          }
+        });
+      }
     }
   }, {
     key: "addFile",
@@ -6960,6 +7007,30 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
         files: files
       });
       this.setFiles(files);
+    }
+  }, {
+    key: "deleteFile",
+    value: function deleteFile(token) {
+      swal({
+        title: "¿Estás seguro?",
+        text: "Una vez eliminado, no podrás recuperar el archivo.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ed5565",
+        confirmButtonText: "Si, deseo eliminarlo",
+        closeOnConfirm: false,
+        cancelButtonColor: "#ed5565",
+        cancelButtonText: "Cancelar"
+      }, function () {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/delete_file', {
+          token: token
+        }).then(function (response) {
+          toastr.success(response.data.message);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        });
+      });
     }
   }]);
 
@@ -7332,6 +7403,8 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
 
     _this.files = _this.props.files;
     _this.setFiles = _this.setFiles.bind(_assertThisInitialized(_this));
+    _this.update = _this.props.update;
+    _this.del = _this.props.del;
     return _this;
   }
 
@@ -7363,18 +7436,20 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_FileManager__WEBPACK_IMPORTED_MODULE_1__["default"], {
             id: this.id,
             setFiles: this.setFiles,
-            files: this.files
+            files: this.files,
+            update: this.update,
+            del: this.del
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
           className: "align-middle",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
             id: "year_selector_" + this.id,
             defaultValue: this.year,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {}), this.years.map(function (year) {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {}), this.years.map(function (year, index) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
                 value: year,
                 children: year
-              }, year);
+              }, year + index);
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
@@ -7388,7 +7463,17 @@ var RowEvaluation = /*#__PURE__*/function (_React$Component) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
           className: "text-center align-middle",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          children: this.del == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "btn btn-link",
+            onClick: function onClick() {
+              _this2.deleteRow();
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fa fa-trash-alt",
+              "aria-hidden": "true"
+            })
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            disabled: true,
             className: "btn btn-link",
             onClick: function onClick() {
               _this2.deleteRow();
@@ -10363,8 +10448,8 @@ var DeleteFiles = /*#__PURE__*/function (_React$Component) {
     key: "deleteFile",
     value: function deleteFile(token) {
       swal({
-        title: "¿Estas seguro?",
-        text: "No porás recuperar este layer.",
+        title: "¿Estás seguro?",
+        text: "Una vez eliminado, no porás recuperar este layer.",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#ed5565",

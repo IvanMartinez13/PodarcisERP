@@ -1,5 +1,6 @@
 import React from "react";
 import Dropzone from "dropzone";
+import axios from "axios";
 
 class FlileManager extends React.Component{
     constructor(props){
@@ -8,7 +9,8 @@ class FlileManager extends React.Component{
         this.id = this.props.id;
 
         this.state = {files: this.props.files};
-
+        this.update = this.props.update;
+        this.del = this.props.del;
     
         this.setFiles = (data) => {
             this.props.setFiles(data);
@@ -28,15 +30,24 @@ class FlileManager extends React.Component{
                                 </div>
                         <div className="modal-body bg-white text-dark">
                             <div className="container-fluid">
-                                <form id={"newFile"+this.id} className="dropzone">
-                                    
-                                    
-                                    <div className="dz-message" data-dz-message>
-                                        <span>Arrasra aqui tus archivos</span>
-                                    </div>
+                                {
+                                    (this.update == 1) ? 
+                                        <form id={"newFile"+this.id} className="dropzone">
+                                        
+                                            
+                                            <div className="dz-message" data-dz-message>
+                                                <span>Arrasra aqui tus archivos</span>
+                                            </div>
 
-                                
-                                </form>
+                                        
+                                        </form>
+
+                                    :
+
+                                        <div className="alert alert-warning">
+                                            No tienes permisos para subir archivos.
+                                        </div>
+                                }
 
                                 <div className="mt-4 table-responsive">
                                     <table className="table table-striped table-hover table-bordered">
@@ -51,7 +62,7 @@ class FlileManager extends React.Component{
                                             {this.state.files.map( (file, index) =>{
                                                 return(
                                                     <tr key={file.name+index}>
-                                                        <td>
+                                                        <td className="align-middle">
                                                             <input className="form-control" type={'text'} defaultValue={file.name} onBlur={
                                                                 (e) => {
                                                                     let value = e.target.value;
@@ -59,10 +70,26 @@ class FlileManager extends React.Component{
                                                                 }
                                                             }></input>
                                                         </td>
-                                                        <td>
-                                                            <a className="btn btn-link" href={'/storage'+file.path} target={'_blank'}>
-                                                                <i className="fa fa-eye" aria-hidden="true"></i>
-                                                            </a>
+                                                        <td className="align-middle text-center">
+
+                                                            <div className="btn-group-vertical">
+                                                                <a className="btn btn-link" href={'/storage'+file.path} target={'_blank'}>
+                                                                  <i className="fa fa-eye" aria-hidden="true"></i>
+                                                                </a>
+
+                                                                {
+                                                                    (this.del == 1) ?
+
+                                                                        <button className="btn btn-link" onClick={() => { this.deleteFile(file.token) }}>
+                                                                            <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    :
+                                                                        <button disabled={true} className="btn btn-link" onClick={() => { console.log('No te pases de listo') }}>
+                                                                            <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                                                                        </button>
+                                                                }
+                                                            </div>
+                                                            
                                                         </td>
                                                     </tr>
                                                 );
@@ -90,52 +117,55 @@ class FlileManager extends React.Component{
     componentDidMount(){
 
         const handleAddFile = (file) => {this.addFile(file)}; //CALL ADD FILE FUNCION
-
-        let dropzone = new Dropzone( '#newFile'+this.id, { // The camelized version of the ID of the form element
-            url: '/ods/evaluate/save_file',
-            // The configuration we've talked about above
-            autoProcessQueue: true,
-            uploadMultiple: true,
-            parallelUploads: 100,
-            maxFiles: 100,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-          
-            // The setting up of the dropzone
-            init: function() {
-              var myDropzone = this;
-          
-              // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-              // of the sending event because uploadMultiple is set to true.
-              this.on("sendingmultiple", function() {
-                // Gets triggered when the form is actually being sent.
-                // Hide the success button or the complete form.
-                
-              });
-              this.on("successmultiple", function(files, response) {
-                // Gets triggered when the files have successfully been sent.
-                // Redirect user or notify of success.
-                response.paths.map( (path, index) => {
-                    handleAddFile(path);
-                } )
-                
-                
-              });
-              this.on("errormultiple", function(files, response) {
-                // Gets triggered when there was an error sending the files.
-                // Maybe show form again, and notify user of error
-              });
-
-              this.on("addedfile" , file => {
-                $('.dz-preview').text('');
-                
-                
-                
+        if(this.update == 1)
+        {
+            let dropzone = new Dropzone( '#newFile'+this.id, { // The camelized version of the ID of the form element
+                url: '/ods/evaluate/save_file',
+                // The configuration we've talked about above
+                autoProcessQueue: true,
+                uploadMultiple: true,
+                parallelUploads: 100,
+                maxFiles: 100,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+              
+                // The setting up of the dropzone
+                init: function() {
+                  var myDropzone = this;
+              
+                  // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+                  // of the sending event because uploadMultiple is set to true.
+                  this.on("sendingmultiple", function() {
+                    // Gets triggered when the form is actually being sent.
+                    // Hide the success button or the complete form.
+                    
+                  });
+                  this.on("successmultiple", function(files, response) {
+                    // Gets triggered when the files have successfully been sent.
+                    // Redirect user or notify of success.
+                    response.paths.map( (path, index) => {
+                        handleAddFile(path);
+                    } )
+                    
+                    
+                  });
+                  this.on("errormultiple", function(files, response) {
+                    // Gets triggered when there was an error sending the files.
+                    // Maybe show form again, and notify user of error
+                  });
+    
+                  this.on("addedfile" , file => {
+                    $('.dz-preview').text('');
+                    
+                    
+                    
+                  })
+                }
+               
               })
-            }
-           
-          })
+        }
+
     }
 
     addFile(path){//ADD FILE
@@ -161,6 +191,33 @@ class FlileManager extends React.Component{
         this.setState({files: files});
 
         this.setFiles(files);
+    }
+
+    deleteFile(token)
+    {
+    
+        swal({
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no podrás recuperar el archivo.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ed5565",
+            confirmButtonText: "Si, deseo eliminarlo",
+            closeOnConfirm: false,
+            cancelButtonColor: "#ed5565",
+            cancelButtonText: "Cancelar",
+        }, function () {
+            axios.post('/ods/delete_file', {token: token}).then( (response) => {
+                toastr.success(response.data.message);
+    
+                setTimeout( () => {
+                    location.reload();
+                }, 2000 )
+            } )
+            
+        });
+        
+
     }
 }
 

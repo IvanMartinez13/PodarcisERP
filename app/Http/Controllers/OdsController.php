@@ -460,4 +460,16 @@ class OdsController extends Controller
 
         return redirect()->back()->with('status', 'success')->with('message', 'Evaluacion eliminada permanentemente.');
     }
+
+    public function delete_file(Request $request)
+    {
+        $file = Evaluation_file::where('token', $request->token)->delete();
+
+        $response = [
+            "status" => "success",
+            "message" => "Archivo eliminado"
+        ];
+
+        return response()->json($response);
+    }
 }

@@ -19,6 +19,10 @@ class RowEvaluation extends React.Component{
         this.files = this.props.files;
         
         this.setFiles = this.setFiles.bind(this);
+
+        
+        this.update = this.props.update;
+        this.del = this.props.del;
     }
 
     render(){
@@ -40,16 +44,16 @@ class RowEvaluation extends React.Component{
                         </button>
                     }
 
-                    <FlileManager id={this.id} setFiles={this.setFiles} files={this.files} />
+                    <FlileManager id={this.id} setFiles={this.setFiles} files={this.files} update={this.update} del={this.del} />
                 </td>
                 <td className="align-middle">
                     
                     <select id={"year_selector_"+this.id} defaultValue={this.year}>
                         <option></option>
-                        {this.years.map( year => {
+                        {this.years.map( (year, index) => {
                             
                             return(
-                                <option key={year} value={year}>{year}</option>
+                                <option key={year+index} value={year}>{year}</option>
                             );
                             
                         } )}
@@ -60,9 +64,19 @@ class RowEvaluation extends React.Component{
                     <input type={'number'} id={'value_input'+this.id} className="form-control" defaultValue={this.value} placeholder="Valor observado..."></input>
                 </td>
                 <td className="text-center align-middle">
-                    <button className="btn btn-link" onClick={() => { this.deleteRow() }}>
-                        <i className="fa fa-trash-alt" aria-hidden="true"></i>
-                    </button>
+                    {
+                        (this.del==1) ? 
+
+                            <button className="btn btn-link" onClick={() => { this.deleteRow() }}>
+                                <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                            </button>
+                        :
+
+                        <button disabled={true} className="btn btn-link" onClick={() => { this.deleteRow() }}>
+                            <i className="fa fa-trash-alt" aria-hidden="true"></i>
+                        </button>
+                    }
+
                 </td>
 
                 
