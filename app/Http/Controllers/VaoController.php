@@ -296,7 +296,7 @@ class VaoController extends Controller
             'layer_group_id' => $layer_group->id,
         ];
 
-        $file = $request->file;
+        $file = $request->file('file');
 
         //2) UPDATE DATA
 
