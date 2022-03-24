@@ -456,6 +456,21 @@ class OdsController extends Controller
     {
         $token = $request->token;
 
+        $evaluation = Evaluation::where('token', $token)->onlyTrashed()->first();
+
+        //FORCE DELETE FILES
+
+        $files = Evaluation_file::where('evaluation_id', $evaluation->id)->get();
+
+        foreach ($files as $key => $file) {
+
+            if (is_file(storage_path('/app/public') . $file->path)) {
+                unlink(storage_path('/app/public') . $file->path);
+            }
+        }
+
+        $files = Evaluation_file::where('evaluation_id', $evaluation->id)->forceDelete();
+
         $evaluation = Evaluation::where('token', $token)->forceDelete();
 
         return redirect()->back()->with('status', 'success')->with('message', 'Evaluacion eliminada permanentemente.');
