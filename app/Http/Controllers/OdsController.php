@@ -487,4 +487,127 @@ class OdsController extends Controller
 
         return response()->json($response);
     }
+
+
+    public function delete_strategy(Request $request)
+    {
+        $strategy = Strategy::where('token', $request->token)->first();
+        $objective = Objective::where('id', $strategy->objective_id)->first();
+
+        $strategy = Strategy::where('token', $request->token)->delete();
+
+        return redirect(route('ods.strategy.index', $objective->token))->with('status', 'success')->with('message', 'Estrategia eliminada.');
+    }
+
+    public function recover_strategies($token)
+    {
+        $objective = Objective::where('token', $token)->first();
+
+        $strategies = Strategy::where('objective_id', $objective->id)->onlyTrashed()->get();
+
+        return view('pages.ods.strategy.recover_strategy', compact('objective', 'strategies'));
+    }
+
+    public function recover_strategy(Request $request)
+    {
+        $token = $request->token;
+
+        $strategy = Strategy::where('token', $token)->restore();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Estrategia recuperada.');
+    }
+
+    public function strategy_true_delete(Request $request)
+    {
+        $token = $request->token;
+
+        $strategy = Strategy::where('token', $token)->onlyTrashed()->first();
+
+        //DELETE EVALUATIONS AND FILES
+
+        $evaluations = Evaluation::where('strategy_id', $strategy->id)->get();
+
+        foreach ($evaluations as $evaluation) {
+
+            //FORCE DELETE FILES
+            $files = Evaluation_file::where('evaluation_id', $evaluation->id)->get();
+
+            foreach ($files as $key => $file) {
+
+                if (is_file(storage_path('/app/public') . $file->path)) {
+                    unlink(storage_path('/app/public') . $file->path);
+                }
+            }
+
+            $files = Evaluation_file::where('evaluation_id', $evaluation->id)->forceDelete();
+        }
+
+        $evaluations = Evaluation::where('strategy_id', $strategy->id)->forceDelete();
+
+
+        $strategy = Strategy::where('token', $token)->forceDelete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Estrategia eliminada permanentemente.');
+    }
+
+    public function delete(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->delete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Objetivo eliminado.');
+    }
+
+    public function recover()
+    {
+        $customer_id = Auth::user()->customer_id;
+
+        $objectives = Objective::where('customer_id', $customer_id)->onlyTrashed()->get();
+
+        return view('pages.ods.objectives.recover', compact('objectives'));
+    }
+
+    public function recover_objective(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->restore();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Objetivo recuperado.');
+    }
+
+
+    public function true_delete(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->onlyTrashed()->first();
+
+        $strategies = Strategy::where('objective_id', $objective->id)->get();
+
+        //DELETE EVALUATIONS AND FILES
+
+        foreach ($strategies as $key => $strategy) {
+
+            $evaluations = Evaluation::where('strategy_id', $strategy->id)->get();
+
+            foreach ($evaluations as $evaluation) {
+
+                //FORCE DELETE FILES
+                $files = Evaluation_file::where('evaluation_id', $evaluation->id)->get();
+
+                foreach ($files as $key => $file) {
+
+                    if (is_file(storage_path('/app/public') . $file->path)) {
+                        unlink(storage_path('/app/public') . $file->path);
+                    }
+                }
+
+                $files = Evaluation_file::where('evaluation_id', $evaluation->id)->forceDelete();
+            }
+
+            $evaluations = Evaluation::where('strategy_id', $strategy->id)->forceDelete();
+        }
+
+        $strategies = Strategy::where('objective_id', $objective->id)->forceDelete();
+
+        $objective = Objective::where('token', $request->token)->forceDelete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Objetivo eliminado permanentemente.');
+    }
 }

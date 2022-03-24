@@ -720,10 +720,14 @@
     "Åland Islands": "Islas Åland",
     "recover evaluations": "Recuperar Evaluaciones",
     "Are you sure?": "¿Estás seguro?",
-    "You will not be able to recover this file!": "No podrá recuperar este archivo!",
+    "You will not be able to recover this file!": "¡No podrá recuperar este archivo!",
     "You will recover this file!": "¡Recuperarás este archivo!",
     "You will not be able to recover this evaluation!": "No podrá recuperar esta evaluación!",
     "You will recover this evaluation!": "¡Recuperarás esta evaluación!",
+    "You will not be able to recover this strategy!": "¡No podrá recuperar esta estrategia!",
+    "You will recover this strategy!": "¡Recuperarás esta estrategia!",
+    "You will not be able to recover this objective!": "¡No podrá recuperar este objectivo!",
+    "You will recover this objective!": "¡Recuperarás este objectivo!",
     "Start pending": "Pendiente de Inicio",
     "In process": "En proceso",
     "Stopped": "Parado",
@@ -732,5 +736,8 @@
     "% Compliance": "% Cumplimiento",
     "Incidents and notices": "Incidencias y avisos",
     "Visits": "Visitas",
-    "Controls": "Controles"
+    "Controls": "Controles",
+    "Recover": "Recuperar",
+    "Recover strategies": "Recuperar estrategias",
+    "Recover objetives": "Recuperar objetivos"
 }

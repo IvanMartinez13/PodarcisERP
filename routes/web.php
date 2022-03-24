@@ -116,7 +116,15 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/strategy/{token}/deleted_evaluations', [OdsController::class, 'deleted_evaluations'])->name('ods.evaluations.deleted');
     Route::put('/strategy/evaluation/recover', [OdsController::class, 'recover_evaluation'])->name('ods.evaluations.recover');
     Route::put('/strategy/evaluation/true_delete', [OdsController::class, 'true_delete_evaluation'])->name('ods.evaluations.true_delete');
-    Route::post('/delete_file', [OdsController::class, 'delete_file'])->name('ods.strategy.delete_file');
+    Route::post('/delete_file', [OdsController::class, 'delete_file'])->name('ods.evaluations.delete_file');
+    Route::put('/strategy/delete', [OdsController::class, 'delete_strategy'])->name('ods.strategy.delete');
+    Route::get('/strategy/{token}/recover', [OdsController::class, 'recover_strategies'])->name('ods.strategy.recover');
+    Route::put('/strategy/recover', [OdsController::class, 'recover_strategy'])->name('ods.strategy.recovered');
+    Route::put('/strategy/true_delete', [OdsController::class, 'strategy_true_delete'])->name('ods.strategy.true_delete');
+    Route::get('/recover', [OdsController::class, 'recover'])->name('ods.objective.recover');
+    Route::put('/delete', [OdsController::class, 'delete'])->name('ods.objective.delete');
+    Route::put('/recovered', [OdsController::class, 'recover_objective'])->name('ods.objective.recovered');
+    Route::put('/true_delete', [OdsController::class, 'true_delete'])->name('ods.objective.true_delete');
 });
 
 //TASKS MODULE

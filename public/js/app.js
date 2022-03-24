@@ -10629,7 +10629,7 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
           }
 
           if (layer.type == 'shape') {
-            var shpfile = new L.Shapefile('https://programa_objetivos.test/storage' + layer.path, {
+            var shpfile = new L.Shapefile('/storage' + layer.path, {
               onEachFeature: function onEachFeature(feature, layer) {
                 if (feature.properties) {
                   layer.bindPopup(Object.keys(feature.properties).map(function (k) {
@@ -10694,19 +10694,17 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
           }
         }); // WMS EXAMPLE
 
-
-        var url = "https://ideib.caib.es/geoserveis/services/public/GOIB_RegEspaisNaturals_IB/MapServer/WMSServer";
-        var lyr = L.WMS.overlay(url, {
-          layers: "1,2,3,4,5,7,8,9,10,12,13",
-          //nombre de la capa (ver get capabilities)
-          transparent: true,
-          opacity: 0.5,
-          version: '1.3.0',
-          //wms version (ver get capabilities)
-          attribution: "IDEIB - Infraestructura de Datos Espaciales de las Islas Baleares"
+        /*let url = "https://ideib.caib.es/geoserveis/services/public/GOIB_RegEspaisNaturals_IB/MapServer/WMSServer";
+          var lyr = L.WMS.overlay(url, {
+            layers: "1,2,3,4,5,7,8,9,10,12,13",//nombre de la capa (ver get capabilities)
+            transparent: true,
+            opacity: 0.5,
+            version: '1.3.0',//wms version (ver get capabilities)
+            attribution: "IDEIB - Infraestructura de Datos Espaciales de las Islas Baleares"
         });
-        lyr.addTo(map);
-        control.addOverlay(lyr, 'Prueba', 'WMS');
+          lyr.addTo(map);
+        control.addOverlay(lyr, 'Prueba', 'WMS');*/
+
       });
     }
   }, {
