@@ -8530,15 +8530,15 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
                 className: "modal-footer bg-white text-dark",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                   type: "button",
+                  className: "btn btn-primary",
+                  children: "Crear"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  type: "button",
                   className: "btn btn-secondary",
                   onClick: function onClick() {
                     $('#addTask').modal('hide');
                   },
                   children: "Cerrar"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                  type: "button",
-                  className: "btn btn-primary",
-                  children: "Guardar"
                 })]
               })]
             })
@@ -9028,15 +9028,175 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _tabs_general_General__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tabs/general/General */ "./resources/js/react/pages/vao/tabs/general/General.js");
+/* harmony import */ var _tabs_visits_Visits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tabs/visits/Visits */ "./resources/js/react/pages/vao/tabs/visits/Visits.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Vao = /*#__PURE__*/function (_React$Component) {
+  _inherits(Vao, _React$Component);
+
+  var _super = _createSuper(Vao);
+
+  function Vao(props) {
+    var _this;
+
+    _classCallCheck(this, Vao);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      loading: true
+    };
+    _this.vao = _this.props.data;
+    return _this;
+  }
+
+  _createClass(Vao, [{
+    key: "render",
+    value: function render() {
+      if (this.state.loading) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "text-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "spiner-example",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "sk-spinner sk-spinner-double-bounce",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "sk-double-bounce1"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "sk-double-bounce2"
+              })]
+            })
+          }), "Cargando..."]
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "animated fadeIn",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "tabs-container",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
+            className: "nav nav-tabs",
+            role: "tablist",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                className: "nav-link bg-transparent active",
+                "data-toggle": "tab",
+                href: "#general-tab",
+                children: " General"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                className: "nav-link bg-transparent",
+                "data-toggle": "tab",
+                href: "#visits-tab",
+                children: "Visitas"
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "tab-content",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              role: "tabpanel",
+              id: "general-tab",
+              className: "tab-pane active",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "animated fadeIn panel-body bg-transparent",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_tabs_general_General__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  data: this.vao
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              role: "tabpanel",
+              id: "visits-tab",
+              className: "tab-pane",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "panel-body bg-transparent animated fadeIn",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_tabs_visits_Visits__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                  data: this.vao
+                })
+              })
+            })]
+          })]
+        })
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.setState({
+          loading: false
+        });
+      }, 1000);
+    }
+  }]);
+
+  return Vao;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Vao);
+
+if (document.getElementsByTagName('vao').length >= 1) {
+  var component = document.getElementsByTagName('vao')[0];
+  var data = JSON.parse(component.getAttribute('data'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Vao, {
+    data: data
+  }), component);
+}
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/vao/tabs/general/General.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/General.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _components_AddLayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/AddLayer */ "./resources/js/react/pages/vao/components/AddLayer.js");
-/* harmony import */ var _components_CreateGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/CreateGroup */ "./resources/js/react/pages/vao/components/CreateGroup.js");
-/* harmony import */ var _components_DeleteFiles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/DeleteFiles */ "./resources/js/react/pages/vao/components/DeleteFiles.js");
-/* harmony import */ var _components_MapVao__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/MapVao */ "./resources/js/react/pages/vao/components/MapVao.js");
-/* harmony import */ var _components_UpdateFiles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/UpdateFiles */ "./resources/js/react/pages/vao/components/UpdateFiles.js");
+/* harmony import */ var _components_AddLayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/AddLayer */ "./resources/js/react/pages/vao/tabs/general/components/AddLayer.js");
+/* harmony import */ var _components_CreateGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/CreateGroup */ "./resources/js/react/pages/vao/tabs/general/components/CreateGroup.js");
+/* harmony import */ var _components_DeleteFiles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/DeleteFiles */ "./resources/js/react/pages/vao/tabs/general/components/DeleteFiles.js");
+/* harmony import */ var _components_MapVao__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/MapVao */ "./resources/js/react/pages/vao/tabs/general/components/MapVao.js");
+/* harmony import */ var _components_UpdateFiles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/UpdateFiles */ "./resources/js/react/pages/vao/tabs/general/components/UpdateFiles.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
@@ -9071,15 +9231,15 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var Vao = /*#__PURE__*/function (_React$Component) {
-  _inherits(Vao, _React$Component);
+var General = /*#__PURE__*/function (_React$Component) {
+  _inherits(General, _React$Component);
 
-  var _super = _createSuper(Vao);
+  var _super = _createSuper(General);
 
-  function Vao(props) {
+  function General(props) {
     var _this;
 
-    _classCallCheck(this, Vao);
+    _classCallCheck(this, General);
 
     _this = _super.call(this, props);
     _this.state = {
@@ -9089,7 +9249,7 @@ var Vao = /*#__PURE__*/function (_React$Component) {
     return _this;
   }
 
-  _createClass(Vao, [{
+  _createClass(General, [{
     key: "render",
     value: function render() {
       if (this.state.loading) {
@@ -9221,7 +9381,7 @@ var Vao = /*#__PURE__*/function (_React$Component) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "ibox-title bg-primary",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h5", {
-                      children: "TITULO"
+                      children: "% Cumplimiento"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "ibox-content"
@@ -9237,7 +9397,7 @@ var Vao = /*#__PURE__*/function (_React$Component) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "ibox-title bg-primary",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h5", {
-                      children: "TITULO"
+                      children: "Graficas de avisos e incidencias"
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                     className: "ibox-content"
@@ -9313,25 +9473,17 @@ var Vao = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 
-  return Vao;
+  return General;
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Vao);
-
-if (document.getElementsByTagName('vao').length >= 1) {
-  var component = document.getElementsByTagName('vao')[0];
-  var data = JSON.parse(component.getAttribute('data'));
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Vao, {
-    data: data
-  }), component);
-}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (General);
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/vao/components/AddLayer.js":
-/*!*************************************************************!*\
-  !*** ./resources/js/react/pages/vao/components/AddLayer.js ***!
-  \*************************************************************/
+/***/ "./resources/js/react/pages/vao/tabs/general/components/AddLayer.js":
+/*!**************************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/components/AddLayer.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9735,10 +9887,10 @@ var AddLayer = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/vao/components/CreateGroup.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/react/pages/vao/components/CreateGroup.js ***!
-  \****************************************************************/
+/***/ "./resources/js/react/pages/vao/tabs/general/components/CreateGroup.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/components/CreateGroup.js ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9905,10 +10057,10 @@ var CreateGroup = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/vao/components/DeleteFiles.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/react/pages/vao/components/DeleteFiles.js ***!
-  \****************************************************************/
+/***/ "./resources/js/react/pages/vao/tabs/general/components/DeleteFiles.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/components/DeleteFiles.js ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -10237,10 +10389,10 @@ var DeleteFiles = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/vao/components/MapVao.js":
-/*!***********************************************************!*\
-  !*** ./resources/js/react/pages/vao/components/MapVao.js ***!
-  \***********************************************************/
+/***/ "./resources/js/react/pages/vao/tabs/general/components/MapVao.js":
+/*!************************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/components/MapVao.js ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -10392,7 +10544,7 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
           }
 
           if (layer.type == 'shape') {
-            var shpfile = new L.Shapefile('http://programa_objetivos.test/storage' + layer.path, {
+            var shpfile = new L.Shapefile('https://programa_objetivos.test/storage' + layer.path, {
               onEachFeature: function onEachFeature(feature, layer) {
                 if (feature.properties) {
                   layer.bindPopup(Object.keys(feature.properties).map(function (k) {
@@ -10455,7 +10607,21 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
             });
             control.addOverlay(shpfile, layer.name, layer.group.name);
           }
+        }); // WMS EXAMPLE
+
+
+        var url = "https://ideib.caib.es/geoserveis/services/public/GOIB_RegEspaisNaturals_IB/MapServer/WMSServer";
+        var lyr = L.WMS.overlay(url, {
+          layers: "1,2,3,4,5,7,8,9,10,12,13",
+          //nombre de la capa (ver get capabilities)
+          transparent: true,
+          opacity: 0.5,
+          version: '1.3.0',
+          //wms version (ver get capabilities)
+          attribution: "IDEIB - Infraestructura de Datos Espaciales de las Islas Baleares"
         });
+        lyr.addTo(map);
+        control.addOverlay(lyr, 'Prueba', 'WMS');
       });
     }
   }, {
@@ -10490,10 +10656,10 @@ var MapVao = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/react/pages/vao/components/UpdateFiles.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/react/pages/vao/components/UpdateFiles.js ***!
-  \****************************************************************/
+/***/ "./resources/js/react/pages/vao/tabs/general/components/UpdateFiles.js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/general/components/UpdateFiles.js ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -10794,6 +10960,312 @@ var UpdateFiles = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UpdateFiles);
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/vao/tabs/visits/Visits.js":
+/*!************************************************************!*\
+  !*** ./resources/js/react/pages/vao/tabs/visits/Visits.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var Visits = /*#__PURE__*/function (_React$Component) {
+  _inherits(Visits, _React$Component);
+
+  var _super = _createSuper(Visits);
+
+  function Visits(props) {
+    var _this;
+
+    _classCallCheck(this, Visits);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      loading: true
+    };
+    _this.vao = _this.props.data;
+    _this.visits = [];
+    return _this;
+  }
+
+  _createClass(Visits, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      if (this.state.loading) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "text-center animated fadeInRight",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "spiner-example",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "sk-spinner sk-spinner-double-bounce",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "sk-double-bounce1"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "sk-double-bounce2"
+              })]
+            })
+          }), "Cargando..."]
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "animated fadeInRight",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "ibox",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "ibox-title",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+              children: "Visitas"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+              href: "/vao/" + this.vao.token + "/visits/create",
+              className: "ml-2 btn btn-primary",
+              children: "Crear"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "ibox-content",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "table-responsive",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+                id: "tableVisits",
+                className: "table table-hover table-striped table-bordered",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Nombre"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Descripci\xF3n"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Fecha de inicio"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Fecha de fin"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Cumplimiento"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+                      children: "Acciones"
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+                  children: this.visits.map(function (visit, index) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                        className: "align-middle",
+                        children: visit.name
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                        className: "align-middle",
+                        children: visit.description
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                        className: "align-middle",
+                        children: _this2.formatDate(visit.starts_at)
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                        className: "align-middle",
+                        children: _this2.formatDate(visit.ends_at)
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("td", {
+                        className: "align-middle",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                          className: "progress m-b-1",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                            style: {
+                              width: visit.compilance + "%"
+                            },
+                            className: "progress-bar progress-bar-striped progress-bar-animated"
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("small", {
+                          children: [visit.compilance, "% de cumplimiento."]
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+                        className: "align-middle text-center",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                          className: "btn-group-vertical",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                            href: "/vao/" + visit.token + "/edit",
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                              className: "fa fa-pencil",
+                              "aria-hidden": "true"
+                            })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                            href: "/vao/visit/" + visit.token,
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                              className: "fa fa-eye",
+                              "aria-hidden": "true"
+                            })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                            onClick: function onClick() {
+                              return _this2.deleteVisit(visit.token);
+                            },
+                            className: "btn btn-link",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+                              className: "fa fa-trash-alt",
+                              "aria-hidden": "true"
+                            })
+                          })]
+                        })
+                      })]
+                    }, visit.token + index);
+                  })
+                })]
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            className: "ibox-footer",
+            children: "Podarcis SL \xA9 2022"
+          })]
+        })
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/vao/get_visits', {
+        token: this.vao.token
+      }).then(function (response) {
+        _this3.visits = response.data.visits;
+
+        _this3.setState({
+          loading: false
+        });
+      }).then(function () {
+        //DATA TABLE
+        $(document).ready(function () {
+          $('#tableVisits thead tr').clone(true).addClass('filters').appendTo('#tableVisits thead');
+          $('#tableVisits').DataTable({
+            pageLength: 25,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: ['colvis', {
+              extend: 'copy'
+            }, {
+              extend: 'csv'
+            }, {
+              extend: 'excel',
+              title: 'ExampleFile'
+            }, {
+              extend: 'pdf',
+              title: 'ExampleFile'
+            }, {
+              extend: 'print',
+              customize: function customize(win) {
+                $(win.document.body).addClass('white-bg');
+                $(win.document.body).css('font-size', '10px');
+                $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+              }
+            }],
+            "language": {
+              "url": "/js/plugins/dataTables/es.json"
+            },
+            stateSave: true,
+            colReorder: true,
+            orderCellsTop: true,
+            fixedHeader: true,
+            initComplete: function initComplete() {
+              var api = this.api(); // For each column
+
+              api.columns().eq(0).each(function (colIdx) {
+                // Set the header cell to contain the input element
+                var cell = $('#tableVisits thead .filters th').eq($(api.column(colIdx).header()).index());
+                var title = $(cell).text();
+
+                if (title != 'Acciones') {
+                  $(cell).html('<input type="text" class="form-control " placeholder="' + title + '" />');
+                } else {
+                  $(cell).html('');
+                } // On every keypress in this input
+
+
+                $('input', $('#tableVisits thead .filters th').eq($(api.column(colIdx).header()).index())).off('keyup change').on('keyup change', function (e) {
+                  e.stopPropagation(); // Get the search value
+
+                  $(this).attr('title', $(this).val());
+                  var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                  var cursorPosition = this.selectionStart; // Search the column for that value
+
+                  api.column(colIdx).search(this.value != '' ? regexr.replace('{search}', '(((' + this.value + ')))') : '', this.value != '', this.value == '').draw();
+                  $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+                });
+              });
+            }
+          });
+        });
+      });
+    }
+  }, {
+    key: "formatDate",
+    value: function formatDate(str) {
+      var date = new Date(str);
+      return date.toLocaleDateString('es');
+    }
+  }, {
+    key: "deleteVisit",
+    value: function deleteVisit(token) {
+      swal({
+        title: "¿Estas seguro?",
+        text: "No porás recuperar esta visita.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ed5565",
+        confirmButtonText: "Si, deseo eliminarla",
+        closeOnConfirm: false,
+        cancelButtonColor: "#ed5565",
+        cancelButtonText: "Cancelar"
+      }, function () {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/vao/delete_visit', {
+          token: token
+        }).then(function (response) {
+          toastr.success(response.data.message);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        });
+      });
+    }
+  }]);
+
+  return Visits;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Visits);
 
 /***/ }),
 

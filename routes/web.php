@@ -10,8 +10,7 @@ use App\Http\Controllers\OdsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VaoController;
-
-
+use App\Http\Controllers\VisitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +155,13 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::get('/{vao_token}/edit/{layer_token}', [VaoController::class, 'layer_edit'])->name('vao.edit.layer');
     Route::put('/update/layer', [VaoController::class, 'layer_update'])->name('vao.update.layer');
     Route::post('/delete_layer', [VaoController::class, 'delete_layer'])->name('vao.delete.layer');
+    Route::get('/{token}/visits/create', [VaoController::class, 'create_visit'])->name('vao.create.visits');
+    Route::put('/visits/create', [VaoController::class, 'store_visit'])->name('vao.store.visits');
+    Route::post('/get_visits', [VaoController::class, 'get_visits'])->name('vao.get.visits');
+    Route::get('/{token}/edit', [VaoController::class, 'edit_visit'])->name('vao.edit.visits');
+    Route::put('/visits/update', [VaoController::class, 'update_visit'])->name('vao.update.visits');
+    Route::post('/delete_visit', [VaoController::class, 'delete_visit'])->name('vao.delete.visits');
+    Route::get('/visit/{token_visit}', [VisitController::class, 'details'])->name('vao.visit');
 });
 
 

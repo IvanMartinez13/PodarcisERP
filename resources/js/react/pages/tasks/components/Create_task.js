@@ -39,6 +39,7 @@ class Create_task extends React.Component{
                             </div>
                         </div>
                         <div className="modal-footer bg-white text-dark">
+                            <button type="button" className="btn btn-primary">Crear</button>
                             <button type="button"
                                     className="btn btn-secondary"
                                     onClick={() => {
@@ -46,7 +47,7 @@ class Create_task extends React.Component{
                                     }}>
                                 Cerrar
                             </button>
-                            <button type="button" className="btn btn-primary">Guardar</button>
+                            
                         </div>
                     </div>
                 </div>

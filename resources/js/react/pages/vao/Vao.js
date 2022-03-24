@@ -1,11 +1,7 @@
-import axios from "axios";
 import React from "react";
 import ReactDOM  from "react-dom";
-import AddLayer from "./components/AddLayer";
-import CreateGroup from "./components/CreateGroup";
-import DeleteFiles from "./components/DeleteFiles";
-import MapVao from "./components/MapVao";
-import UpdateFiles from "./components/UpdateFiles";
+import General from "./tabs/general/General";
+import Visits from "./tabs/visits/Visits";
 
 class Vao extends React.Component{
 
@@ -39,161 +35,27 @@ class Vao extends React.Component{
         }
         return(
             <div className="animated fadeIn">
-                <div className="row">
-                    <div className="col-lg-6 mb-lg-0 mb-4 animated fadeInLeft">
-                        <MapVao vao_token={this.vao.token} location={this.vao.location}></MapVao>
-                    </div>
+                <div className="tabs-container">
+                        <ul className="nav nav-tabs" role="tablist">
+                            <li><a className="nav-link bg-transparent active" data-toggle="tab" href="#general-tab"> General</a></li>
+                            <li><a className="nav-link bg-transparent" data-toggle="tab" href="#visits-tab">Visitas</a></li>
+                        </ul>
+                        <div className="tab-content">
+                            <div role="tabpanel" id="general-tab" className="tab-pane active">
+                                <div className="animated fadeIn panel-body bg-transparent">
 
-                    <div className="col-lg-6 mb-lg-0 mb-4 animated fadeInRight">
-                        <div className="row">
-                            {/* DETAILS */}
-                            <div className="col-lg-12">
-                                <div className="ibox">
-                                    <div className="ibox-title bg-primary">
-                                        <h5>{this.vao.title}</h5>
-
-                                    </div>
-                    
-                                    <div className="ibox-content">
-                                        <div className="row">
-                    
-                                            <div className="col-lg-12 mb-3 mb-lg-0">
-                                                <strong>Descripción: </strong>
-                                                <p
-                                                    dangerouslySetInnerHTML={{__html: this.vao.description }}></p>
-                                                
-                                            </div>
-                    
-                                            
-                                            <div className="col-lg-4 mb-3 mb-lg-0">
-                                                <strong>Dirección: </strong>
-                                                <br />
-                                                { this.vao.direction }
-                                            </div>
-                    
-                                            <div className="col-lg-4 mb-3 mb-lg-0">
-                                                <strong>Código: </strong>
-                                                <br />
-                                                { this.vao.code }
-                                            </div>
-                    
-                    
-                                            <div className="col-lg-4 mb-3 mb-lg-0">
-                                                <strong className="w-100 pb-5">Estado: </strong>
-                                                <h4>
-                                                    {
-                                                        this.formatStatus(this.vao.state)
-                                                    }
-
-
-                                                    
-                                                </h4>
-                    
-                                            </div>
-                                        </div>
-                    
-                                    </div>
-                    
-                                    <div className="ibox-footer">
-                                        Podarcis SL. &copy; 
-                                    </div>
+                                    <General data={this.vao}></General>
                                 </div>
                             </div>
-
-                            {/* MAP FILES */}
-                            <div className="col-lg-6">
-                                <div className="ibox">
-                                    <div className="ibox-title bg-primary">
-                                        <h5>Administrar archivos cartográficos</h5>
-
-                                    </div>
-
-                                    <div className="ibox-content">
-                                        <div className="btn btn-group-vertical w-100">
-                                            <button className="btn btn-secondary btn-block mb-3 rounded" onClick={
-                                                () => {
-                                                    $("#createGroup").modal('show');
-                                                }
-                                            }>
-                                                Crear grupo de layers...
-                                            </button>
-
-                                            <button className="btn btn-secondary btn-block mb-3 rounded" onClick={
-                                                () => {
-                                                    $("#addLayer").modal('show');
-                                                }
-                                            }>
-                                                Añadir archivo...
-                                            </button>
-
-                                            <button className="btn btn-secondary btn-block mb-3 rounded" onClick={
-                                                () => {
-                                                    $("#updateFiles").modal('show');
-                                                }
-                                            }>
-                                            
-                                                Editar archivo...
-                                            </button>
-
-                                            <button
-                                                className="btn btn-danger btn-block rounded"
-                                                onClick={
-                                                    () => {
-                                                        $("#deleteFiles").modal('show');
-                                                    }
-                                                }>
-                                                Eliminar archivo...
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className="ibox-footer">
-                                        Podarcis SL. &copy;
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* COMPILANCE */}
-                            <div className="col-lg-6">
-                                <div className="ibox">
-                                    <div className="ibox-title bg-primary">
-                                        <h5>TITULO</h5>
-            
-                                    </div>
-
-                                    <div className="ibox-content"></div>
-
-                                    <div className="ibox-footer">
-                                        Podarcis SL. &copy;
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* GRAPHS */}
-                            <div className="col-lg-12">
-                                <div className="ibox">
-                                    <div className="ibox-title bg-primary">
-                                        <h5>TITULO</h5>
-           
-                                    </div>
-
-                                    <div className="ibox-content"></div>
-
-                                    <div className="ibox-footer">
-                                        Podarcis SL. &copy;
-                                    </div>
+                            <div role="tabpanel" id="visits-tab" className="tab-pane">
+                                <div className="panel-body bg-transparent animated fadeIn">
+                                    <Visits data={this.vao}></Visits>
                                 </div>
                             </div>
                         </div>
 
+
                     </div>
-
-                </div>
-
-                <CreateGroup vao_token={this.vao.token}></CreateGroup>
-                <AddLayer vao_token={this.vao.token}></AddLayer>
-                <UpdateFiles vao_token={this.vao.token}></UpdateFiles>
-                <DeleteFiles vao_token={this.vao.token}></DeleteFiles>
             </div>
 
         )
@@ -207,41 +69,7 @@ class Vao extends React.Component{
         
     }
 
-    formatStatus(state)
-    {
-        switch (state) {
-            case('pending'):
-                return(
-                    <span className="p-2 badge badge-success">Pendiente de inicio</span>
-                );
-            
-            break;
-        case('process'):
-            return(
-                <span className="p-2 badge badge-warning">En proceso</span>
-            );
-            break;
 
-        case('stopped'):
-            return(
-                <span className="p-2 badge badge-danger">Parado</span>
-            );
-            break;
-
-        case('finished'):
-            return(
-                <span className="p-2 badge badge-primary">Finalizado</span>
-            );
-
-            break;
-        default:
-            return(
-                <span className="p-2 badge badge-dark">Sin definir</span>
-            )
-            
-            break;
-        }
-    }
 }
 
 export default Vao;

@@ -28,3 +28,22 @@
 
     <vao data="{{ json_encode($vao) }}"></vao>
 @endsection
+
+
+@push('scripts')
+    @if (session('status') == 'error')
+        <script>
+            $(document).ready(() => {
+                toastr.error("{{ session('message') }}")
+            })
+        </script>
+    @endif
+
+    @if (session('status') == 'success')
+        <script>
+            $(document).ready(() => {
+                toastr.success("{{ session('message') }}")
+            })
+        </script>
+    @endif
+@endpush
