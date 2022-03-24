@@ -6846,7 +6846,7 @@ var FlileManager = /*#__PURE__*/function (_React$Component) {
                     className: "dz-message",
                     "data-dz-message": true,
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                      children: "Arrasra aqui tus archivos"
+                      children: "Arrastra aqui tus archivos"
                     })
                   })
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {

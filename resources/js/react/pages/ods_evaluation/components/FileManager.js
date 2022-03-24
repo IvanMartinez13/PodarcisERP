@@ -36,7 +36,7 @@ class FlileManager extends React.Component{
                                         
                                             
                                             <div className="dz-message" data-dz-message>
-                                                <span>Arrasra aqui tus archivos</span>
+                                                <span>Arrastra aqui tus archivos</span>
                                             </div>
 
                                         
