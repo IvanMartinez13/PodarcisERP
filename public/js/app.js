@@ -5470,9 +5470,13 @@ var DashboardOds = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      loading: true
+      loading: true,
+      update: false
     };
     _this.objectives = [];
+    _this.objective = '';
+    _this.indicator = '';
+    _this.title = '';
     return _this;
   }
 
@@ -5481,6 +5485,7 @@ var DashboardOds = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       if (this.state.loading) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "animated fadeInRight",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "spiner-example",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -5498,20 +5503,121 @@ var DashboardOds = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "col-lg-4",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_ObjectiveEvolution__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              objectives: this.objectives
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "row animated fadeInRight",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "col-12 mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+            htmlFor: "objective_selector",
+            children: "Selecciona un objetivo:"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
+            id: "objective_selector",
+            defaultValue: this.objective,
+            children: this.objectives.map(function (objective, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+                value: objective.token,
+                children: objective.title
+              }, objective.token + index);
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "col-lg-4"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "col-lg-4"
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "col-lg-6",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_ObjectiveEvolution__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            objective: this.objective,
+            indicator: this.indicator,
+            title: this.title
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "col-lg-6",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "row",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col-lg-6",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-title bg-primary",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Valor objetivo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "ibox-content",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                    children: "5,492"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                    children: "Respecto al a\xF1o base 2019."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-footer",
+                  children: "Podarcis SL. \xA9 2022"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col-lg-6",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-title bg-primary",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Variaci\xF3n respecto al a\xF1o base"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "ibox-content",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                    children: "5,492"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                    children: "Respecto al a\xF1o base 2019."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-footer",
+                  children: "Podarcis SL. \xA9 2022"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col-lg-6",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-title bg-primary",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "Variaci\xF3n respecto del valor objetivo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "ibox-content",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                    children: "5,492"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                    children: "Respecto valor objetivo."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-footer",
+                  children: "Podarcis SL. \xA9 2022"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "col-lg-6",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "ibox",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-title bg-primary",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+                    children: "% de reducci\xF3n respecto del a\xF1o base"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                  className: "ibox-content",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                    children: "5,492"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                    children: "Respecto al a\xF1o base 2019."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  className: "ibox-footer",
+                  children: "Podarcis SL. \xA9 2022"
+                })]
+              })
+            })]
+          })
+        })]
       });
     }
   }, {
@@ -5520,11 +5626,79 @@ var DashboardOds = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard').then(function (response) {
-        _this2.objectives = response.data.objectives; //CHANGE STATE
+        _this2.objectives = response.data.objectives;
+        _this2.objective = _this2.objectives[0]['token'];
+        _this2.indicator = _this2.objectives[0]['indicator'];
+        _this2.title = _this2.objectives[0]['title']; //CHANGE STATE
 
         _this2.setState({
           loading: false
         });
+      }).then(function () {
+        $('#objective_selector').select2({
+          placeholder: "Selecciona un objetivo",
+          theme: "bootstrap4",
+          width: "250px"
+        });
+
+        var handleChangeObjective = function handleChangeObjective(value) {
+          _this2.changeObjective(value);
+        }; //ON CHANGE
+
+
+        $('#objective_selector').on('change', function (e) {
+          var value = e.target.value;
+          handleChangeObjective(value);
+        });
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this3 = this;
+
+      if (this.state.update == true) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard').then(function (response) {
+          _this3.objectives = response.data.objectives; //CHANGE STATE
+
+          _this3.setState({
+            loading: false,
+            update: false
+          });
+        }).then(function () {
+          $('#objective_selector').select2({
+            placeholder: "Selecciona un objetivo",
+            theme: "bootstrap4",
+            width: "250px"
+          });
+
+          var handleChangeObjective = function handleChangeObjective(value) {
+            _this3.changeObjective(value);
+          }; //ON CHANGE
+
+
+          $('#objective_selector').on('change', function (e) {
+            var value = e.target.value;
+            handleChangeObjective(value);
+          });
+        });
+      }
+    }
+  }, {
+    key: "changeObjective",
+    value: function changeObjective(value) {
+      var _this4 = this;
+
+      this.objective = value;
+      this.objectives.map(function (obj, key) {
+        if (obj.token == _this4.objective) {
+          _this4.indicator = _this4.objectives[key]['indicator'];
+          _this4.title = _this4.objectives[key]['title'];
+        }
+      });
+      this.setState({
+        loading: true,
+        update: true
       });
     }
   }]);
@@ -7102,73 +7276,35 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
       loading: true,
       update: false
     };
-    _this.objectives = _this.props.objectives;
+    _this.objective = _this.props.objective;
+    _this.indicator = _this.props.indicator;
+    _this.title = _this.props.title;
     _this.dataSets = [];
     _this.years = [];
-    _this.chart = {};
-
-    if (_this.objectives.length > 0) {
-      _this.selectedObjective = _this.objectives[0].token;
-    }
-
     return _this;
   }
 
   _createClass(ObjectiveEvolution, [{
     key: "render",
     value: function render() {
-      if (this.state.loading) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "ibox",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "ibox-title bg-primary",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
-              children: "Evoluci\xF3n de los objetivos"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-            className: "ibox-content bg-light animated fadeIn",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-              className: "spiner-example",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                className: "sk-spinner sk-spinner-double-bounce",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                  className: "sk-double-bounce1"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                  className: "sk-double-bounce2"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-              className: "mt-3 text-center",
-              children: " Cargando... "
-            })]
-          })]
-        });
-      }
-
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "ibox",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "ibox-title bg-primary",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
-            children: "Evoluci\xF3n de los objetivos"
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h5", {
+            children: ["Evoluci\xF3n del ", this.title]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "ibox-content bg-light",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
-            id: "objective_selector",
-            className: "form-control",
-            defaultValue: this.selectedObjective,
-            children: this.objectives.map(function (objective) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-                value: objective.token,
-                children: objective.title
-              }, "option_" + objective.token);
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "ibox-content",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
+              id: "objective_chart",
+              width: "100%"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
-            id: "objective_evolution",
-            className: "animated fadeIn",
-            height: 200
-          })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "ibox-footer",
+          children: "Podarcis SL. \xA9 2022"
         })]
       });
     }
@@ -7177,157 +7313,55 @@ var ObjectiveEvolution = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      if (this.objectives.length > 0) {
-        var value = this.objectives[0].token;
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard/objective/evolution', {
-          token: value
-        }).then(function (response) {
-          var evaluations = response.data.evaluations;
-          var years = response.data.years;
-          var objective = response.data.objective;
-          var data = [];
-          years.map(function (year) {
-            var suma = 0;
-            evaluations[year].map(function (evaluation) {
-              suma += Number(evaluation.value);
-            });
-            data.push(suma);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard/objective/evolution', {
+        token: this.objective
+      }).then(function (response) {
+        var years = response.data.years;
+        var evaluations = response.data.evaluations;
+        var data = [];
+        years.map(function (year) {
+          var suma = 0;
+          evaluations[year].map(function (evaluation) {
+            suma += Number(evaluation.value);
           });
-          _this2.dataSets = data;
-          _this2.years = years;
-
-          _this2.setState({
-            loading: false,
-            update: false
-          });
-        }).then(function () {
-          var ctx = document.getElementById('objective_evolution').getContext('2d');
-          var config = {
-            type: 'line',
-            data: {
-              labels: _this2.years,
-              datasets: [{
-                label: "Evolución",
-                data: _this2.dataSets,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
-            },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top'
-                },
-                title: {
-                  display: true,
-                  text: ''
-                }
-              }
-            }
-          };
-          _this2.chart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, config); //INIT SELECT2
-
-          $('#objective_selector').select2({
-            placeholder: "Selecciona un objetivo",
-            theme: "bootstrap4"
-          });
-
-          var handleChangeObjective = function handleChangeObjective(value) {
-            _this2.changeObjective(value);
-          }; //ON CHANGE
-
-
-          $('#objective_selector').on('change', function (e) {
-            var value = e.target.value;
-            handleChangeObjective(value);
-          });
+          data.push(suma);
         });
-      }
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      var _this3 = this;
-
-      if (this.state.update != false) {
-        var value = this.selectedObjective;
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/ods/dashboard/objective/evolution', {
-          token: value
-        }).then(function (response) {
-          var evaluations = response.data.evaluations;
-          var years = response.data.years;
-          var data = [];
-          years.map(function (year) {
-            var suma = 0;
-            evaluations[year].map(function (evaluation) {
-              suma += Number(evaluation.value);
-            });
-            data.push(suma);
-          });
-          _this3.dataSets = data;
-          _this3.years = years;
-
-          _this3.setState({
-            loading: false,
-            update: false
-          });
-        }).then(function () {
-          var ctx = document.getElementById('objective_evolution').getContext('2d');
-          var config = {
-            type: 'line',
-            data: {
-              labels: _this3.years,
-              datasets: [{
-                label: "Evolución",
-                data: _this3.dataSets,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
+        _this2.dataSets = data;
+        _this2.years = years;
+      }).then(function () {
+        var ctx = document.getElementById('objective_chart').getContext('2d');
+        var config = {
+          type: 'line',
+          data: {
+            labels: _this2.years,
+            datasets: [{
+              label: _this2.indicator,
+              data: _this2.dataSets,
+              fill: false,
+              borderColor: '#1AB394',
+              backgroundColor: '#1AB394',
+              tension: 0.2,
+              yAxisID: 'A'
+            }]
+          },
+          options: {
+            responsive: true,
+            interaction: {
+              mode: 'index',
+              intersect: false
             },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top'
-                },
-                title: {
-                  display: true,
-                  text: ''
-                }
+            plugins: {
+              legend: {
+                position: 'top'
               }
+            },
+            hover: {
+              mode: 'nearest',
+              intersect: true
             }
-          };
-          _this3.chart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, config); //INIT SELECT2
-
-          $('#objective_selector').select2({
-            placeholder: "Selecciona un objetivo",
-            theme: "bootstrap4"
-          });
-
-          var handleChangeObjective = function handleChangeObjective(value) {
-            _this3.changeObjective(value);
-          }; //ON CHANGE
-
-
-          $('#objective_selector').on('change', function (e) {
-            var value = e.target.value;
-            handleChangeObjective(value);
-          });
-        });
-      }
-    }
-  }, {
-    key: "changeObjective",
-    value: function changeObjective(value) {
-      this.selectedObjective = value;
-      this.setState({
-        loading: true,
-        update: true
+          }
+        };
+        _this2.chart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_3__["default"](ctx, config);
       });
     }
   }]);
