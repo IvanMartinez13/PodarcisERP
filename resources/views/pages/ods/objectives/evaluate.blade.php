@@ -31,6 +31,5 @@
     </div>
 
     <evaluation objective="{{ json_encode($objective) }}" strategy="{{ json_encode($strategy) }}"
-        update="{{ Auth::user()->can('update Vigilancia Ambiental') }}"
-        delete="{{ Auth::user()->can('delete Vigilancia Ambiental') }}"></evaluation>
+        update="{{ Auth::user()->can('update Ods') }}" delete="{{ Auth::user()->can('delete Ods') }}"></evaluation>
 @endsection

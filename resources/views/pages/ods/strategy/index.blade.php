@@ -95,8 +95,8 @@
                         <div class="panel-body">
 
                             <objective-evaluation objective="{{ json_encode($objective) }}"
-                                update="{{ Auth::user()->can('update Vigilancia Ambiental') }}"
-                                delete="{{ Auth::user()->can('delete Vigilancia Ambiental') }}">
+                                update="{{ Auth::user()->can('update Ods') }}"
+                                delete="{{ Auth::user()->can('delete Ods') }}">
                             </objective-evaluation>
                         </div>
                     </div>
