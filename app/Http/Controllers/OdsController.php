@@ -9,8 +9,9 @@ use App\Http\Requests\UpdateStrategyRequest;
 use App\Models\Evaluation;
 use App\Models\Evaluation_file;
 use App\Models\Objective;
+use App\Models\Objective_evaluation;
+use App\Models\Objective_evaluation_file;
 use App\Models\Strategy;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -478,7 +479,12 @@ class OdsController extends Controller
 
     public function delete_file(Request $request)
     {
-        $file = Evaluation_file::where('token', $request->token)->delete();
+        if ($request->type == 'strategy') {
+            $file = Evaluation_file::where('token', $request->token)->delete();
+        } else {
+            $file = Objective_evaluation_file::where('token', $request->token)->delete();
+        }
+
 
         $response = [
             "status" => "success",
@@ -609,5 +615,149 @@ class OdsController extends Controller
         $objective = Objective::where('token', $request->token)->forceDelete();
 
         return redirect()->back()->with('status', 'success')->with('message', 'Objetivo eliminado permanentemente.');
+    }
+
+
+    public function cards(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+
+        //VALOR OBJETIVO
+        $valor_objetivo = 0;
+
+        $strategies = Strategy::where('objective_id', $objective->id)->get('id');
+        $evaluations = Evaluation::whereIn('strategy_id', $strategies)->where('year', $objective->base_year)->get();
+
+        $response = [
+            'objective' => $objective,
+            'evaluations' => $evaluations
+        ];
+
+        return response()->json($response);
+    }
+
+    public function get_objective_evaluations(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+
+        $evaluations = Objective_evaluation::where('objective_id', $objective->id)->with('files')->orderBy('year', 'DESC')->get();
+
+        $response = [
+            'objective' => $objective,
+            'evaluations' => $evaluations
+        ];
+
+        return response()->json($response);
+    }
+
+    public function objective_evaluate_save(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+
+        $rows = $request->data;
+
+        foreach ($rows as $key => $row) {
+
+            $check = Objective_evaluation::where('token', $row['id'])->exists();
+
+            if ($check) {
+                if ($row['year']  && $row['value']) {
+
+                    if ($row['delete']) {
+                        //DELETE
+                        $evaluation = Objective_evaluation::where('token', $row['id'])->delete();
+                    } else {
+
+                        //UPDATE
+                        $data = [
+                            'year' => $row['year'],
+                            'value' => $row['value']
+                        ];
+
+                        $evaluation = Objective_evaluation::where('token', $row['id'])->update($data);
+                        $evaluation = Objective_evaluation::where('token', $row['id'])->first();
+                        if (isset($row['files'][0])) {
+                            foreach ($row['files'] as $key => $file) { //FILES
+                                //CHECK DATA
+                                if (isset($file['token'])) {
+                                    $data = [
+                                        'name' => $file['name'],
+
+                                    ];
+
+                                    $file = Objective_evaluation_file::where('token', $file['token'])->update($data);
+                                } else {
+
+                                    $data = [
+                                        'name' => $file['name'],
+                                        'path' => $file['path'],
+                                        'objective_evaluation_id' => $evaluation->id,
+                                        'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
+                                    ];
+
+                                    $file = new Objective_evaluation_file($data);
+                                    $file->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+
+                if ($row['year'] && $row['value']) {
+
+
+                    if ($row['delete']) {
+                        //NOTHING
+
+                    } else {
+
+                        $objective = Objective::where('token', $request->token)->first();
+
+                        //STORE
+                        $data = [
+                            'year' => $row['year'],
+                            'value' => $row['value'],
+                            'token' => md5($row['year'] . '+' . date('d/m/Y')),
+                            'objective_id' => $objective->id
+                        ];
+
+                        $evaluation = new Objective_evaluation($data);
+                        $evaluation->save();
+                        if (isset($row['files'][0])) {
+                            foreach ($row['files'] as $key => $file) { //FILES
+                                //CHECK DATA
+                                if (isset($file['token'])) {
+                                    $data = [
+                                        'name' => $file['name'],
+
+                                    ];
+
+                                    $file = Objective_evaluation_file::where('token', $file['token'])->update($data);
+                                } else {
+
+                                    $data = [
+                                        'name' => $file['name'],
+                                        'path' => $file['path'],
+                                        'objective_evaluation_id' => $evaluation->id,
+                                        'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
+                                    ];
+
+                                    $file = new Objective_evaluation_file($data);
+                                    $file->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Evaluaciones guardadas.',
+        ];
+
+        return response()->json($response);
     }
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
+import Cards from "./components/Cards";
 import ObjectiveEvolution from "./components/ObjectiveEvolution";
 
 class DashboardOds extends React.Component{
@@ -64,77 +65,7 @@ class DashboardOds extends React.Component{
                 </div>
 
                 <div className="col-lg-6">
-                    <div className="row">
-
-                        <div className="col-lg-6">
-                            <div className="ibox">
-                                <div className="ibox-title bg-primary">
-                                    <h5>Valor objetivo</h5>
-                                </div>
-
-                                <div className="ibox-content">
-                                    <h1>5,492</h1>
-                                    <small>Respecto al año base 2019.</small>
-                                </div>
-
-                                <div className="ibox-footer">
-                                    Podarcis SL. &copy; 2022
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6">
-                            <div className="ibox">
-                                <div className="ibox-title bg-primary">
-                                    <h5>Variación respecto al año base</h5>
-                                </div>
-
-                                <div className="ibox-content">
-                                    <h1>5,492</h1>
-                                    <small>Respecto al año base 2019.</small>
-                                </div>
-
-                                <div className="ibox-footer">
-                                    Podarcis SL. &copy; 2022
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6">
-                            <div className="ibox">
-                                <div className="ibox-title bg-primary">
-                                    <h5>Variación respecto del valor objetivo</h5>
-                                </div>
-
-                                <div className="ibox-content">
-                                    <h1>5,492</h1>
-                                    <small>Respecto valor objetivo.</small>
-                                </div>
-
-                                <div className="ibox-footer">
-                                    Podarcis SL. &copy; 2022
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6">
-                            <div className="ibox">
-                                <div className="ibox-title bg-primary">
-                                    <h5>% de reducción respecto del año base</h5>
-                                </div>
-
-                                <div className="ibox-content">
-                                    <h1>5,492</h1>
-                                    <small>Respecto al año base 2019.</small>
-                                </div>
-
-                                <div className="ibox-footer">
-                                    Podarcis SL. &copy; 2022
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <Cards objective={this.objective}></Cards>
                 </div>
             </div>
 

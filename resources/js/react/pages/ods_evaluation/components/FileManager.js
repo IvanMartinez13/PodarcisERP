@@ -11,7 +11,9 @@ class FlileManager extends React.Component{
         this.state = {files: this.props.files};
         this.update = this.props.update;
         this.del = this.props.del;
-    
+
+        this.type = this.props.type;
+
         this.setFiles = (data) => {
             this.props.setFiles(data);
         }
@@ -207,7 +209,7 @@ class FlileManager extends React.Component{
             cancelButtonColor: "#ed5565",
             cancelButtonText: "Cancelar",
         }, function () {
-            axios.post('/ods/delete_file', {token: token}).then( (response) => {
+            axios.post('/ods/delete_file', {token: token, type: this.type}).then( (response) => {
                 toastr.success(response.data.message);
     
                 setTimeout( () => {

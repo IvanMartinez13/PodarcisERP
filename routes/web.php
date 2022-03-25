@@ -125,7 +125,11 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::put('/delete', [OdsController::class, 'delete'])->name('ods.objective.delete');
     Route::put('/recovered', [OdsController::class, 'recover_objective'])->name('ods.objective.recovered');
     Route::put('/true_delete', [OdsController::class, 'true_delete'])->name('ods.objective.true_delete');
+    Route::post('/dashboard/cards', [OdsController::class, 'cards'])->name('ods.dashboard.cards');
+    Route::post('/objective/get_evaluations', [OdsController::class, 'get_objective_evaluations'])->name('ods.objective.get_objective_evaluations');
+    Route::post('/objective/evaluate/save', [OdsController::class, 'objective_evaluate_save'])->name('ods.objective.objective_evaluate_save');
 });
+
 
 //TASKS MODULE
 Route::prefix('tasks')->middleware(['auth'])->group(function () {

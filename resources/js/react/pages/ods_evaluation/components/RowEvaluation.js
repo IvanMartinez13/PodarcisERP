@@ -44,7 +44,7 @@ class RowEvaluation extends React.Component{
                         </button>
                     }
 
-                    <FlileManager id={this.id} setFiles={this.setFiles} files={this.files} update={this.update} del={this.del} />
+                    <FlileManager id={this.id} setFiles={this.setFiles} files={this.files} update={this.update} del={this.del} type={'strategy'}/>
                 </td>
                 <td className="align-middle">
                     
@@ -169,7 +169,7 @@ class RowEvaluation extends React.Component{
         this.updateRows(data);
 
 
-        $('#'+this.id).remove();
+        $('#'+this.id).hide();
     }
     
 }

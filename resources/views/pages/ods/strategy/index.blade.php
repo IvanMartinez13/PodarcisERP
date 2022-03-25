@@ -14,7 +14,7 @@
                 </li>
 
                 <li class="breadcrumb-item active">
-                    <strong>{{ __('modules.strategy') }}</strong>
+                    <strong>{{ $objective->title }}</strong>
                 </li>
             </ol>
         </div>
@@ -28,14 +28,9 @@
     <div class="ibox">
         <div class="ibox-title">
             <h5>
-                {{ __('modules.strategy') }}
+                {{ $objective->title }}
             </h5>
 
-            @can('store Ods')
-                <a href="{{ route('ods.strategy.create', $objective->token) }}" class="btn btn-primary">
-                    {{ __('forms.create') }}
-                </a>
-            @endcan
             <div class="ibox-tools">
                 <a href="" class="collapse-link">
                     <i class="fa fa-chevron-up" aria-hidden="true"></i>
@@ -44,64 +39,150 @@
         </div>
 
         <div class="ibox-content">
-            <div class="container-fluid table-responsive">
-                <table class="table table-hover table-striped table-bordered js_datatable">
-                    <thead>
-                        <tr>
-                            <th>{{ __('columns.title') }}</th>
-                            <th style="width: 25%">{{ __('columns.description') }}</th>
-                            <th>{{ __('columns.indicator') }}</th>
-                            <th style="width: 30%">{{ __('columns.performances') }}</th>
-                            <th>{{ __('columns.actions') }}</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        @foreach ($strategies as $strategy)
-                            <tr>
-                                <td class="align-middle">{{ $strategy->title }}</td>
-                                <td class="align-middle">{!! $strategy->description !!}</td>
-                                <td class="align-middle">{{ $strategy->indicator }}</td>
-                                <td class="align-middle">{!! $strategy->performances !!}</td>
-                                <td class="align-middle text-center">
-                                    <div class="btn-group-vertical">
-                                        @can('update Ods')
-                                            <a href="{{ route('ods.strategy.edit', [$objective->token, $strategy->token]) }}"
-                                                class="btn btn-link">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        @endcan
+            <div class="row mb-3">
+                <div class="col-lg-4">
 
-                                        @can('read Ods')
-                                            <a href="{{ route('ods.objective.evaluate', $strategy->token) }}"
-                                                class="btn btn-link">
-                                                <i class="fas fa-clipboard-check"></i>
-                                            </a>
-                                        @endcan
+                    <h5>{{ __('forms.description') }}</h5>
+                    {!! $objective->description !!}
+                </div>
 
-                                        @can('delete Ods')
-                                            <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}"
-                                                class="btn btn-link">
-                                                <i class="fa-solid fa-recycle"></i>
-                                            </a>
-                                        @endcan
+                <div class="col-lg-4">
 
+                    <h5>{{ __('forms.base_year') }}</h5>
+                    {{ $objective->base_year }}
 
+                    <h5 class="mt-3">{{ __('forms.target_year') }}</h5>
+                    {{ $objective->target_year }}
+                </div>
 
+                <div class="col-lg-4">
 
-                                        @can('delete Ods')
-                                            <button onclick="remove('{{ $strategy->token }}')" class="btn btn-link">
-                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
-                                            </button>
-                                        @endcan
+                    <h5>{{ __('forms.indicator') }}</h5>
+                    {{ $objective->indicator }}
 
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    <h5 class="mt-3">
+                        {{ $objective->increase == 1 ? __('Increase') : __('Reduction') }}
+
+                        {{ __('forms.target') }}(%)
+                    </h5>
+                    {{ $objective->target }} %
+                </div>
+
             </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5>Gráfico evolucion %</h5>
+                    <p class="p-5"></p>
+                </div>
+
+                <div class="col-lg-6">
+                    <h5>Gráfico variacion indicador</h5>
+                    <p class="p-5"></p>
+                </div>
+            </div>
+
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a class="nav-link active" data-toggle="tab" href="#evaluation-tab">
+                            {{ __('Evaluation') }}</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#strategy-tab">{{ __('modules.strategy') }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" id="evaluation-tab" class="tab-pane active">
+                        <div class="panel-body">
+
+                            <objective-evaluation objective="{{ json_encode($objective) }}"
+                                update="{{ Auth::user()->can('update Vigilancia Ambiental') }}"
+                                delete="{{ Auth::user()->can('delete Vigilancia Ambiental') }}">
+                            </objective-evaluation>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="strategy-tab" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="d-block mb-5">
+                                <h2 class="d-inline h6">
+                                    {{ __('modules.strategy') }}
+                                </h2>
+
+                                @can('store Ods')
+                                    <a href="{{ route('ods.strategy.create', $objective->token) }}"
+                                        class="btn btn-primary d-inline">
+                                        {{ __('forms.create') }}
+                                    </a>
+                                @endcan
+                            </div>
+
+
+                            <div class="container-fluid table-responsive">
+                                <table class="table table-hover table-striped table-bordered js_datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ __('columns.title') }}</th>
+                                            <th style="width: 25%">{{ __('columns.description') }}</th>
+                                            <th>{{ __('columns.indicator') }}</th>
+                                            <th style="width: 30%">{{ __('columns.performances') }}</th>
+                                            <th>{{ __('columns.actions') }}</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($strategies as $strategy)
+                                            <tr>
+                                                <td class="align-middle">{{ $strategy->title }}</td>
+                                                <td class="align-middle">{!! $strategy->description !!}</td>
+                                                <td class="align-middle">{{ $strategy->indicator }}</td>
+                                                <td class="align-middle">{!! $strategy->performances !!}</td>
+                                                <td class="align-middle text-center">
+                                                    <div class="btn-group-vertical">
+                                                        @can('update Ods')
+                                                            <a href="{{ route('ods.strategy.edit', [$objective->token, $strategy->token]) }}"
+                                                                class="btn btn-link">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                            </a>
+                                                        @endcan
+
+                                                        @can('read Ods')
+                                                            <a href="{{ route('ods.objective.evaluate', $strategy->token) }}"
+                                                                class="btn btn-link">
+                                                                <i class="fas fa-clipboard-check"></i>
+                                                            </a>
+                                                        @endcan
+
+                                                        @can('delete Ods')
+                                                            <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}"
+                                                                class="btn btn-link">
+                                                                <i class="fa-solid fa-recycle"></i>
+                                                            </a>
+                                                        @endcan
+
+
+
+
+                                                        @can('delete Ods')
+                                                            <button onclick="remove('{{ $strategy->token }}')"
+                                                                class="btn btn-link">
+                                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                                            </button>
+                                                        @endcan
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
         </div>
 
         <div class="ibox-footer">
