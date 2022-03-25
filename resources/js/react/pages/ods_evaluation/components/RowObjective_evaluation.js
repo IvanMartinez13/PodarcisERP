@@ -129,9 +129,19 @@ class RowObjective_evaluation extends React.Component{
                     ></input>
                 </td>
                 <td className="align-middle text-center">
-                    <button onClick={ () => { this.deleteRow() }} className="btn btn-link">
-                        <i className="fa-solid fa-trash-can"></i>
-                    </button>
+                    {
+                        (this.del==1) ? 
+
+                            <button onClick={ () => { this.deleteRow() }} className="btn btn-link">
+                                <i className="fa-solid fa-trash-can"></i>
+                            </button>
+                        :
+
+                        <button disabled={true} onClick={ () => { this.deleteRow() }} className="btn btn-link">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </button>
+                    }
+
                 </td>
             </tr>
         );
