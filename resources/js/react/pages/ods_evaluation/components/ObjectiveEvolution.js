@@ -20,10 +20,24 @@ class ObjectiveEvolution extends React.Component{
 
         this.dataSets = [];
         this.years = [];
+
+        this.onlyChart = this.props.onlyChart;
     }
 
 
     render(){
+        if (this.onlyChart) {
+
+            return(
+                <div>
+                    <h5 className="text-center" >VARIACIÓN DE {this.indicator}</h5>
+
+                    <canvas id="objective_chart" ></canvas>
+                </div>
+                
+            )
+            
+        }
         return(
             <div className="ibox">
                 <div className="ibox-title bg-primary">

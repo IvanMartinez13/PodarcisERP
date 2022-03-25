@@ -71,18 +71,6 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <h5>Gráfico evolucion %</h5>
-                    <p class="p-5"></p>
-                </div>
-
-                <div class="col-lg-6">
-                    <h5>Gráfico variacion indicador</h5>
-                    <p class="p-5"></p>
-                </div>
-            </div>
-
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
                     <li><a class="nav-link active" data-toggle="tab" href="#evaluation-tab">
@@ -102,79 +90,82 @@
                     </div>
                     <div role="tabpanel" id="strategy-tab" class="tab-pane">
                         <div class="panel-body">
-                            <div class="d-block mb-5">
-                                <h2 class="d-inline h6">
-                                    {{ __('modules.strategy') }}
-                                </h2>
+                            <div class="animated fadeInRight">
+                                <div class="d-block mb-5">
+                                    <h2 class="d-inline h6">
+                                        {{ __('modules.strategy') }}
+                                    </h2>
 
-                                @can('store Ods')
-                                    <a href="{{ route('ods.strategy.create', $objective->token) }}"
-                                        class="btn btn-primary d-inline">
-                                        {{ __('forms.create') }}
-                                    </a>
-                                @endcan
-                            </div>
+                                    @can('store Ods')
+                                        <a href="{{ route('ods.strategy.create', $objective->token) }}"
+                                            class="btn btn-primary d-inline">
+                                            {{ __('forms.create') }}
+                                        </a>
+                                    @endcan
+                                </div>
 
 
-                            <div class="container-fluid table-responsive">
-                                <table class="table table-hover table-striped table-bordered js_datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>{{ __('columns.title') }}</th>
-                                            <th style="width: 25%">{{ __('columns.description') }}</th>
-                                            <th>{{ __('columns.indicator') }}</th>
-                                            <th style="width: 30%">{{ __('columns.performances') }}</th>
-                                            <th>{{ __('columns.actions') }}</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach ($strategies as $strategy)
+                                <div class="container-fluid table-responsive">
+                                    <table class="table table-hover table-striped table-bordered js_datatable">
+                                        <thead>
                                             <tr>
-                                                <td class="align-middle">{{ $strategy->title }}</td>
-                                                <td class="align-middle">{!! $strategy->description !!}</td>
-                                                <td class="align-middle">{{ $strategy->indicator }}</td>
-                                                <td class="align-middle">{!! $strategy->performances !!}</td>
-                                                <td class="align-middle text-center">
-                                                    <div class="btn-group-vertical">
-                                                        @can('update Ods')
-                                                            <a href="{{ route('ods.strategy.edit', [$objective->token, $strategy->token]) }}"
-                                                                class="btn btn-link">
-                                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                            </a>
-                                                        @endcan
-
-                                                        @can('read Ods')
-                                                            <a href="{{ route('ods.objective.evaluate', $strategy->token) }}"
-                                                                class="btn btn-link">
-                                                                <i class="fas fa-clipboard-check"></i>
-                                                            </a>
-                                                        @endcan
-
-                                                        @can('delete Ods')
-                                                            <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}"
-                                                                class="btn btn-link">
-                                                                <i class="fa-solid fa-recycle"></i>
-                                                            </a>
-                                                        @endcan
-
-
-
-
-                                                        @can('delete Ods')
-                                                            <button onclick="remove('{{ $strategy->token }}')"
-                                                                class="btn btn-link">
-                                                                <i class="fa fa-trash-alt" aria-hidden="true"></i>
-                                                            </button>
-                                                        @endcan
-
-                                                    </div>
-                                                </td>
+                                                <th>{{ __('columns.title') }}</th>
+                                                <th style="width: 25%">{{ __('columns.description') }}</th>
+                                                <th>{{ __('columns.indicator') }}</th>
+                                                <th style="width: 30%">{{ __('columns.performances') }}</th>
+                                                <th>{{ __('columns.actions') }}</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($strategies as $strategy)
+                                                <tr>
+                                                    <td class="align-middle">{{ $strategy->title }}</td>
+                                                    <td class="align-middle">{!! $strategy->description !!}</td>
+                                                    <td class="align-middle">{{ $strategy->indicator }}</td>
+                                                    <td class="align-middle">{!! $strategy->performances !!}</td>
+                                                    <td class="align-middle text-center">
+                                                        <div class="btn-group-vertical">
+                                                            @can('update Ods')
+                                                                <a href="{{ route('ods.strategy.edit', [$objective->token, $strategy->token]) }}"
+                                                                    class="btn btn-link">
+                                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                                </a>
+                                                            @endcan
+
+                                                            @can('read Ods')
+                                                                <a href="{{ route('ods.objective.evaluate', $strategy->token) }}"
+                                                                    class="btn btn-link">
+                                                                    <i class="fas fa-clipboard-check"></i>
+                                                                </a>
+                                                            @endcan
+
+                                                            @can('delete Ods')
+                                                                <a href="{{ route('ods.evaluations.deleted', $strategy->token) }}"
+                                                                    class="btn btn-link">
+                                                                    <i class="fa-solid fa-recycle"></i>
+                                                                </a>
+                                                            @endcan
+
+
+
+
+                                                            @can('delete Ods')
+                                                                <button onclick="remove('{{ $strategy->token }}')"
+                                                                    class="btn btn-link">
+                                                                    <i class="fa fa-trash-alt" aria-hidden="true"></i>
+                                                                </button>
+                                                            @endcan
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

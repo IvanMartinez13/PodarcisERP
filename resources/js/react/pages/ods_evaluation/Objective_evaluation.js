@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import ReactDOM  from "react-dom";
 import RowObjective_evaluation from "./components/RowObjective_evaluation";
+import ObjectiveEvolution from "./components/ObjectiveEvolution";
 
 class Objective_evaluation extends React.Component{
 
@@ -45,7 +46,18 @@ class Objective_evaluation extends React.Component{
         }
 
         return(
-            <div>
+            <div className="animated fadeInRight">
+
+                <div className="row mx-1 mb-3">
+                    <div className="col-lg-4">
+                        <h5 className="text-center">EVOLUCIÓN CONSECUCIÓN OBJETIVO</h5>
+                    </div>
+
+                    <div className="col-lg-4 offset-lg-4">
+                        
+                        <ObjectiveEvolution onlyChart={true} objective={this.objective.token} indicator={this.objective.indicator} title={this.objective.title}></ObjectiveEvolution>
+                    </div>
+                </div>
 
                 {
                     (this.update == 1) ?  

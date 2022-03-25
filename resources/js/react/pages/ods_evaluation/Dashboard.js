@@ -61,7 +61,7 @@ class DashboardOds extends React.Component{
 
                 <div className="col-lg-6">
 
-                   <ObjectiveEvolution objective={this.objective} indicator={this.indicator} title={this.title}></ObjectiveEvolution>
+                   <ObjectiveEvolution onlyChart={false} objective={this.objective} indicator={this.indicator} title={this.title}></ObjectiveEvolution>
                 </div>
 
                 <div className="col-lg-6">
