@@ -17,6 +17,8 @@ class RowObjective_evaluation extends React.Component{
 
         this.files = this.props.files;
 
+        console.log(this.files)
+
         this.updateRows = (data) => {
             this.props.updateRows(data);
         }
@@ -186,7 +188,7 @@ class RowObjective_evaluation extends React.Component{
             this.value = value;
         }
 
-        if(key = 'files'){
+        if(key == 'files'){
             this.files = value;
         }
 

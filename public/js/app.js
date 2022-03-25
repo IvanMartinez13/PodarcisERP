@@ -6372,7 +6372,6 @@ var Objective_evaluation = /*#__PURE__*/function (_React$Component) {
           };
           rows.push(item); //PUSH TO TOP
         });
-        console.log(rows);
 
         for (var index = _this3.objective.base_year; index <= _this3.objective.target_year; index++) {
           _this3.years.push(index);
@@ -8117,6 +8116,7 @@ var RowObjective_evaluation = /*#__PURE__*/function (_React$Component) {
     _this.del = _this.props.del;
     _this.update = _this.props.update;
     _this.files = _this.props.files;
+    console.log(_this.files);
 
     _this.updateRows = function (data) {
       _this.props.updateRows(data);
@@ -8311,7 +8311,7 @@ var RowObjective_evaluation = /*#__PURE__*/function (_React$Component) {
         this.value = value;
       }
 
-      if (key = 'files') {
+      if (key == 'files') {
         this.files = value;
       }
 
