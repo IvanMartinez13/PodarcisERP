@@ -661,7 +661,7 @@ class OdsController extends Controller
             $check = Objective_evaluation::where('token', $row['id'])->exists();
 
             if ($check) {
-                if ($row['year']  && $row['value']) {
+                if ($row['year']  && $row['value'] >= null) {
 
                     if ($row['delete']) {
                         //DELETE
@@ -704,7 +704,7 @@ class OdsController extends Controller
                 }
             } else {
 
-                if ($row['year'] && $row['value']) {
+                if ($row['year'] && $row['value'] != null) {
 
 
                     if ($row['delete']) {
@@ -759,5 +759,128 @@ class OdsController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function variationChart(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+
+        $objective_evaluation = Objective_evaluation::where('objective_id', $objective->id)->orderBy('year', 'ASC')->get();
+
+        $years = $objective_evaluation->pluck('year');
+
+        //GET TARGET PERCENT
+        if ($objective->increase == 1) {
+            $targetPercent = 100 + $objective->target;
+        } else {
+            $targetPercent = 100 - $objective->target;
+        }
+
+
+
+        $variation = [];
+
+        foreach ($years as $key => $year) {
+
+            if (!isset($variation[$year])) {
+                $variation[$year] = 0;
+            }
+
+            foreach ($objective_evaluation as $key => $evaluation) {
+
+                if ($evaluation->year == $year) {
+
+                    $variation[$year] += $evaluation->value;
+                }
+            }
+        }
+
+        if (isset($variation[$objective->base_year])) {
+
+            $targetValue = ($variation[$objective->base_year] * $targetPercent) / 100;
+        } else {
+
+            $targetValue = 'No tiene';
+        }
+
+        $response = [
+            'years' => $years,
+            'variation' => $variation,
+            'targetValue' => $targetValue
+        ];
+
+        return response()->json($response);
+    }
+
+    public function evolutionChart(Request $request)
+    {
+        $objective = Objective::where('token', $request->token)->first();
+        $objective_evaluation = Objective_evaluation::where('objective_id', $objective->id)->orderBy('year', 'ASC')->get();
+        $years = $objective_evaluation->pluck('year');
+        $variation = [];
+
+        //GET VARIATION PER YEAR
+        foreach ($years as $key => $year) {
+
+            if (!isset($variation[$year])) {
+                $variation[$year] = 0;
+            }
+
+            foreach ($objective_evaluation as $key => $evaluation) {
+
+                if ($evaluation->year == $year) {
+
+                    $variation[$year] += $evaluation->value;
+                }
+            }
+        }
+
+        //GET TARGET PERCENT
+        if ($objective->increase == 1) {
+            $targetPercent = 100 + $objective->target;
+        } else {
+            $targetPercent = 100 - $objective->target;
+        }
+
+        //GET TARGET VALUE
+        if (isset($variation[$objective->base_year])) {
+            $targetValue = ($variation[$objective->base_year] * $targetPercent) / 100;
+
+            $percent = [];
+
+
+            foreach ($years as $year) {
+
+                if (!isset($percent[$year])) {
+                    $percent[$year] = 0;
+                }
+
+                if ($objective->increase == 0) {
+
+                    $indicator = $variation[$year] - $targetValue;
+                    $percent[$year] = (1 - ($indicator / $targetValue)) * 100;
+                } else {
+
+                    $indicator = $variation[$year];
+                    $percent[$year] = ($indicator / $targetValue) * 100;
+                }
+            }
+
+
+            $response = [
+                'years' => $years,
+                'percent' => $percent,
+                'error' => false,
+            ];
+
+            return response()->json($response);
+        } else {
+
+            $response = [
+                'error' => 'No existe ningún valor en el año de referencia.',
+            ];
+
+            return response()->json($response);
+        }
     }
 }

@@ -128,6 +128,8 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::post('/dashboard/cards', [OdsController::class, 'cards'])->name('ods.dashboard.cards');
     Route::post('/objective/get_evaluations', [OdsController::class, 'get_objective_evaluations'])->name('ods.objective.get_objective_evaluations');
     Route::post('/objective/evaluate/save', [OdsController::class, 'objective_evaluate_save'])->name('ods.objective.objective_evaluate_save');
+    Route::post('/objective/variationChart', [OdsController::class, 'variationChart'])->name('ods.objective.variationChart');
+    Route::post('/objective/evolutionChart', [OdsController::class, 'evolutionChart'])->name('ods.objective.evolutionChart');
 });
 
 

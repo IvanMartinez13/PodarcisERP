@@ -17,8 +17,6 @@ class RowObjective_evaluation extends React.Component{
 
         this.files = this.props.files;
 
-        console.log(this.files)
-
         this.updateRows = (data) => {
             this.props.updateRows(data);
         }
