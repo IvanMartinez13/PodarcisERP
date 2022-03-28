@@ -1,8 +1,8 @@
 import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
-import Cards from "./components/Cards";
-import ObjectiveEvolution from "./components/ObjectiveEvolution";
+import EvolutionObjective from "./components/EvolutionObjective";
+import IndicatorVariation from "./components/IndicatorVariation";
 
 class DashboardOds extends React.Component{
 
@@ -16,7 +16,6 @@ class DashboardOds extends React.Component{
         }
 
         this.objectives = [];
-        
         this.objective = '';
         this.indicator = '';
         this.title = '';
@@ -47,7 +46,7 @@ class DashboardOds extends React.Component{
                     <label htmlFor="objective_selector">
                         Selecciona un objetivo:
                     </label>
-                    <select id="objective_selector" defaultValue={this.objective}>
+                    <select id="objective_selector" defaultValue={this.objective.token}>
                         {
                             this.objectives.map( (objective, index) => {
                                 return(
@@ -59,14 +58,42 @@ class DashboardOds extends React.Component{
                     
                 </div>
 
-                <div className="col-lg-6">
 
-                   <ObjectiveEvolution onlyChart={false} objective={this.objective} indicator={this.indicator} title={this.title}></ObjectiveEvolution>
+                <div className="col-lg-5">
+                    <div className="ibox">
+                        <div className="ibox-title bg-primary">
+                            <h5>EVOLUCIÓN CONSECUCIÓN OBJETIVO</h5>
+                            
+                        </div>
+
+                        <div className="ibox-content">
+                            <EvolutionObjective objective={this.objective}></EvolutionObjective>
+                        </div>
+                        <div className="ibox-footer">
+                            Podarcis SL. &copy; 2022
+                        </div>
+                    </div>
+                   
                 </div>
 
-                <div className="col-lg-6">
-                    <Cards objective={this.objective}></Cards>
+                <div className="col-lg-5 offset-2">
+                    <div className="ibox">
+                        <div className="ibox-title bg-primary">
+                            <h5>VARIACIÓN de {this.objective.indicator}</h5>
+                            
+                        </div>
+
+                        <div className="ibox-content">
+                            <IndicatorVariation objective={this.objective}></IndicatorVariation>
+                        </div>
+                        <div className="ibox-footer">
+                            Podarcis SL. &copy; 2022
+                        </div>
+                    </div>
+                   
                 </div>
+
+                
             </div>
 
             
@@ -79,9 +106,7 @@ class DashboardOds extends React.Component{
 
             this.objectives = response.data.objectives;
 
-            this.objective = this.objectives[0]['token'];
-            this.indicator = this.objectives[0]['indicator'];
-            this.title = this.objectives[0]['title'];
+            this.objective = this.objectives[0];
 
             //CHANGE STATE
             this.setState({
@@ -163,13 +188,11 @@ class DashboardOds extends React.Component{
 
     changeObjective(value)
     {
-        this.objective = value;
 
         this.objectives.map( (obj, key) => {
-            if (obj.token == this.objective) {
+            if (obj.token == value) {
                 
-                this.indicator = this.objectives[key]['indicator'];
-                this.title = this.objectives[key]['title'];
+                this.objective = obj;
             }
 
         } );
