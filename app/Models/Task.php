@@ -40,4 +40,9 @@ class Task extends Model
     {
         return $this->belongsToMany(Strategy::class, 'task_strategy');
     }
+
+    public function objective()
+    {
+        return $this->belongsToMany(Objective::class, 'task_objective');
+    }
 }

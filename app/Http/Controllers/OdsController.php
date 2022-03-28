@@ -948,4 +948,65 @@ class OdsController extends Controller
 
         return redirect(route('tasks.project.task_details', ['project' => $project->token, 'task' => $task->token]));
     }
+
+    public function objective_to_task($token)
+    {
+        $customer_id = Auth::user()->customer_id;
+        $customer = Customer::where('id', $customer_id)->first();
+        $objective = Objective::where('token', $token)->first();
+
+        $branches = Branch::where('customer_id', $customer_id)->get('id');
+
+        $departaments = Departament::whereHas('branches', function ($query) use ($branches) {
+
+            $query->whereIn('branch_id', $branches);
+        })->get('id');
+
+        //PROJECT
+        $project = Project::where('customer_id', $customer_id)->where('is_ods', 1)->first();
+
+        if ($project == null) {
+
+            $name = "ODS " . $customer->company;
+            $description = "<p>Programa de ods " . $customer->company . ".</p>";
+
+            $data = [
+                'name' => $name,
+                'description' => $description,
+                'color' => '#1AB394',
+                'image' => null,
+                'token' => md5($name . '+' . date('d/m/Y')),
+                'customer_id' => $customer_id,
+                'is_ods' => 1,
+            ];
+
+            $project = new Project($data);
+            $project->save();
+        }
+
+        //CREATE TASK
+        $task = Task::whereHas('objective', function ($query) use ($objective) {
+            $query->where('objective_id', $objective->id);
+        })->first();
+
+        if ($task  == null) {
+
+            $data = [
+                "name" => $objective->title,
+                "description" => $objective->description,
+                "is_done" => 0,
+                "token" => md5($objective->title . '+' . date('d/m/Y')),
+                "project_id" => $project->id,
+                "task_id" => null,
+            ];
+
+            $task = new Task($data);
+            $task->save();
+
+            $task->objective()->sync([$objective->id]);
+            $task->departaments()->sync($departaments);
+        }
+
+        return redirect(route('tasks.project.task_details', ['project' => $project->token, 'task' => $task->token]));
+    }
 }

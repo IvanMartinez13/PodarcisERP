@@ -108,6 +108,13 @@
                                                                 </a>
                                                             @endcan
 
+                                                            @can('store Tareas')
+                                                                <a href="{{ route('ods.objective.toTask', $objective->token) }}"
+                                                                    class="btn btn-link">
+                                                                    <i class="fa-solid fa-shuffle"></i>
+                                                                </a>
+                                                            @endcan
+
                                                             @can('delete Ods')
                                                                 <a href="{{ route('ods.strategy.recover', $objective->token) }}"
                                                                     class="btn btn-link" title="Recuperar estrategias.">
