@@ -6,12 +6,17 @@ use App\Http\Requests\StoreObjectiveRequest;
 use App\Http\Requests\StoreStrategyRequest;
 use App\Http\Requests\UpdateObjectiveRequest;
 use App\Http\Requests\UpdateStrategyRequest;
+use App\Models\Branch;
+use App\Models\Customer;
+use App\Models\Departament;
 use App\Models\Evaluation;
 use App\Models\Evaluation_file;
 use App\Models\Objective;
 use App\Models\Objective_evaluation;
 use App\Models\Objective_evaluation_file;
+use App\Models\Project;
 use App\Models\Strategy;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -430,8 +435,6 @@ class OdsController extends Controller
 
         return response()->json($response);
     }
-
-
 
     //GO TO PAGE RECYCLE EVALUATIONS
     public function deleted_evaluations($token)
@@ -882,5 +885,67 @@ class OdsController extends Controller
 
             return response()->json($response);
         }
+    }
+
+    public function strategy_to_task($token)
+    {
+        $customer_id = Auth::user()->customer_id;
+        $customer = Customer::where('id', $customer_id)->first();
+        $strategy = Strategy::where('token', $token)->first();
+        $objective = Objective::where('id', $strategy->objective_id)->first();
+
+        $branches = Branch::where('customer_id', $customer_id)->get('id');
+
+        $departaments = Departament::whereHas('branches', function ($query) use ($branches) {
+
+            $query->whereIn('branch_id', $branches);
+        })->get('id');
+
+        //PROJECT
+        $project = Project::where('customer_id', $customer_id)->where('is_ods', 1)->first();
+
+        if ($project == null) {
+
+            $name = "ODS " . $customer->company;
+            $description = "<p>Programa de ods " . $customer->company . ".</p>";
+
+            $data = [
+                'name' => $name,
+                'description' => $description,
+                'color' => '#1AB394',
+                'image' => null,
+                'token' => md5($name . '+' . date('d/m/Y')),
+                'customer_id' => $customer_id,
+                'is_ods' => 1,
+            ];
+
+            $project = new Project($data);
+            $project->save();
+        }
+
+        //CREATE TASK
+        $task = Task::whereHas('strategy', function ($query) use ($strategy) {
+            $query->where('strategy_id', $strategy->id);
+        })->first();
+
+        if ($task  == null) {
+
+            $data = [
+                "name" => $objective->title . ' > ' . $strategy->title,
+                "description" => $strategy->description,
+                "is_done" => 0,
+                "token" => md5($strategy->title . '+' . date('d/m/Y')),
+                "project_id" => $project->id,
+                "task_id" => null,
+            ];
+
+            $task = new Task($data);
+            $task->save();
+
+            $task->strategy()->sync([$strategy->id]);
+            $task->departaments()->sync($departaments);
+        }
+
+        return redirect(route('tasks.project.task_details', ['project' => $project->token, 'task' => $task->token]));
     }
 }

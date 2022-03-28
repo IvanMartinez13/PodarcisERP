@@ -144,8 +144,12 @@ class IndicatorVariation extends React.Component{
                                   family: '"Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif',
                                   
                                 },
-                                padding: {top: 0, left: 0, right: 0, bottom: 20}
+                                padding: {top: 0, left: 0, right: 0, bottom: 20},
+                              
                             },
+
+
+                            suggestedMin: this.target,
                            
                         }
                     }

@@ -7949,7 +7949,8 @@ var IndicatorVariation = /*#__PURE__*/function (_React$Component) {
                     right: 0,
                     bottom: 20
                   }
-                }
+                },
+                suggestedMin: _this2.target
               }
             }
           }
