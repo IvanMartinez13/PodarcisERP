@@ -158,6 +158,7 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
     Route::post('/project/task/changeState', [TaskController::class, 'changeState_task'])->name('tasks.project.task.changeState');
     Route::put('/project/delete', [TaskController::class, 'project_delete'])->name('tasks.project.delete');
+    Route::put('/project/deleteFile', [TaskController::class, 'file_delete'])->name('tasks.project.deleteFile');
 });
 
 

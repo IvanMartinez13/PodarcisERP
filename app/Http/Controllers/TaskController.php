@@ -722,4 +722,12 @@ class TaskController extends Controller
 
         return response()->json($response);
     }
+
+
+    public function file_delete(Request $request)
+    {
+        $file = Task_file::where('token', $request->token)->delete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Archivo eliminado.');
+    }
 }

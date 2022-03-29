@@ -255,7 +255,8 @@
                                                             </a>
 
                                                             @can('delete Tareas')
-                                                                <button class="btn btn-link">
+                                                                <button onclick="remove('{{ $file->token }}')"
+                                                                    class="btn btn-link">
                                                                     <i class="fa fa-trash-alt" aria-hidden="true"></i>
                                                                 </button>
                                                             @endcan
@@ -344,6 +345,12 @@
                 </div>
             </div>
         </div>
+
+        <form id="delete_{{ $file->token }}" action="{{ route('tasks.project.deleteFile') }}" method="post">
+            @csrf
+            @method('put')
+            <input name="token" type="hidden" value="{{ $file->token }}" />
+        </form>
     @endforeach
 @endsection
 
@@ -512,6 +519,25 @@
 
 
             })
+        }
+
+        function remove(token) {
+
+            swal({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You will not be able to recover this subtask!') }}",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#ed5565",
+                confirmButtonText: "Si, deseo eliminarla",
+                closeOnConfirm: false,
+                cancelButtonColor: "#ed5565",
+                cancelButtonText: "Cancelar",
+            }, function() {
+                $('#delete_' + token).submit();
+
+            });
+
         }
     </script>
 
