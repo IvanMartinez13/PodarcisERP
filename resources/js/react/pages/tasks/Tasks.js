@@ -117,7 +117,12 @@ class Tasks extends React.Component{
                                                             {
                                                                 (this.delete == 1) ?
 
-                                                                <button className="btn btn-link">
+                                                                <button
+                                                                    className="btn btn-link"
+                                                                    onClick={
+                                                                        () =>  { this.remove(task.token) } 
+                                                                    }
+                                                                >
                                                                     <i className="fa fa-trash-alt" aria-hidden="true"></i>
                                                                 </button>
                                                                 
@@ -171,6 +176,33 @@ class Tasks extends React.Component{
     }
 
     //UPLOAD ON ADD TASK
+
+    remove(token){
+
+        
+
+        swal({
+            title: "¿Estás seguro?",
+            text: "No podrás recuperar esta tarea.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ed5565",
+            confirmButtonText: "Si, deseo eliminarla",
+            closeOnConfirm: false,
+            cancelButtonColor: "#ed5565",
+            cancelButtonText: "Cancelar",
+        }, function() {
+            
+            axios.post('/tasks/projects/delete_task', {token: token}).then( (response) => {
+                toastr.success(response.data.message);
+                setTimeout( () => {
+                    location.reload();
+                }, 2000 );
+            } )
+
+
+        });
+    }
 
 
 

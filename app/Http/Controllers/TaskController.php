@@ -235,6 +235,13 @@ class TaskController extends Controller
         return response()->json(["status" => "success", "message" => "Tarea Editada."]);
     }
 
+    public function delete_task(Request $request)
+    {
+        $task = Task::where('token', $request->token)->delete();
+
+        return response()->json(["status" => "success", "message" => "Tarea Eliminada."]);
+    }
+
     public function task_details($token_project, $token_task)
     {
         //GET DATA
