@@ -8731,6 +8731,9 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
     _this.subtasks = [];
     _this.setLoading = _this.setLoading.bind(_assertThisInitialized(_this));
     _this.setSaving = _this.setSaving.bind(_assertThisInitialized(_this));
+    _this.store = _this.props.store;
+    _this.update = _this.props.update;
+    _this["delete"] = _this.props["delete"];
     return _this;
   }
 
@@ -8761,7 +8764,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
 
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "animated fadeIn",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
+        children: [this.store == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
           className: "btn btn-link",
           onClick: function onClick() {
             $('#modalSubtask').modal('show');
@@ -8770,7 +8773,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
             className: "fa fa-plus-circle",
             "aria-hidden": "true"
           }), " A\xF1adir subtarea"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "table-responsive",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("table", {
             className: "table table-hover table-bordered table-striped",
@@ -8789,7 +8792,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                     className: "align-middle text-center",
-                    children: subtask.is_done == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+                    children: _this2.update == 1 ? subtask.is_done == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                       className: "i-checks",
                       type: "checkbox",
                       defaultChecked: true,
@@ -8799,7 +8802,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                       type: "checkbox",
                       defaultChecked: false,
                       defaultValue: subtask.token
-                    })
+                    }) : null
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                     className: "align-middle",
                     children: subtask.name
@@ -8812,7 +8815,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                     className: "align-middle text-center",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                       className: "btn-group-vertical",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+                      children: [_this2.update == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                         className: "btn btn-link",
                         onClick: function onClick() {
                           $('#editModalSubtask' + subtask.token).modal('show');
@@ -8821,7 +8824,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                           className: "fa fa-pencil",
                           "aria-hidden": "true"
                         })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+                      }) : null, _this2["delete"] == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                         className: "btn btn-link",
                         onClick: function onClick() {
                           _this2.remove(subtask.token);
@@ -8830,7 +8833,7 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                           className: "fa fa-trash-alt",
                           "aria-hidden": "true"
                         })
-                      })]
+                      }) : null]
                     })
                   })]
                 }, "row_" + subtask.token + index);
@@ -8999,8 +9002,14 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
 if (document.getElementsByTagName('subtasks').length >= 1) {
   var component = document.getElementsByTagName('subtasks')[0];
   var task = JSON.parse(component.getAttribute('task'));
+  var store = component.getAttribute('store');
+  var update = component.getAttribute('update');
+  var del = component.getAttribute('delete');
   react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Subtasks, {
-    task: task
+    task: task,
+    store: store,
+    update: update,
+    "delete": del
   }), component);
 }
 

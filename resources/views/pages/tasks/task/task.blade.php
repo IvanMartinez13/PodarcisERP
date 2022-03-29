@@ -200,7 +200,10 @@
                             {{-- TAB SUB TASKS --}}
                             <div role="tabpanel" id="sub_tasks" class="tab-pane">
                                 <div class="panel-body">
-                                    <subtasks task={{ json_encode($task->token) }}></subtasks>
+                                    <subtasks task={{ json_encode($task->token) }}
+                                        store="{{ auth()->user()->can('store Tareas') }}"
+                                        update="{{ auth()->user()->can('update Tareas') }}"
+                                        delete="{{ auth()->user()->can('delete Tareas') }}"></subtasks>
                                 </div>
                             </div>
 
