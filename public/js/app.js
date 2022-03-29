@@ -8995,7 +8995,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _components_Create_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Create_task */ "./resources/js/react/pages/tasks/components/Create_task.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_Update_task__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Update_task */ "./resources/js/react/pages/tasks/components/Update_task.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9025,6 +9026,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Tasks = /*#__PURE__*/function (_React$Component) {
   _inherits(Tasks, _React$Component);
 
@@ -9043,6 +9045,9 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
     _this.project = _this.props.project;
     _this.departaments = _this.props.departaments;
     _this.tasks = _this.props.tasks;
+    _this.store = _this.props.store;
+    _this.update = _this.props.update;
+    _this["delete"] = _this.props["delete"];
     return _this;
   }
 
@@ -9051,98 +9056,101 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "ibox",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "ibox-title",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h5", {
               children: this.project.name
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "ibox-tools",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
                 className: "collapse-link",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                   className: "fa fa-chevron-up",
                   "aria-hidden": "true"
                 })
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "ibox-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+            children: [this.store == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
               className: "btn btn-link",
               onClick: function onClick() {
                 $('#addTask').modal('show');
               },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                 className: "fa-solid fa-circle-plus"
               }), " A\xF1adir una tarea..."]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "table-responsive container-fluid mt-3",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("table", {
                 className: "table table-hover table-striped table-bordered js_datatable ",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
                       children: "Tarea"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
                       children: "Descripci\xF3n"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
                       children: "Progreso"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
                       children: "Acciones"
                     })]
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
                   children: this.tasks.map(function (task, index) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                         className: "align-middle",
                         children: task.name
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                         className: "align-middle",
                         dangerouslySetInnerHTML: {
                           __html: task.description
                         }
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("td", {
                         className: "align-middle",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                           className: "progress m-b-1",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                             style: {
                               width: task.progress + "%"
                             },
                             className: "progress-bar progress-bar-striped progress-bar-animated"
                           })
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("small", {
-                          children: ["Completado en un ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("strong", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("small", {
+                          children: ["Completado en un ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("strong", {
                             children: [task.progress, "%"]
                           }), "."]
                         })]
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                         className: "align-middle text-center",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                           className: "btn-group-vertical",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                          children: [_this2.update == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                             className: "btn btn-link",
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                            onClick: function onClick() {
+                              $("#updateTask" + task.token).modal('show');
+                            },
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                               className: "fa fa-pencil",
                               "aria-hidden": "true"
                             })
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                          }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
                             href: "/tasks/project/" + _this2.project.token + "/task/" + task.token,
                             className: "btn btn-link",
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                               className: "fa-solid fa-clipboard-check"
                             })
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                          }), _this2["delete"] == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                             className: "btn btn-link",
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                               className: "fa fa-trash-alt",
                               "aria-hidden": "true"
                             })
-                          })]
+                          }) : null]
                         })
                       })]
                     }, 'row_' + task.token);
@@ -9150,12 +9158,17 @@ var Tasks = /*#__PURE__*/function (_React$Component) {
                 })]
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "ibox-footer",
             children: ["Podarcis SL. \xA9 ", this.yearToday]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Create_task__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Create_task__WEBPACK_IMPORTED_MODULE_3__["default"], {
           project: this.project
+        }), this.tasks.map(function (task, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Update_task__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            project: _this2.project,
+            task: task
+          }, task.token + index);
         })]
       });
     } //UPLOAD ON ADD TASK
@@ -9172,10 +9185,16 @@ if (document.getElementsByTagName('tasks').length >= 1) {
   var tasks = JSON.parse(component.getAttribute('tasks'));
   var project = JSON.parse(component.getAttribute('project'));
   var departaments = JSON.parse(component.getAttribute('departaments'));
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Tasks, {
+  var store = component.getAttribute('store');
+  var update = component.getAttribute('update');
+  var del = component.getAttribute('delete');
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Tasks, {
     tasks: tasks,
     project: project,
-    departaments: departaments
+    departaments: departaments,
+    store: store,
+    update: update,
+    "delete": del
   }), component);
 }
 
@@ -9643,18 +9662,18 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
               className: "modal-footer bg-white text-dark",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                 type: "button",
+                className: "btn btn-primary",
+                onClick: function onClick() {
+                  _this2.save();
+                },
+                children: "Crear"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                type: "button",
                 className: "btn btn-secondary",
                 onClick: function onClick() {
                   $('#addTask').modal('hide');
                 },
                 children: "Cerrar"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                type: "button",
-                className: "btn btn-primary",
-                onClick: function onClick() {
-                  _this2.save();
-                },
-                children: "Guardar"
               })]
             })]
           })
@@ -9674,9 +9693,11 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
         });
       }).then(function () {
         $("#departaments").select2({
+          dropdownParent: $('#addTask'),
+          //FIXED COMMON PROBLEMS WHEN USES BOOTSTRAP MODAL
           theme: 'bootstrap4',
           placeholder: "Selecciona un departamento...",
-          width: 'resolve',
+          width: '100%',
           // need to override the changed default
           allowClear: true
         });
@@ -9766,7 +9787,8 @@ var Create_task = /*#__PURE__*/function (_React$Component) {
             $('#departaments').empty();
             $('#name').val(null);
             $('#description').val(null);
-            $('#description').summernote('reset'); //UPLOAD PARENT
+            $('#description').summernote('reset');
+            location.reload();
           }
 
           if (response.data.status == 'error') {
@@ -10029,6 +10051,369 @@ var Edit_subtask = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit_subtask);
+
+/***/ }),
+
+/***/ "./resources/js/react/pages/tasks/components/Update_task.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/react/pages/tasks/components/Update_task.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var Update_task = /*#__PURE__*/function (_React$Component) {
+  _inherits(Update_task, _React$Component);
+
+  var _super = _createSuper(Update_task);
+
+  function Update_task(props) {
+    var _this;
+
+    _classCallCheck(this, Update_task);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      loading: true
+    };
+    _this.project = _this.props.project;
+    _this.task = _this.props.task;
+    _this.selectedDepartaments = [];
+    _this.description = _this.task.description;
+    _this.name = _this.task.name;
+
+    _this.task.departaments.map(function (departament) {
+      _this.selectedDepartaments.push(departament.token);
+    });
+
+    return _this;
+  }
+
+  _createClass(Update_task, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      if (this.state.loading) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "modal fade",
+          id: "updateTask" + this.task.token,
+          tabIndex: "-1",
+          role: "dialog",
+          "aria-labelledby": "modelTitleId",
+          "aria-hidden": "true",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "modal-dialog modal-xl",
+            role: "document",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "modal-content bg-primary",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "modal-header",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                  className: "modal-title",
+                  children: "Editar una tarea"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  type: "button",
+                  className: "close",
+                  "aria-label": "Close",
+                  onClick: function onClick() {
+                    $('#updateTask' + _this2.task.token).modal('hide');
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                    "aria-hidden": "true",
+                    children: "\xD7"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "modal-body bg-white text-dark text-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  className: "spiner-example",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    className: "sk-spinner sk-spinner-double-bounce",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                      className: "sk-double-bounce1"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                      className: "sk-double-bounce2"
+                    })]
+                  })
+                }), "Cargando..."]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "modal-footer bg-white text-dark",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  type: "button",
+                  className: "btn btn-primary",
+                  children: "Editar"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                  type: "button",
+                  className: "btn btn-secondary",
+                  onClick: function onClick() {
+                    $('#updateTask' + _this2.task.token).modal('hide');
+                  },
+                  children: "Cerrar"
+                })]
+              })]
+            })
+          })
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "modal fade",
+        id: "updateTask" + this.task.token,
+        tabIndex: "-1",
+        role: "dialog",
+        "aria-labelledby": "modelTitleId",
+        "aria-hidden": "true",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "modal-dialog modal-xl",
+          role: "document",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "modal-content bg-primary",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "modal-header",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+                className: "modal-title",
+                children: "Editar una tarea"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                type: "button",
+                className: "close",
+                "aria-label": "Close",
+                onClick: function onClick() {
+                  $('#updateTask' + _this2.task.token).modal('hide');
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+                  "aria-hidden": "true",
+                  children: "\xD7"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "modal-body bg-white text-dark text-left",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                className: "container-fluid row",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "col-lg-6 mb-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    htmlFor: "name" + this.task.token,
+                    children: "Nombre:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+                    defaultValue: this.task.name,
+                    className: "form-control",
+                    name: "name",
+                    id: "name" + this.task.token,
+                    placeholder: "Nombre..."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "col-lg-6 mb-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    htmlFor: "departaments" + this.task.token,
+                    children: "Departamentos:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
+                    defaultValue: this.selectedDepartaments,
+                    className: "form-control",
+                    style: {
+                      width: "100%"
+                    },
+                    name: "departaments",
+                    id: "departaments" + this.task.token,
+                    multiple: "multiple",
+                    children: this.departaments.map(function (departament, index) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+                        value: departament.token,
+                        children: departament.name
+                      }, departament.token + index);
+                    })
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "col-lg-12 mb-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                    htmlFor: "description" + this.task.token,
+                    children: "Descripci\xF3n:"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
+                    defaultValue: this.task.description,
+                    className: "form-control",
+                    name: "description",
+                    id: "description" + this.task.token,
+                    placeholder: "Descripci\xF3n..."
+                  })]
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "modal-footer bg-white text-dark",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                type: "button",
+                className: "btn btn-primary",
+                onClick: function onClick() {
+                  _this2.save();
+                },
+                children: "Editar"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                type: "button",
+                className: "btn btn-secondary",
+                onClick: function onClick() {
+                  $('#updateTask' + _this2.task.token).modal('hide');
+                },
+                children: "Cerrar"
+              })]
+            })]
+          })
+        })
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      axios.post('/tasks/project/get_departaments').then(function (response) {
+        _this3.departaments = response.data.departaments;
+
+        _this3.setState({
+          loading: false
+        });
+      }).then(function () {
+        $("#departaments" + _this3.task.token).select2({
+          dropdownParent: $('#updateTask' + _this3.task.token),
+          //FIXED COMMON PROBLEMS WHEN USES BOOTSTRAP MODAL
+          theme: 'bootstrap4',
+          placeholder: "Selecciona un departamento...",
+          width: '100%',
+          // need to override the changed default
+          allowClear: true
+        });
+
+        var handlePrepareValue = function handlePrepareValue(key, value) {
+          _this3.prepareValue(key, value);
+        };
+
+        $('#departaments' + _this3.task.token).on('change', function (e) {
+          var value = e.target.value;
+
+          if (!Array.isArray(value)) {
+            value = [value];
+          }
+
+          handlePrepareValue("departaments", value);
+        });
+        $('#name' + _this3.task.token).on('input', function (e) {
+          var value = e.target.value;
+          handlePrepareValue("name", value);
+        });
+        $('#description' + _this3.task.token).summernote({
+          placeholder: "Descripción...",
+          height: '100px'
+        });
+        $("#description" + _this3.task.token).on("summernote.change", function (e) {
+          // callback as jquery custom event 
+          var value = e.target.value;
+          handlePrepareValue("description", value);
+        });
+      });
+    }
+  }, {
+    key: "prepareValue",
+    value: function prepareValue(key, value) {
+      if (key == "departaments") {
+        this.selectedDepartaments = value;
+      }
+
+      if (key == "name") {
+        this.name = value;
+      }
+
+      if (key == "description") {
+        this.description = value;
+      }
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      var _this4 = this;
+
+      var data = {
+        name: this.name,
+        description: this.description,
+        departaments: this.selectedDepartaments,
+        project: this.project.id,
+        token: this.task.token
+      }; //VALIDATE DATA
+
+      var has_errors = false;
+
+      if (data.name == '' || data.name == null) {
+        has_errors = true;
+        toastr.error('El campo Nombre es obligatorio');
+      }
+
+      if (data.description == '' || data.description == null) {
+        has_errors = true;
+        toastr.error('El campo Descripción es obligatorio');
+      }
+
+      if (data.departaments == '' || data.departaments == null || data.departaments == []) {
+        has_errors = true;
+        toastr.error('El campo Departamentos es obligatorio');
+      }
+
+      if (!has_errors) {
+        //SEND DATA
+        axios.post('/tasks/project/update_task', data).then(function (response) {
+          if (response.data.status == 'success') {
+            toastr.success(response.data.message); //CLOSE MODAL
+
+            $('#addTask').modal('hide');
+            _this4.selectedDepartaments = [];
+            _this4.description = '';
+            _this4.name = '';
+            $('#departaments' + _this4.task.token).empty();
+            $('#name' + _this4.task.token).val(null);
+            $('#description' + _this4.task.token).val(null);
+            $('#description' + _this4.task.token).summernote('reset');
+            location.reload();
+          }
+
+          if (response.data.status == 'error') {
+            toastr.error(response.data.message);
+          }
+        });
+      }
+    }
+  }]);
+
+  return Update_task;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Update_task);
 
 /***/ }),
 

@@ -1,49 +1,61 @@
-import axios from "axios";
 import React from "react";
 
-class Create_task extends React.Component{
+class Update_task extends React.Component{
+
     constructor(props){
+
         super(props);
 
         this.state = {loading: true}
-        this.departaments = [];
+
         this.project = this.props.project;
+        this.task = this.props.task;
 
         this.selectedDepartaments = [];
-        this.description = '';
-        this.name = '';
+        this.description = this.task.description;
+        this.name = this.task.name;
+
+        this.task.departaments.map( (departament) => {
+            this.selectedDepartaments.push(departament.token)
+        } )
+
+        
     }
 
     render(){
-        if (this.state.loading) {
+
+        if(this.state.loading){
+
             return(
-                <div className="modal fade" id="addTask" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div className="modal fade" id={"updateTask"+this.task.token} tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                     <div className="modal-dialog modal-xl" role="document">
                         <div className="modal-content bg-primary">
                                 <div className="modal-header">
-                                        <h5 className="modal-title">Añadir una tarea</h5>
+                                        <h5 className="modal-title">Editar una tarea</h5>
                                             <button type="button" className="close" aria-label="Close" onClick={() => {
-                                    $('#addTask').modal('hide')
+                                    $('#updateTask'+this.task.token).modal('hide')
                                 }}>
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                     </div>
-                            <div className="modal-body bg-white text-dark">
+                            <div className="modal-body bg-white text-dark text-center">
                                 <div className="spiner-example">
                                     <div className="sk-spinner sk-spinner-double-bounce">
                                         <div className="sk-double-bounce1"></div>
                                         <div className="sk-double-bounce2"></div>
                                     </div>
-
-                                    Cargando...
+    
+                                    
                                 </div>
+    
+                                Cargando...
                             </div>
                             <div className="modal-footer bg-white text-dark">
-                                <button type="button" className="btn btn-primary">Crear</button>
+                                <button type="button" className="btn btn-primary">Editar</button>
                                 <button type="button"
                                         className="btn btn-secondary"
                                         onClick={() => {
-                                            $('#addTask').modal('hide')
+                                            $('#updateTask'+this.task.token).modal('hide')
                                         }}>
                                     Cerrar
                                 </button>
@@ -54,31 +66,29 @@ class Create_task extends React.Component{
                 </div>
             );
         }
+
+
         return(
-            <div className="modal fade" id="addTask" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div className="modal fade" id={"updateTask"+this.task.token} tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                 <div className="modal-dialog modal-xl" role="document">
                     <div className="modal-content bg-primary">
                             <div className="modal-header">
-                                    <h5 className="modal-title">Añadir una tarea</h5>
-                                        <button
-                                            type="button"
-                                            className="close"
-                                            onClick={() => {
-                                                $('#addTask').modal('hide')
-                                            }}
-                                            aria-label="Close">
+                                    <h5 className="modal-title">Editar una tarea</h5>
+                                        <button type="button" className="close" aria-label="Close" onClick={() => {
+                                $('#updateTask'+this.task.token).modal('hide')
+                            }}>
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                 </div>
-                        <div className="modal-body bg-white text-dark">
+                        <div className="modal-body bg-white text-dark text-left">
                             <div className="container-fluid row">
                                 <div className="col-lg-6 mb-3">
-                                    <label htmlFor="name">Nombre:</label>
-                                    <input className="form-control" name="name" id="name" placeholder="Nombre..."></input>
+                                    <label htmlFor={"name"+this.task.token}>Nombre:</label>
+                                    <input defaultValue={this.task.name} className="form-control" name="name" id={"name"+this.task.token} placeholder="Nombre..."></input>
                                 </div>
                                 <div className="col-lg-6 mb-3">
-                                    <label htmlFor="departaments">Departamentos:</label>
-                                    <select className="form-control" style={{width: "100%"}} name="departaments" id="departaments" placeholder="Nombre..." multiple="multiple">
+                                    <label htmlFor={"departaments"+this.task.token}>Departamentos:</label>
+                                    <select defaultValue={this.selectedDepartaments} className="form-control" style={{width: "100%"}} name="departaments" id={"departaments"+this.task.token} multiple="multiple">
                                         
                                         {
                                             this.departaments.map( (departament, index) => {
@@ -93,21 +103,22 @@ class Create_task extends React.Component{
                                 </div>
 
                                 <div className="col-lg-12 mb-3">
-                                    <label htmlFor="description">Descripción:</label>
-                                    <textarea className="form-control" name="description" id="description" placeholder="Descripción..."></textarea>
+                                    <label htmlFor={"description"+this.task.token}>Descripción:</label>
+                                    <textarea defaultValue={this.task.description} className="form-control" name="description" id={"description"+this.task.token} placeholder="Descripción..."></textarea>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer bg-white text-dark">
-
-                            <button type="button" className="btn btn-primary" onClick={() => { this.save() } }>Crear</button>
-
                             <button
                                 type="button"
-                                className="btn btn-secondary"
-                                onClick={() => {
-                                            $('#addTask').modal('hide')
-                                        }}>
+                                className="btn btn-primary"
+                                onClick={() => { this.save() } }
+                            >Editar</button>
+                            <button type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => {
+                                        $('#updateTask'+this.task.token).modal('hide')
+                                    }}>
                                 Cerrar
                             </button>
                             
@@ -116,6 +127,7 @@ class Create_task extends React.Component{
                 </div>
             </div>
         );
+
     }
 
     componentDidMount(){
@@ -125,8 +137,8 @@ class Create_task extends React.Component{
             this.setState({loading: false})
         } ).then( () => {
             
-            $("#departaments").select2({
-                dropdownParent: $('#addTask'), //FIXED COMMON PROBLEMS WHEN USES BOOTSTRAP MODAL
+            $("#departaments"+this.task.token).select2({
+                dropdownParent: $('#updateTask'+this.task.token), //FIXED COMMON PROBLEMS WHEN USES BOOTSTRAP MODAL
                 theme: 'bootstrap4',
                 placeholder: "Selecciona un departamento...",
                 width: '100%', // need to override the changed default
@@ -136,7 +148,7 @@ class Create_task extends React.Component{
 
             const handlePrepareValue = (key, value) => { this.prepareValue(key, value) };
 
-            $('#departaments').on('change', (e) => {
+            $('#departaments'+this.task.token).on('change', (e) => {
 
                 let value = e.target.value;
 
@@ -148,19 +160,19 @@ class Create_task extends React.Component{
             })
 
             
-            $('#name').on('input', (e) => {
+            $('#name'+this.task.token).on('input', (e) => {
 
                 let value = e.target.value;
 
                 handlePrepareValue("name", value);
             });
 
-            $('#description').summernote({
+            $('#description'+this.task.token).summernote({
                 placeholder: "Descripción...",
                 height: '100px',
             });
 
-            $("#description").on("summernote.change", function (e) {   // callback as jquery custom event 
+            $("#description"+this.task.token).on("summernote.change", function (e) {   // callback as jquery custom event 
                 let value = e.target.value;
 
                 handlePrepareValue("description", value);
@@ -192,6 +204,7 @@ class Create_task extends React.Component{
             description: this.description,
             departaments: this.selectedDepartaments,
             project: this.project.id,
+            token: this.task.token
         }
 
         //VALIDATE DATA
@@ -215,7 +228,7 @@ class Create_task extends React.Component{
 
         if (!has_errors) {
             //SEND DATA
-            axios.post('/tasks/project/add_task', data).then( (response) => {
+            axios.post('/tasks/project/update_task', data).then( (response) => {
 
                 if (response.data.status  == 'success') {
                     toastr.success(response.data.message);
@@ -226,10 +239,10 @@ class Create_task extends React.Component{
                     this.description = '';
                     this.name = '';
 
-                    $('#departaments').empty();
-                    $('#name').val(null);
-                    $('#description').val(null);
-                    $('#description').summernote('reset');
+                    $('#departaments'+this.task.token).empty();
+                    $('#name'+this.task.token).val(null);
+                    $('#description'+this.task.token).val(null);
+                    $('#description'+this.task.token).summernote('reset');
 
                     location.reload();
 
@@ -241,7 +254,6 @@ class Create_task extends React.Component{
             } )
         }
     }
-
 }
 
-export default Create_task;
+export default Update_task;
