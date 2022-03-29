@@ -242,6 +242,19 @@ class TaskController extends Controller
         return response()->json(["status" => "success", "message" => "Tarea Eliminada."]);
     }
 
+    public function delete_subtask(Request $request)
+    {
+
+
+        $subtask = Task::where('token', $request->token)->delete();
+
+
+
+        return response()->json(["status" => "success", "message" => "Subtarea Eliminada."]);
+    }
+
+
+
     public function task_details($token_project, $token_task)
     {
         //GET DATA
@@ -261,7 +274,12 @@ class TaskController extends Controller
         if (count($sub_tasks) > 0) {
             $progress = ($done / count($sub_tasks)) * 100;
         } else {
-            $progress = 0;
+
+            if ($task->is_done) {
+                $progress = 100;
+            } else {
+                $progress = 0;
+            }
         }
 
 
@@ -633,18 +651,74 @@ class TaskController extends Controller
         return redirect()->back()->with('status', 'success')->with('message', 'Documento editado.');
     }
 
-
     public function changeState_task(Request $request)
     {
         $task = Task::where('token', $request->token)->first();
 
         if ($task->is_done == 0) {
             $task = Task::where('token', $request->token)->update(['is_done' => 1]);
-            $response = ['status' => 'success', 'message' => 'Se ha finalizado una tarea.', 'close' => 1];
+            $task = Task::where('token', $request->token)->first();
+
+            $sub_tasks = Task::where('task_id', $task->id)->get();
+
+            $done = 0;
+
+            foreach ($sub_tasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($sub_tasks) > 0) {
+                $progress = ($done / count($sub_tasks)) * 100;
+            } else {
+
+                if ($task->is_done) {
+                    $progress = 100;
+                } else {
+                    $progress = 0;
+                }
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Se ha finalizado una tarea.',
+                'close' => 1,
+                'progress' =>  $progress
+            ];
         } else {
             $task = Task::where('token', $request->token)->update(['is_done' => 0]);
-            $response = ['status' => 'success', 'message' => 'Se ha abierto una tarea.', 'close' => 0];
+
+            $task = Task::where('token', $request->token)->first();
+
+            $sub_tasks = Task::where('task_id', $task->id)->get();
+
+            $done = 0;
+
+            foreach ($sub_tasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($sub_tasks) > 0) {
+                $progress = ($done / count($sub_tasks)) * 100;
+            } else {
+
+                if ($task->is_done) {
+                    $progress = 100;
+                } else {
+                    $progress = 0;
+                }
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Se ha abierto una tarea.',
+                'close' => 0,
+                'progress' =>  $progress
+            ];
         }
+
+
 
         return response()->json($response);
     }

@@ -84,7 +84,11 @@ class Subtasks extends React.Component{
                                                         <i className="fa fa-pencil" aria-hidden="true"></i>
                                                     </button>
 
-                                                    <button className="btn btn-link">
+                                                    <button className="btn btn-link"
+                                                            onClick={() => {
+                                                                this.remove(subtask.token);
+                                                            }}        
+                                                    >
                                                         <i className="fa fa-trash-alt" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
@@ -221,6 +225,31 @@ class Subtasks extends React.Component{
             $('#progress_text').text(response.data.progress+"%")
             
         } );
+    }
+
+    remove(token){
+
+        swal({
+            title: "¿Estás seguro?",
+            text: "No podrás recuperar esta subtarea.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ed5565",
+            confirmButtonText: "Si, deseo eliminarla",
+            closeOnConfirm: false,
+            cancelButtonColor: "#ed5565",
+            cancelButtonText: "Cancelar",
+        }, function() {
+            
+            axios.post('/tasks/projects/delete_subtask', {token: token}).then( (response) => {
+                toastr.success(response.data.message);
+                setTimeout( () => {
+                    location.reload();
+                }, 2000 );
+            } )
+
+
+        });
     }
 
 

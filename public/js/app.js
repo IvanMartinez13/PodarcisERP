@@ -8823,6 +8823,9 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
                         })
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                         className: "btn btn-link",
+                        onClick: function onClick() {
+                          _this2.remove(subtask.token);
+                        },
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                           className: "fa fa-trash-alt",
                           "aria-hidden": "true"
@@ -8960,6 +8963,30 @@ var Subtasks = /*#__PURE__*/function (_React$Component) {
           'width': response.data.progress + "%"
         });
         $('#progress_text').text(response.data.progress + "%");
+      });
+    }
+  }, {
+    key: "remove",
+    value: function remove(token) {
+      swal({
+        title: "¿Estás seguro?",
+        text: "No podrás recuperar esta subtarea.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ed5565",
+        confirmButtonText: "Si, deseo eliminarla",
+        closeOnConfirm: false,
+        cancelButtonColor: "#ed5565",
+        cancelButtonText: "Cancelar"
+      }, function () {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/tasks/projects/delete_subtask', {
+          token: token
+        }).then(function (response) {
+          toastr.success(response.data.message);
+          setTimeout(function () {
+            location.reload();
+          }, 2000);
+        });
       });
     }
   }]);

@@ -24,7 +24,8 @@
         </div>
 
         <div class="col-2 text-right">
-            <a href="{{ route('tasks.project.details', $project->token) }}" class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
+            <a href="{{ route('tasks.project.details', $project->token) }}"
+                class="btn btn-danger mt-5">{{ __('pagination.return') }}</a>
         </div>
 
     </div>
@@ -50,8 +51,13 @@
 
                         <div class="col-sm-10 text-left">
                             <dd>
-                                <span id="stateLabel" onclick="changeState()" style="cursor: pointer" class="label  @if($task->is_done == 1) label-primary @else label-danger @endif ">
-                                    @if($task->is_done == 1) Finalizado @else Activo @endif 
+                                <span id="stateLabel" onclick="changeState()" style="cursor: pointer"
+                                    class="label  @if ($task->is_done == 1) label-primary @else label-danger @endif ">
+                                    @if ($task->is_done == 1)
+                                        Finalizado
+                                    @else
+                                        Activo
+                                    @endif
                                 </span>
                             </dd>
                         </div>
@@ -89,10 +95,10 @@
                         <div class="col-sm-10 text-left">
                             <dd>
                                 <div class="progress m-b-1">
-                                    <div id="progress" style="width: {{$progress}}%;"
+                                    <div id="progress" style="width: {{ $progress }}%;"
                                         class="progress-bar progress-bar-striped progress-bar-animated"></div>
                                 </div>
-                                <small>Completado en un <strong id="progress_text">{{$progress}}%</strong>.</small>
+                                <small>Completado en un <strong id="progress_text">{{ $progress }}%</strong>.</small>
                             </dd>
                         </div>
                     </div>
@@ -105,8 +111,7 @@
                             <li><a class="nav-link" data-toggle="tab"
                                     href="#sub_tasks">{{ __('modules.sub_tasks') }}</a></li>
                             <li>
-                                <a class="nav-link" data-toggle="tab"
-                                    href="#files">{{ __('modules.files') }}
+                                <a class="nav-link" data-toggle="tab" href="#files">{{ __('modules.files') }}
                                 </a>
                             </li>
                         </ul>
@@ -143,8 +148,7 @@
                                                             @method('put')
                                                             <input name="token" type="hidden" value="{{ $task->token }}">
 
-                                                            <textarea id="comment" name="comment"
-                                                                class="form-control"></textarea>
+                                                            <textarea id="comment" name="comment" class="form-control"></textarea>
 
                                                             <div class="text-right mt-3">
                                                                 <button type="submit" class="btn btn-primary">
@@ -200,27 +204,28 @@
                                 </div>
                             </div>
 
-                             {{-- TAB FILES --}}
-                             <div role="tabpanel" id="files" class="tab-pane">
+                            {{-- TAB FILES --}}
+                            <div role="tabpanel" id="files" class="tab-pane">
                                 <div class="panel-body">
-                                    <form action="{{route('tasks.project.addFiles')}}" method="POST" class="dropzone  mb-5" id="add-files">
+                                    <form action="{{ route('tasks.project.addFiles') }}" method="POST"
+                                        class="dropzone  mb-5" id="add-files">
                                         @csrf
 
-                                        <input name="token" type="hidden" value="{{$task->token}}">
+                                        <input name="token" type="hidden" value="{{ $task->token }}">
 
                                         <div class="dz-message" style="height:200px;">
-                                            {{__('forms.files')}}
+                                            {{ __('forms.files') }}
                                         </div>
 
                                         <div class="dropzone-previews"></div>
-                                        
+
                                     </form>
 
                                     <table class="table table-striped table-hover table-bordered js_datatable">
                                         <thead>
                                             <tr>
-                                                <th>{{__('columns.name')}}</th>
-                                                <th>{{__('columns.actions')}}</th>
+                                                <th>{{ __('columns.name') }}</th>
+                                                <th>{{ __('columns.actions') }}</th>
                                             </tr>
                                         </thead>
 
@@ -228,19 +233,21 @@
                                             @foreach ($tasks_files as $file)
                                                 <tr>
                                                     <td class="align-middle">
-                                                        {{$file->name}}
+                                                        {{ $file->name }}
                                                     </td>
                                                     <td class="align-middle text-center">
                                                         <div class="btn-group-vertical">
 
                                                             @can('update Tareas')
-                                                                <button class="btn btn-link" data-toggle="modal" data-target="#updateFile_{{$file->token}}">
+                                                                <button class="btn btn-link" data-toggle="modal"
+                                                                    data-target="#updateFile_{{ $file->token }}">
                                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                                                 </button>
                                                             @endcan
 
 
-                                                            <a class="btn btn-link" target="_BLANK" href="{{url('/storage').$file->path}}">
+                                                            <a class="btn btn-link" target="_BLANK"
+                                                                href="{{ url('/storage') . $file->path }}">
                                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                                             </a>
 
@@ -249,8 +256,8 @@
                                                                     <i class="fa fa-trash-alt" aria-hidden="true"></i>
                                                                 </button>
                                                             @endcan
- 
-                                                            
+
+
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -288,46 +295,50 @@
     </div>
 
     @foreach ($tasks_files as $file)
-    
-        <div class="modal fade" id="updateFile_{{$file->token}}" tabindex="-1" aria-labelledby="updateFile_{{$file->token}}Label" aria-hidden="true">
+        <div class="modal fade" id="updateFile_{{ $file->token }}" tabindex="-1"
+            aria-labelledby="updateFile_{{ $file->token }}Label" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-primary">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateFile_{{$file->token}}Label">{{__('forms.update')}} {{__('modules.files')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-content bg-primary">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateFile_{{ $file->token }}Label">{{ __('forms.update') }}
+                            {{ __('modules.files') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('tasks.file.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+
+                        <input name="token" type="hidden" value="{{ $file->token }}">
+                        <div class="modal-body bg-white text-dark">
+                            <div class="form-group">
+                                <label for="name_{{ $file->token }}">{{ __('forms.name') }}:</label>
+                                <input type="text" name="name" id="name_{{ $file->token }}" class="form-control"
+                                    placeholder="{{ __('forms.name') }}..." value="{{ $file->name }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name_{{ $file->token }}">{{ __('forms.fileLabel') }}:</label>
+                                <div class="custom-file">
+                                    <input id="file{{ $file->token }}" name="file" type="file" class="custom-file-input">
+                                    <label for="file{{ $file->token }}"
+                                        class="custom-file-label">{{ __('forms.file') }}</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer bg-white text-dark">
+
+                            <button type="submit" class="btn btn-primary">{{ __('forms.update') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">{{ __('forms.close') }}</button>
+                        </div>
+                    </form>
+
+
                 </div>
-                <form action="{{route('tasks.file.update')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('put')
-
-                    <input name="token" type="hidden" value="{{$file->token}}">
-                    <div class="modal-body bg-white text-dark">
-                        <div class="form-group">
-                          <label for="name_{{$file->token}}">{{__('forms.name')}}:</label>
-                          <input type="text" name="name" id="name_{{$file->token}}" class="form-control" placeholder="{{__('forms.name')}}..." value="{{$file->name}}">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="name_{{$file->token}}">{{__('forms.fileLabel')}}:</label>
-                            <div class="custom-file">
-                                <input id="file{{$file->token}}" name="file" type="file" class="custom-file-input">
-                                <label for="file{{$file->token}}" class="custom-file-label">{{__('forms.file')}}</label>
-                            </div> 
-                        </div>
-    
-                    </div>
-
-                    <div class="modal-footer bg-white text-dark">
-                   
-                        <button type="submit" class="btn btn-primary">{{__('forms.update')}}</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('forms.close')}}</button>
-                    </div>
-                </form>
-
-
-            </div>
             </div>
         </div>
     @endforeach
@@ -336,7 +347,7 @@
 @push('scripts')
     <script src="{{ url('/') }}/js/tables.js"></script>
 
-    
+
 
     <script>
         $(document).ready(() => {
@@ -347,7 +358,7 @@
 
             bsCustomFileInput.init();
         });
-        
+
 
         Dropzone.options.addFiles = {
             autoProcessQueue: true,
@@ -376,16 +387,16 @@
 
                 this.on("complete", function(file) {
                     myDropzone.removeFile(file);
-                    
+
                 });
 
                 this.on("successmultiple", (file, response) => {
                     toastr.success(response.message)
                     myDropzone.processQueue.bind(myDropzone)
                     //ADD ROW TO TABLE
-                    response.task_files.map( (task_file) => {
+                    response.task_files.map((task_file) => {
                         $('#files_list').append(
-                        `<tr>
+                            `<tr>
                             <td class="align-middle">
                                 ${task_file.name}
                             </td>
@@ -409,15 +420,15 @@
                                 </div>
                             </td>
                          </tr>`
-                    );
+                        );
 
-                    $('body').append(
-                        `
+                        $('body').append(
+                            `
                         <div class="modal fade" id="updateFile_${task_file.token}" tabindex="-1" aria-labelledby="updateFile_${task_file.token}Label" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                             <div class="modal-content bg-primary">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="updateFile_${task_file.token}Label">{{__('forms.update')}} {{__('modules.files')}}</h5>
+                                    <h5 class="modal-title" id="updateFile_${task_file.token}Label">{{ __('forms.update') }} {{ __('modules.files') }}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -429,15 +440,15 @@
                                     <input name="token" type="hidden" value="${task_file.token}">
                                     <div class="modal-body bg-white text-dark">
                                         <div class="form-group">
-                                        <label for="name_${task_file.token}">{{__('forms.name')}}:</label>
-                                        <input type="text" name="name" id="name_${task_file.token}" class="form-control" placeholder="{{__('forms.name')}}..." value="${task_file.name}">
+                                        <label for="name_${task_file.token}">{{ __('forms.name') }}:</label>
+                                        <input type="text" name="name" id="name_${task_file.token}" class="form-control" placeholder="{{ __('forms.name') }}..." value="${task_file.name}">
                                         </div>
                     
                                         <div class="form-group">
-                                            <label for="name_${task_file.token}">{{__('forms.fileLabel')}}:</label>
+                                            <label for="name_${task_file.token}">{{ __('forms.fileLabel') }}:</label>
                                             <div class="custom-file">
                                                 <input id="file${task_file.token}" name="file" type="file" class="custom-file-input">
-                                                <label for="file${task_file.token}" class="custom-file-label">{{__('forms.file')}}</label>
+                                                <label for="file${task_file.token}" class="custom-file-label">{{ __('forms.file') }}</label>
                                             </div> 
                                         </div>
                     
@@ -445,8 +456,8 @@
 
                                     <div class="modal-footer bg-white text-dark">
                                 
-                                        <button type="submit" class="btn btn-primary">{{__('forms.update')}}</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('forms.close')}}</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('forms.update') }}</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('forms.close') }}</button>
                                     </div>
                                 </form>
 
@@ -455,33 +466,49 @@
                             </div>
                         </div>
                         `
-                    );
-                    } )
-                    
+                        );
+                    })
+
 
                 });
             }
         }
 
-        function changeState(){
-            axios.post('/tasks/project/task/changeState', {token: '{{$task->token}}'}).then( (response) => {
+        function changeState() {
+            axios.post('/tasks/project/task/changeState', {
+                token: '{{ $task->token }}'
+            }).then((response) => {
                 toastr.success(response.data.message);
 
                 if (response.data.close == 1) {
+
                     $('#stateLabel').text('Finalizado');
+
                     document.getElementById('stateLabel').classList.remove('label-danger');
                     document.getElementById('stateLabel').classList.add('label-primary');
 
-                }else{
+                    $('#progress').css({
+                        'width': response.data.progress + "%"
+                    });
+
+                    $('#progress_text').text(response.data.progress + "%");
+
+                } else {
                     $('#stateLabel').text('Activo');
 
                     document.getElementById('stateLabel').classList.remove('label-primary');
                     document.getElementById('stateLabel').classList.add('label-danger');
 
+                    $('#progress').css({
+                        'width': response.data.progress + "%"
+                    });
+
+                    $('#progress_text').text(response.data.progress + "%");
+
                 }
-                
-                
-            } )
+
+
+            })
         }
     </script>
 
