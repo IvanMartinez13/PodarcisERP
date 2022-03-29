@@ -251,6 +251,8 @@ class Objective_evaluation extends React.Component{
     
                     rows.push(item); //PUSH TO TOP
                 } );
+
+                this.years = [];
     
                 for (let index = this.objective.base_year; index <= this.objective.target_year; index++) {
                     this.years.push(index)

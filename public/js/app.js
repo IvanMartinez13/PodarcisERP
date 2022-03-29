@@ -6458,6 +6458,7 @@ var Objective_evaluation = /*#__PURE__*/function (_React$Component) {
             };
             rows.push(item); //PUSH TO TOP
           });
+          _this4.years = [];
 
           for (var index = _this4.objective.base_year; index <= _this4.objective.target_year; index++) {
             _this4.years.push(index);
