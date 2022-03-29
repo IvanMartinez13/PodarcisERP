@@ -29,4 +29,9 @@ class Strategy extends Model
     {
         return $this->belongsTo(Objective::class);
     }
+
+    public function task()
+    {
+        return $this->belongsToMany(Task::class, 'task_strategy');
+    }
 }

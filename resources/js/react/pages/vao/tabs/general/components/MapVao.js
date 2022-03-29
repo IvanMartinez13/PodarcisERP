@@ -110,7 +110,7 @@ class MapVao extends React.Component{
 
                 if (layer.type == 'shape') {
 
-                    var shpfile = new L.Shapefile('https://programa_objetivos.test/storage'+layer.path, {
+                    var shpfile = new L.Shapefile('/storage'+layer.path, {
                         onEachFeature: function(feature, layer) {
                             if (feature.properties) {
                                 layer.bindPopup(Object.keys(feature.properties).map(function(k) {
@@ -193,7 +193,7 @@ class MapVao extends React.Component{
 
             // WMS EXAMPLE
             
-            let url = "https://ideib.caib.es/geoserveis/services/public/GOIB_RegEspaisNaturals_IB/MapServer/WMSServer";
+            /*let url = "https://ideib.caib.es/geoserveis/services/public/GOIB_RegEspaisNaturals_IB/MapServer/WMSServer";
 
             var lyr = L.WMS.overlay(url, {
                 layers: "1,2,3,4,5,7,8,9,10,12,13",//nombre de la capa (ver get capabilities)
@@ -204,7 +204,7 @@ class MapVao extends React.Component{
             });
 
             lyr.addTo(map);
-            control.addOverlay(lyr, 'Prueba', 'WMS');
+            control.addOverlay(lyr, 'Prueba', 'WMS');*/
             
             
 

@@ -22,7 +22,11 @@ class Evaluation extends React.Component{
 
         this.strategy = this.props.strategy;
         this.objective = this.props.objective;
+
+        this.update = this.props.update;
+        this.del = this.props.del;
         
+       
 
         this.updateRows = this.updateRows.bind(this);
 
@@ -116,22 +120,30 @@ class Evaluation extends React.Component{
                             </div>
 
                             {/* BOTONES */}
-                            <div className="row mb-3">
-                                <div className="col-6 text-left">
-                                    <button className="btn btn-primary" onClick={ () => {
-                                        this.newRow()
-                                    } }>
-                                        Nueva fila...
-                                    </button>
+
+                            {
+                                (this.update == 1) ?  
+                                
+                                <div className="row mb-3">
+                                    <div className="col-6 text-left">
+                                        <button className="btn btn-primary" onClick={ () => {
+                                            this.newRow()
+                                        } }>
+                                            Nueva fila...
+                                        </button>
+                                    </div>
+                                    <div className="col-6 text-right">
+                                        <button className="btn btn-primary" onClick={ () => {
+                                            this.save();
+                                        } }>
+                                            Guardar
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="col-6 text-right">
-                                    <button className="btn btn-primary" onClick={ () => {
-                                        this.save();
-                                    } }>
-                                        Guardar
-                                    </button>
-                                </div>
-                            </div>
+                                :  
+                                <div className="alert alert-warning">No tienes permisos para modificar esta tabla</div>
+                            }
+                           
 
                             {/* TABLA */}
                             <div className="table-responsive mb-3">
@@ -159,6 +171,8 @@ class Evaluation extends React.Component{
                                                         years={this.years}
                                                         updateRows={this.updateRows}
                                                         files={row.files}
+                                                        update={this.update}
+                                                        del={this.del}
                                                     ></RowEvaluation>
                                                 );
                                             } )
@@ -169,22 +183,28 @@ class Evaluation extends React.Component{
                             </div>
 
                             {/* BOTONES */}
-                            <div className="row mb-3">
-                                <div className="col-6 text-left">
-                                    <button className="btn btn-primary" onClick={ () => {
-                                        this.newRow()
-                                    } }>
-                                        Nueva fila...
-                                    </button>
+                            {
+                                (this.update == 1) ?  
+                                
+                                <div className="row mb-3">
+                                    <div className="col-6 text-left">
+                                        <button className="btn btn-primary" onClick={ () => {
+                                            this.newRow()
+                                        } }>
+                                            Nueva fila...
+                                        </button>
+                                    </div>
+                                    <div className="col-6 text-right">
+                                        <button className="btn btn-primary" onClick={ () => {
+                                            this.save();
+                                        } }>
+                                            Guardar
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="col-6 text-right">
-                                    <button className="btn btn-primary" onClick={ () => {
-                                        this.save();
-                                    } }>
-                                        Guardar
-                                    </button>
-                                </div>
-                            </div>
+                                :  
+                                <div className="alert alert-warning">No tienes permisos para modificar esta tabla</div>
+                            }
 
                         </div>
                         <div className="ibox-footer">
@@ -335,7 +355,6 @@ class Evaluation extends React.Component{
             rows: rows,
         });
 
-        console.log(rows);
 
         
     }
@@ -388,6 +407,9 @@ if (document.getElementsByTagName('evaluation').length >=1) {
     let component = document.getElementsByTagName('evaluation')[0];
     let strategy = JSON.parse(component.getAttribute('strategy'));
     let objective = JSON.parse(component.getAttribute('objective'));
+    let update = component.getAttribute('update');
+    let del = component.getAttribute('delete');
+    
 
-    ReactDOM.render(<Evaluation strategy={strategy} objective={objective} />, component);
+    ReactDOM.render(<Evaluation strategy={strategy} objective={objective} update={update} del={del} />, component);
 }

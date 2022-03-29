@@ -255,8 +255,8 @@ class DeleteFiles extends React.Component{
     {
 
         swal({
-            title: "¿Estas seguro?",
-            text: "No porás recuperar este layer.",
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado, no porás recuperar este layer.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#ed5565",

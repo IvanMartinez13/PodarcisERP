@@ -13,271 +13,115 @@ class ObjectiveEvolution extends React.Component{
             loading: true,
             update: false,
         }
-        this.objectives=this.props.objectives;
+
+        this.objective = this.props.objective;
+        this.indicator = this.props.indicator;
+        this.title = this.props.title;
+
         this.dataSets = [];
         this.years = [];
-        this.chart = {};
-        if (this.objectives.length > 0) {
-            this.selectedObjective = this.objectives[0].token;
-        }
-        
 
+        this.onlyChart = this.props.onlyChart;
     }
 
+
     render(){
-        if (this.state.loading) {
+        if (this.onlyChart) {
+
             return(
-                <div className="ibox">
+                <div>
+                    <h5 className="text-center" >VARIACIÓN DE {this.indicator}</h5>
 
-                    <div className="ibox-title bg-primary">
-                        <h5>Evolución de los objetivos</h5>
-                    </div>
-
-                    <div className="ibox-content bg-light animated fadeIn">
-                        <div className="spiner-example">
-                            <div className="sk-spinner sk-spinner-double-bounce">
-                                <div className="sk-double-bounce1"></div>
-                                <div className="sk-double-bounce2"></div>
-                            </div>
-                        </div>
-                        <p className="mt-3 text-center"> Cargando... </p>
-                            
-                    </div>
-
-
+                    <canvas id="objective_chart" ></canvas>
                 </div>
+                
             )
+            
         }
         return(
             <div className="ibox">
-
                 <div className="ibox-title bg-primary">
-                    <h5>Evolución de los objetivos</h5>
+                    <h5>Evolución del {this.title}</h5>
                 </div>
-
-                <div className="ibox-content bg-light">
-                    <select id="objective_selector" className="form-control" defaultValue={this.selectedObjective}>
-                        {
-                            this.objectives.map( (objective) => {
-                                return(
-                                    <option
-                                        key={"option_"+objective.token}
-                                        value={objective.token}
-                                    >
-                                        {objective.title}
-                                    </option>
-                                );
-                            } )
-                        }
-                    </select>
-
-                    <canvas id="objective_evolution" className="animated fadeIn" height={200}></canvas>
+                <div className="ibox-content">
+                    <div>
+                        <canvas id="objective_chart" width="100%"></canvas>
+                    </div>
                     
                 </div>
 
-
+                <div className="ibox-footer">
+                    Podarcis SL. &copy; 2022
+                </div>
             </div>
-        );
+        )
     }
 
     componentDidMount(){
-        
-        if (this.objectives.length > 0) {
-            let value = this.objectives[0].token;
-            
-            axios.post('/ods/dashboard/objective/evolution', {token: value}).then( (response) => {
-                
-            
-                let evaluations =  response.data.evaluations;
-                let years = response.data.years;
-                let objective = response.data.objective;
-    
-                var data = [];
-    
-                years.map( (year) => {
-    
-                    let suma = 0;
-                    evaluations[year].map( (evaluation) => {
-                        suma += Number(evaluation.value);
-                        
-                    } )
+
+        axios.post('/ods/dashboard/objective/evolution', {token: this.objective}).then( (response) => {
+
+            let years = response.data.years;
+            let evaluations = response.data.evaluations;
+            var data = [];
+
+            years.map( (year) => {
+
+                let suma = 0;
+                evaluations[year].map( (evaluation) => {
+                    suma += Number(evaluation.value);
                     
-                    data.push(suma);
-    
                 } )
-    
-                this.dataSets = data;
-                this.years = years;
-    
                 
-                this.setState({loading: false, update: false});
-                
-            }).then( () => {
-                let ctx = document.getElementById('objective_evolution').getContext('2d');
+                data.push(suma);
+
+            } )
     
-                const config = {
-                    type: 'line',
-                    
-                    data:{
-                        labels: this.years,
-                        datasets: [{
-                            label: "Evolución",
-                            data: this.dataSets,
-                            fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
-                            backgroundColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        }],
+            this.dataSets = data;
+            this.years = years;
+
+        } ).then( () => {
+
+            let ctx = document.getElementById('objective_chart').getContext('2d');
+    
+            const config = {
+                type: 'line',
+                
+                data:{
+                    labels: this.years,
+                    datasets: [{
+                        label: this.indicator,
+                        data: this.dataSets,
+                        fill: false,
+                        borderColor: '#1AB394',
+                        backgroundColor: '#1AB394',
+                        tension: 0.2,
+                        yAxisID: 'A',
+                    }],
+                },
+
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
                     },
-    
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: '',
-                            }
-                        }
-                    }
-                }
-    
-                this.chart = new Chart(ctx, config);
-    
-                //INIT SELECT2
-                $('#objective_selector').select2(
-                    {
-                        placeholder: "Selecciona un objetivo",
-                        theme: "bootstrap4"
-                    }
-                );
-                const handleChangeObjective = (value) => {
-                    this.changeObjective(value);
-                }
-    
-                //ON CHANGE
-                
-                $('#objective_selector').on('change', function(e){
-                    
-                    let value = e.target.value;
-                   
-                    handleChangeObjective(
-                        value
-                    );
-    
-                    
-                });
-            } );
-        }
-        
-
-
-
-        
-
-        
-    }
-
-    componentDidUpdate(){
-
-        if (this.state.update != false) {
-
-            let value = this.selectedObjective;
-
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
             
-            axios.post('/ods/dashboard/objective/evolution', {token: value}).then( (response) => {
-
-                let evaluations =  response.data.evaluations;
-                let years = response.data.years;
-
-                var data = [];
-
-                years.map( (year) => {
-
-                    let suma = 0;
-                    evaluations[year].map( (evaluation) => {
-                        suma += Number(evaluation.value);
-                        
-                    } )
-                    
-                    data.push(suma);
-
-                } )
-
-                this.dataSets = data;
-                this.years = years;
-
-                this.setState({loading: false, update: false});
-
-            }).then( () => {
-                
-                let ctx = document.getElementById('objective_evolution').getContext('2d');
-
-                const config = {
-                    type: 'line',
-                    
-                    data:{
-                        labels: this.years,
-                        datasets: [{
-                            label: "Evolución",
-                            data: this.dataSets,
-                            fill: false,
-                            borderColor: 'rgb(75, 192, 192)',
-                            backgroundColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        }],
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
                     },
 
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: '',
-                            }
-                        }
-                    }
                 }
+            }
 
-                this.chart = new Chart(ctx, config);
-                
-                //INIT SELECT2
-
-                $('#objective_selector').select2(
-                    {
-                        placeholder: "Selecciona un objetivo",
-                        theme: "bootstrap4"
-                    }
-                );
-                const handleChangeObjective = (value) => {
-                    this.changeObjective(value);
-                }
-
-                //ON CHANGE
-                $('#objective_selector').on('change', function(e){
-                    let value = e.target.value;
-                    
-                    handleChangeObjective(
-                        value
-                    );
-                });
-            } );
-        }
-        
-    }
-
-    changeObjective(value){
-        this.selectedObjective = value;
-        this.setState({
-            loading: true,
-            update: true,
-        })
-        
+            this.chart = new Chart(ctx, config);
+        } );
     }
 
     
