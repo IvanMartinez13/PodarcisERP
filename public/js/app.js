@@ -6026,7 +6026,8 @@ var Evaluation = /*#__PURE__*/function (_React$Component) {
         axios__WEBPACK_IMPORTED_MODULE_2___default().post('/ods/evaluate/get_evaluations', {
           token: this.strategy.token
         }).then(function (response) {
-          //GET YEARS
+          _this4.years = []; //GET YEARS
+
           for (var index = _this4.objective.base_year; index <= _this4.objective.target_year; index++) {
             _this4.years.push(index);
           } //PUSH ROWS
@@ -6273,13 +6274,40 @@ var Objective_evaluation = /*#__PURE__*/function (_React$Component) {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "col-lg-4",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
-              className: "text-center",
-              children: "EVOLUCI\xD3N CONSECUCI\xD3N OBJETIVO"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_EvolutionObjective__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              objective: this.objective
+              children: "Descripci\xF3n"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+              dangerouslySetInnerHTML: {
+                __html: this.objective.description
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+              children: "Indicador"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+              children: this.objective.indicator
             })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "col-lg-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "col-lg-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+                  children: "A\xF1o de referencia"
+                }), this.objective.base_year, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+                  children: "A\xF1o del objetivo"
+                }), this.objective.target_year]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "col-lg-6",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+                  children: "Reducci\xF3n Objetivo(%)"
+                }), this.objective.target, " %", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h5", {
+                  children: "Valor objetivo"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  id: "target_value"
+                })]
+              })]
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "col-lg-4 offset-lg-4",
+            className: "col-lg-4",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h5", {
               className: "text-center",
               children: ["VARIACI\xD3N de ", this.objective.indicator]

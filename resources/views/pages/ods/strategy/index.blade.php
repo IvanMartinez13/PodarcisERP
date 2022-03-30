@@ -40,43 +40,6 @@
 
         <div class="ibox-content">
 
-            <div class="row mb-3">
-                <div class="col-lg-4">
-
-                    <h5>{{ __('forms.description') }}</h5>
-                    {!! $objective->description !!}
-
-                    <h5>{{ __('forms.indicator') }}</h5>
-                    {{ $objective->indicator }}
-                </div>
-
-                <div class="col-lg-4">
-
-                    <h5>{{ __('forms.base_year') }}</h5>
-                    {{ $objective->base_year }}
-
-                    <h5 class="mt-3">{{ __('forms.target_year') }}</h5>
-                    {{ $objective->target_year }}
-                </div>
-
-                <div class="col-lg-4">
-
-
-                    <h5 class="mt-3">
-                        {{ $objective->increase == 1 ? __('Increase') : __('Reduction') }}
-
-                        {{ __('forms.target') }}(%)
-                    </h5>
-                    {{ $objective->target }} %
-
-                    <h5 class="mt-3">
-
-                        {{ __('Target value') }}
-                    </h5>
-                    <span id="target_value"></span>
-                </div>
-
-            </div>
 
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
