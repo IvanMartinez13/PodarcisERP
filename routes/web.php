@@ -145,6 +145,9 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::get('/project/{token}', [TaskController::class, 'tasks'])->name('tasks.project.details');
     Route::post('/project/get_departaments', [TaskController::class, 'get_departaments'])->name('tasks.project.get_departaments');
     Route::post('/project/add_task', [TaskController::class, 'add_task'])->name('tasks.project.add_task');
+    Route::post('/project/update_task', [TaskController::class, 'update_task'])->name('tasks.project.update_task');
+    Route::post('/projects/delete_task', [TaskController::class, 'delete_task'])->name('tasks.project.delete_task');
+    Route::post('/projects/delete_subtask', [TaskController::class, 'delete_subtask'])->name('tasks.project.delete_subtask');
     Route::get('/project/{project}/task/{task}', [TaskController::class, 'task_details'])->name('tasks.project.task_details');
     Route::put('/project/task/comment', [TaskController::class, 'task_comment'])->name('tasks.project.task_comment');
     Route::post('/project/task/add_subtask', [TaskController::class, 'add_subtask'])->name('tasks.project.add_subtask');
@@ -154,6 +157,8 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::post('/project/task/addFiles', [TaskController::class, 'addFiles'])->name('tasks.project.addFiles');
     Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
     Route::post('/project/task/changeState', [TaskController::class, 'changeState_task'])->name('tasks.project.task.changeState');
+    Route::put('/project/delete', [TaskController::class, 'project_delete'])->name('tasks.project.delete');
+    Route::put('/project/deleteFile', [TaskController::class, 'file_delete'])->name('tasks.project.deleteFile');
 });
 
 

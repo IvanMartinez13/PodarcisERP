@@ -79,7 +79,7 @@
                                         @endcan
 
                                         @can('delete Tareas')
-                                            <button class="btn btn-link">
+                                            <button onclick="remove('{{ $project->token }}')" class="btn btn-link">
                                                 <i class="fa fa-trash-alt" aria-hidden="true"></i>
                                             </button>
                                         @endcan
@@ -97,11 +97,38 @@
             Podarcis SL. &copy; {{ date('Y') }}
         </div>
     </div>
+
+    @foreach ($projects as $project)
+        <form action="{{ route('tasks.project.delete') }}" id="delete_{{ $project->token }}" method="POST">
+            @csrf
+            @method('put')
+            <input name="token" type="hidden" value="{{ $project->token }}">
+        </form>
+    @endforeach
 @endsection
 
 @push('scripts')
 
     <script src="{{ url('/') }}/js/tables.js"></script>
+
+    <script>
+        function remove(token) {
+            swal({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('You will not be able to recover this project!') }}",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#ed5565",
+                confirmButtonText: "Si, deseo eliminarlo",
+                closeOnConfirm: false,
+                cancelButtonColor: "#ed5565",
+                cancelButtonText: "Cancelar",
+            }, function() {
+                $('#delete_' + token).submit();
+
+            });
+        }
+    </script>
 
     @if (session('status') == 'error')
         <script>

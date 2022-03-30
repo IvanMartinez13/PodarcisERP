@@ -116,93 +116,96 @@ class OdsController extends Controller
 
         //try{
 
+
         foreach ($evaluations as $key => $evaluation) {
 
-            $checkEvaluation = Evaluation::where('token', $evaluation['id'])->exists();
+            if ($evaluation['year']) {
+                $checkEvaluation = Evaluation::where('token', $evaluation['id'])->exists();
 
-            if ($checkEvaluation) {
+                if ($checkEvaluation) {
 
-                //2)PREPARE DATA
-                $data = [
-                    'year' => $evaluation['year'],
-                    'value' => $evaluation['value']
-                ];
+                    //2)PREPARE DATA
+                    $data = [
+                        'year' => $evaluation['year'],
+                        'value' => $evaluation['value']
+                    ];
 
-                $rules = [
-                    'year' => ['required', 'numeric'],
-                    'value' => ['required', 'numeric'],
-                ];
+                    $rules = [
+                        'year' => ['required', 'numeric'],
+                        'value' => ['required', 'numeric'],
+                    ];
 
-                $validator = Validator::make($data, $rules);
+                    $validator = Validator::make($data, $rules);
 
-                if (!$validator->fails() || $evaluation['delete'] != true) {
-                    //3) UPDATE DATA
-                    $update = Evaluation::where('token', $evaluation['id']);
-                    $update->update($data);
-                }
+                    if (!$validator->fails() || $evaluation['delete'] != true) {
+                        //3) UPDATE DATA
+                        $update = Evaluation::where('token', $evaluation['id']);
+                        $update->update($data);
+                    }
 
-                if ($evaluation['delete'] == true) {
-                    $update = Evaluation::where('token', $evaluation['id'])->delete();
-                }
+                    if ($evaluation['delete'] == true) {
+                        $update = Evaluation::where('token', $evaluation['id'])->delete();
+                    }
 
-                $update = Evaluation::where('token', $evaluation['id'])->first();
+                    $update = Evaluation::where('token', $evaluation['id'])->first();
 
-                foreach ($evaluation['files'] as $key => $file) {
-                    //CHECK DATA
-                    if (isset($file['token'])) {
-                        $data = [
-                            'name' => $file['name'],
+                    foreach ($evaluation['files'] as $key => $file) {
+                        //CHECK DATA
+                        if (isset($file['token'])) {
+                            $data = [
+                                'name' => $file['name'],
 
-                        ];
+                            ];
 
-                        $file = Evaluation_file::where('token', $file['token'])->update($data);
-                    } else {
+                            $file = Evaluation_file::where('token', $file['token'])->update($data);
+                        } else {
 
+                            $data = [
+                                'name' => $file['name'],
+                                'path' => $file['path'],
+                                'evaluation_id' => $update->id,
+                                'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
+                            ];
+
+                            $file = new Evaluation_file($data);
+                            $file->save();
+                        }
+                    }
+                } else {
+
+                    //2)PREPARE DATA
+                    $data = [
+                        'year' => $evaluation['year'],
+                        'value' => $evaluation['value'],
+                        'strategy_id' => $strategy->id,
+                        'token' => md5($evaluation['year'] . '+' . $evaluation['value'] . '+' . date('d/m/Y H:i:s')),
+                    ];
+
+                    $rules = [
+                        'year' => ['required', 'numeric'],
+                        'value' => ['required', 'numeric'],
+                    ];
+
+                    $validator = Validator::make($data, $rules);
+
+                    if (!$validator->fails()  || $evaluation['delete'] != true) {
+                        //3) STORE DATA
+                        $store = new Evaluation($data);
+                        $store->save();
+                    }
+
+                    foreach ($evaluation['files'] as $key => $file) {
+                        //CHECK DATA
                         $data = [
                             'name' => $file['name'],
                             'path' => $file['path'],
-                            'evaluation_id' => $update->id,
+                            'evaluation_id' => $store->id,
                             'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
                         ];
 
                         $file = new Evaluation_file($data);
                         $file->save();
                     }
-                }
-            } else {
-
-                //2)PREPARE DATA
-                $data = [
-                    'year' => $evaluation['year'],
-                    'value' => $evaluation['value'],
-                    'strategy_id' => $strategy->id,
-                    'token' => md5($evaluation['year'] . '+' . $evaluation['value'] . '+' . date('d/m/Y H:i:s')),
-                ];
-
-                $rules = [
-                    'year' => ['required', 'numeric'],
-                    'value' => ['required', 'numeric'],
-                ];
-
-                $validator = Validator::make($data, $rules);
-
-                if (!$validator->fails()  || $evaluation['delete'] != true) {
-                    //3) STORE DATA
-                    $store = new Evaluation($data);
-                    $store->save();
-                }
-
-                foreach ($evaluation['files'] as $key => $file) {
-                    //CHECK DATA
-                    $data = [
-                        'name' => $file['name'],
-                        'path' => $file['path'],
-                        'evaluation_id' => $store->id,
-                        'token' => md5($file['name'] . '+' . date('d/m/Y H:i:s')),
-                    ];
-
-                    $file = new Evaluation_file($data);
-                    $file->save();
                 }
             }
         }

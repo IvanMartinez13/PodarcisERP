@@ -282,7 +282,7 @@ class Evaluation extends React.Component{
     {
         if (this.state.save == true && this.state.saved == true) {
             axios.post('/ods/evaluate/get_evaluations', {token: this.strategy.token}).then( (response) => {
-
+                this.years = [];
                 //GET YEARS
                 for (let index = this.objective.base_year; index <= this.objective.target_year; index++) {
                     this.years.push(index);

@@ -17,6 +17,10 @@ class Subtasks extends React.Component{
         this.setLoading = this.setLoading.bind(this);
         this.setSaving = this.setSaving.bind(this);
 
+        this.store = this.props.store;
+        this.update = this.props.update;
+        this.delete = this.props.delete;
+
     }
 
     render(){
@@ -37,13 +41,21 @@ class Subtasks extends React.Component{
         }
         return(
             <div className="animated fadeIn">
-                <button
-                    className="btn btn-link"
-                    onClick={() => {
-                       $('#modalSubtask').modal('show');
-                    }}>
-                    <i className="fa fa-plus-circle" aria-hidden="true"></i> Añadir subtarea
-                </button>
+
+                {
+                    (this.store == 1) ? 
+                        <button
+                            className="btn btn-link"
+                            onClick={() => {
+                            $('#modalSubtask').modal('show');
+                            }}>
+                            <i className="fa fa-plus-circle" aria-hidden="true"></i> Añadir subtarea
+                        </button>
+                    :
+
+                    null
+                }
+
                 
                 <div className="table-responsive">
                     <table className="table table-hover table-bordered table-striped">
@@ -62,12 +74,18 @@ class Subtasks extends React.Component{
                                     return(
                                         <tr key={"row_"+subtask.token+index}>
                                             <td className="align-middle text-center">
+                                                
                                                 {
-                                                    (subtask.is_done == 1) ?
-                                                    <input className="i-checks" type={"checkbox"} defaultChecked={true}  defaultValue={subtask.token}></input>
+                                                    (this.update == 1) ?
+                                                        (subtask.is_done == 1) ?
+                                                        <input className="i-checks" type={"checkbox"} defaultChecked={true}  defaultValue={subtask.token}></input>
+                                                        :
+                                                        <input className="i-checks" type={"checkbox"} defaultChecked={false}  defaultValue={subtask.token}></input>
                                                     :
-                                                    <input className="i-checks" type={"checkbox"} defaultChecked={false}  defaultValue={subtask.token}></input>
+
+                                                    null
                                                 }
+
                                             </td>
                                             <td className="align-middle">{subtask.name}</td>
                                             <td className="align-middle" dangerouslySetInnerHTML={{
@@ -76,6 +94,10 @@ class Subtasks extends React.Component{
                                             <td className="align-middle text-center">
 
                                                 <div className="btn-group-vertical">
+
+                                                {
+                                                    (this.update == 1) ?
+
                                                     <button className="btn btn-link"
                                                             onClick={() => {
                                                                 $('#editModalSubtask'+subtask.token).modal('show');
@@ -84,9 +106,31 @@ class Subtasks extends React.Component{
                                                         <i className="fa fa-pencil" aria-hidden="true"></i>
                                                     </button>
 
-                                                    <button className="btn btn-link">
+                                                    :
+
+                                                    null
+                                                }
+
+
+                                                {
+                                                    (this.delete == 1) ?
+
+                                                    <button className="btn btn-link"
+                                                            onClick={() => {
+                                                                this.remove(subtask.token);
+                                                            }}        
+                                                    >
                                                         <i className="fa fa-trash-alt" aria-hidden="true"></i>
                                                     </button>
+                                                    
+                                                    :
+
+                                                    null
+                                                }
+
+         
+
+
                                                 </div>
 
                                             </td>
@@ -223,6 +267,31 @@ class Subtasks extends React.Component{
         } );
     }
 
+    remove(token){
+
+        swal({
+            title: "¿Estás seguro?",
+            text: "No podrás recuperar esta subtarea.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ed5565",
+            confirmButtonText: "Si, deseo eliminarla",
+            closeOnConfirm: false,
+            cancelButtonColor: "#ed5565",
+            cancelButtonText: "Cancelar",
+        }, function() {
+            
+            axios.post('/tasks/projects/delete_subtask', {token: token}).then( (response) => {
+                toastr.success(response.data.message);
+                setTimeout( () => {
+                    location.reload();
+                }, 2000 );
+            } )
+
+
+        });
+    }
+
 
 
 }
@@ -234,5 +303,14 @@ if (document.getElementsByTagName('subtasks').length >=1) {
     let component = document.getElementsByTagName('subtasks')[0];
     let task = JSON.parse(component.getAttribute('task'));
 
-    ReactDOM.render(<Subtasks task={task} />, component);
+    let store = component.getAttribute('store');
+    let update = component.getAttribute('update');
+    let del = component.getAttribute('delete');
+
+    ReactDOM.render(<Subtasks
+                        task={task}
+                        store={store}
+                        update={update}
+                        delete={del} 
+                    />, component);
 }

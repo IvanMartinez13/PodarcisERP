@@ -96,7 +96,7 @@ class TaskController extends Controller
                 mkdir($folder, 0777, true);
             }
 
-            if (!is_file(storage_path('/app/public') . $project->image)) {
+            if (is_file(storage_path('/app/public') . $project->image)) {
 
                 unlink(storage_path('/app/public') . $project->image);
             }
@@ -115,20 +115,29 @@ class TaskController extends Controller
         return redirect(route('tasks.index'))->with("status", "success")->with("message", "Proyecto editado.");
     }
 
+
+
+    public function project_delete(Request $request)
+    {
+        $project = Project::where('token', $request->token)->delete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Projecto eliminado.');
+    }
+
     /*===========  END PROJECTS  ==========*/
 
     public function tasks($token)
     {
         $project = Project::where('token', $token)->first();
 
-        $tasks = Task::where('project_id', $project->id)->where('task_id', null)->get();
+        $tasks = Task::where('project_id', $project->id)->where('task_id', null)->with('departaments')->get();
 
-        foreach($tasks as $key => $task){
+        foreach ($tasks as $key => $task) {
 
             $subtasks = Task::where('task_id', $task->id)->get();
 
             $done = 0;
-    
+
             foreach ($subtasks as $sub_task) {
                 if ($sub_task->is_done == 1) {
                     $done += 1;
@@ -136,12 +145,12 @@ class TaskController extends Controller
             }
 
             if (count($subtasks) > 0) {
-                $progress = ($done/count($subtasks)) * 100;
-            }else{
+                $progress = ($done / count($subtasks)) * 100;
+            } else {
                 $progress = 0;
             }
 
-            $tasks[$key]['progress'] = $progress; 
+            $tasks[$key]['progress'] = $progress;
         }
 
 
@@ -175,7 +184,7 @@ class TaskController extends Controller
         ];
 
         $departaments = $request->departaments;
-
+        $departaments = Departament::whereIn('token', $departaments)->get('id');
 
         //2) VALIDATE DATA
 
@@ -196,11 +205,55 @@ class TaskController extends Controller
         $task = new Task($data);
         $task->save();
 
+
+
         $task->departaments()->sync($departaments);
 
         //4) RETURN RESPONSE
         return response()->json(["status" => "success", "message" => "Tarea Creada."]);
     }
+
+    public function update_task(Request $request)
+    {
+
+        //1) GET DATA
+        $task = Task::where('token', $request->token)->first();
+
+        $data = [
+            "name" => $request->name,
+            "description" => $request->description,
+        ];
+
+        $departaments = $request->departaments;
+        $departaments = Departament::whereIn('token', $departaments)->get('id');
+
+        $task = Task::where('token', $request->token)->update($data);
+        $task = Task::where('token', $request->token)->first();
+
+        $task->departaments()->sync($departaments);
+
+        return response()->json(["status" => "success", "message" => "Tarea Editada."]);
+    }
+
+    public function delete_task(Request $request)
+    {
+        $task = Task::where('token', $request->token)->delete();
+
+        return response()->json(["status" => "success", "message" => "Tarea Eliminada."]);
+    }
+
+    public function delete_subtask(Request $request)
+    {
+
+
+        $subtask = Task::where('token', $request->token)->delete();
+
+
+
+        return response()->json(["status" => "success", "message" => "Subtarea Eliminada."]);
+    }
+
+
 
     public function task_details($token_project, $token_task)
     {
@@ -210,7 +263,7 @@ class TaskController extends Controller
         $sub_tasks = Task::where('task_id', $task->id)->get();
         $comments = Comment::where('task_id', $task->id)->with('user')->orderBy('created_at', 'DESC')->get();
         $tasks_files = Task_file::where('task_id', $task->id)->get();
-        
+
         $done = 0;
 
         foreach ($sub_tasks as $key => $sub_task) {
@@ -219,12 +272,17 @@ class TaskController extends Controller
             }
         }
         if (count($sub_tasks) > 0) {
-            $progress = ($done/count($sub_tasks)) * 100;
-        }else{
-            $progress = 0;
+            $progress = ($done / count($sub_tasks)) * 100;
+        } else {
+
+            if ($task->is_done) {
+                $progress = 100;
+            } else {
+                $progress = 0;
+            }
         }
-        
-        
+
+
         //RETURN VIEW WITH DATA
         return view('pages.tasks.task.task', compact('project', 'task', 'sub_tasks', 'comments', 'progress', 'tasks_files'));
     }
@@ -234,7 +292,7 @@ class TaskController extends Controller
         //1) GET DATA
         $task = Task::where('token', $request->token)->with('departaments')->first();
         $project = Project::where('id', $task->project_id)->first();
-        
+
 
         $data = [
             "comment" => $request->comment,
@@ -271,18 +329,16 @@ class TaskController extends Controller
         $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
         $emails =  [];
 
-        foreach($departaments as $departament){
+        foreach ($departaments as $departament) {
             $users = $departament->users;
 
             $users = $users->pluck('email');
-            foreach($users as $user_email)
-            {
+            foreach ($users as $user_email) {
                 if (!array_search($user_email, $emails)) {
-                    
+
                     array_push($emails, $user_email);
                 }
             }
-
         }
 
         foreach ($emails as $key => $email) {
@@ -290,9 +346,8 @@ class TaskController extends Controller
             if ($email != Auth::user()->email) {
                 Mail::to($email)->send($mail);
             }
-            
         }
-        
+
         //4) RETURN REDIRECT
         return redirect()->back()->with('status', 'success')->with('message', 'Tarea comentada.');
     }
@@ -343,8 +398,8 @@ class TaskController extends Controller
             }
         }
         if (count($subtasks) > 0) {
-            $progress = ($done/count($subtasks)) * 100;
-        }else{
+            $progress = ($done / count($subtasks)) * 100;
+        } else {
             $progress = 0;
         }
 
@@ -385,8 +440,8 @@ class TaskController extends Controller
                 }
             }
             if (count($subtasks) > 0) {
-                $progress = ($done/count($subtasks)) * 100;
-            }else{
+                $progress = ($done / count($subtasks)) * 100;
+            } else {
                 $progress = 0;
             }
 
@@ -396,18 +451,16 @@ class TaskController extends Controller
             $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
             $emails =  [];
 
-            foreach($departaments as $departament){
+            foreach ($departaments as $departament) {
                 $users = $departament->users;
 
                 $users = $users->pluck('email');
-                foreach($users as $user_email)
-                {
+                foreach ($users as $user_email) {
                     if (!array_search($user_email, $emails)) {
-                        
+
                         array_push($emails, $user_email);
                     }
                 }
-
             }
 
             foreach ($emails as $key => $email) {
@@ -415,7 +468,6 @@ class TaskController extends Controller
                 if ($email != Auth::user()->email) {
                     Mail::to($email)->send($mail);
                 }
-                
             }
 
 
@@ -440,8 +492,8 @@ class TaskController extends Controller
             }
 
             if (count($subtasks) > 0) {
-                $progress = ($done/count($subtasks)) * 100;
-            }else{
+                $progress = ($done / count($subtasks)) * 100;
+            } else {
                 $progress = 0;
             }
 
@@ -451,18 +503,16 @@ class TaskController extends Controller
             $departaments = Departament::whereIn('id', $departamentsId)->with('users')->get();
             $emails =  [];
 
-            foreach($departaments as $departament){
+            foreach ($departaments as $departament) {
                 $users = $departament->users;
 
                 $users = $users->pluck('email');
-                foreach($users as $user_email)
-                {
+                foreach ($users as $user_email) {
                     if (!array_search($user_email, $emails)) {
-                        
+
                         array_push($emails, $user_email);
                     }
                 }
-
             }
 
             foreach ($emails as $key => $email) {
@@ -470,18 +520,15 @@ class TaskController extends Controller
                 if ($email != Auth::user()->email) {
                     Mail::to($email)->send($mail);
                 }
-                
             }
 
             return response()->json(["status" => "error", "message" => "Se ha abierto una tarea.", "progress" => $progress]);
         }
-
-        
     }
 
     public function update_subtask(Request $request)
     {
-        
+
 
         $data = [
             'name' => $request->name,
@@ -513,31 +560,31 @@ class TaskController extends Controller
         $task = Task::where('token', $request->token)->first();
         $files = $request->file('file');
         $task_files = [];
-        
-        foreach($files as $file){
+
+        foreach ($files as $file) {
 
             $filename = $file->getClientOriginalName();
 
-            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+            $folder = '/projects/' . $customer_id . '/' . $task->project_id;
 
-            $token = md5($filename.'+'.date('d/m/Y H:i:s'));
+            $token = md5($filename . '+' . date('d/m/Y H:i:s'));
 
-            $ext = '.'.$file->guessExtension();
+            $ext = '.' . $file->guessExtension();
 
-            if (!is_dir(storage_path('app/public').$folder)) {
-                
-                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            if (!is_dir(storage_path('app/public') . $folder)) {
+
+                mkdir(storage_path('app/public') . $folder, 0777, true); //CREATE FOLDER
             }
 
             $data = [
                 "name" => $filename,
                 "task_id" => $task->id,
                 "token" => $token,
-                "path" => $folder.'/'.$token.$ext
+                "path" => $folder . '/' . $token . $ext
             ];
 
             //2) STORE DATA
-            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+            move_uploaded_file($file, storage_path('app/public') . $data['path']); //STORE FILE
             $task_file = new Task_file($data);
             $task_file->save();
             array_push($task_files, $task_file);
@@ -580,22 +627,22 @@ class TaskController extends Controller
 
         if ($file != null) {
             //change file
-            $folder = '/projects/'.$customer_id.'/'.$task->project_id;
+            $folder = '/projects/' . $customer_id . '/' . $task->project_id;
 
-            if (!is_dir(storage_path('app/public').$folder)) {
-                
-                mkdir(storage_path('app/public').$folder, 0777, true);//CREATE FOLDER
+            if (!is_dir(storage_path('app/public') . $folder)) {
+
+                mkdir(storage_path('app/public') . $folder, 0777, true); //CREATE FOLDER
             }
 
-            $ext = '.'.$file->guessExtension();
+            $ext = '.' . $file->guessExtension();
 
-            $data["path"] = $folder.'/'.$token.$ext;
+            $data["path"] = $folder . '/' . $token . $ext;
 
-            if (is_file(storage_path('app/public').$task_file->path)) {
-                unlink(storage_path('app/public').$task_file->path);
+            if (is_file(storage_path('app/public') . $task_file->path)) {
+                unlink(storage_path('app/public') . $task_file->path);
             }
 
-            move_uploaded_file($file, storage_path('app/public').$data['path']);//STORE FILE
+            move_uploaded_file($file, storage_path('app/public') . $data['path']); //STORE FILE
         }
 
         $task_file = Task_file::where('token', $token)->update($data);
@@ -604,21 +651,83 @@ class TaskController extends Controller
         return redirect()->back()->with('status', 'success')->with('message', 'Documento editado.');
     }
 
-
     public function changeState_task(Request $request)
     {
         $task = Task::where('token', $request->token)->first();
 
         if ($task->is_done == 0) {
-            $task = Task::where('token', $request->token)->update( ['is_done' => 1] );
-            $response = ['status' => 'success', 'message' => 'Se ha finalizado una tarea.', 'close' => 1];
+            $task = Task::where('token', $request->token)->update(['is_done' => 1]);
+            $task = Task::where('token', $request->token)->first();
 
-        }else{
-            $task = Task::where('token', $request->token)->update( ['is_done' => 0] );
-            $response = ['status' => 'success', 'message' => 'Se ha abierto una tarea.', 'close' => 0];
+            $sub_tasks = Task::where('task_id', $task->id)->get();
 
+            $done = 0;
+
+            foreach ($sub_tasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($sub_tasks) > 0) {
+                $progress = ($done / count($sub_tasks)) * 100;
+            } else {
+
+                if ($task->is_done) {
+                    $progress = 100;
+                } else {
+                    $progress = 0;
+                }
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Se ha finalizado una tarea.',
+                'close' => 1,
+                'progress' =>  $progress
+            ];
+        } else {
+            $task = Task::where('token', $request->token)->update(['is_done' => 0]);
+
+            $task = Task::where('token', $request->token)->first();
+
+            $sub_tasks = Task::where('task_id', $task->id)->get();
+
+            $done = 0;
+
+            foreach ($sub_tasks as $key => $sub_task) {
+                if ($sub_task->is_done == 1) {
+                    $done += 1;
+                }
+            }
+            if (count($sub_tasks) > 0) {
+                $progress = ($done / count($sub_tasks)) * 100;
+            } else {
+
+                if ($task->is_done) {
+                    $progress = 100;
+                } else {
+                    $progress = 0;
+                }
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Se ha abierto una tarea.',
+                'close' => 0,
+                'progress' =>  $progress
+            ];
         }
 
+
+
         return response()->json($response);
+    }
+
+
+    public function file_delete(Request $request)
+    {
+        $file = Task_file::where('token', $request->token)->delete();
+
+        return redirect()->back()->with('status', 'success')->with('message', 'Archivo eliminado.');
     }
 }
