@@ -18,7 +18,8 @@ class Project extends Model
         "color",
         "image",
         "token",
-        "customer_id"
+        "customer_id",
+        "is_ods",
     ];
 
     public function customer()

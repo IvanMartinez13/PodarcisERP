@@ -60,6 +60,7 @@ return [
     'message' => 'Mensaje',
     'code' => 'Código',
     'starts_at' => 'Fecha de inicio',
+    'ends_at' => 'Fecha de finalización',
     'state' => 'Estado',
     'direction' => 'Dirección',
     'type' => 'Tipo',

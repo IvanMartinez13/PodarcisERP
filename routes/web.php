@@ -10,8 +10,7 @@ use App\Http\Controllers\OdsController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VaoController;
-
-
+use App\Http\Controllers\VisitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +116,24 @@ Route::prefix('ods')->middleware(['auth'])->group(function () {
     Route::get('/strategy/{token}/deleted_evaluations', [OdsController::class, 'deleted_evaluations'])->name('ods.evaluations.deleted');
     Route::put('/strategy/evaluation/recover', [OdsController::class, 'recover_evaluation'])->name('ods.evaluations.recover');
     Route::put('/strategy/evaluation/true_delete', [OdsController::class, 'true_delete_evaluation'])->name('ods.evaluations.true_delete');
+    Route::post('/delete_file', [OdsController::class, 'delete_file'])->name('ods.evaluations.delete_file');
+    Route::put('/strategy/delete', [OdsController::class, 'delete_strategy'])->name('ods.strategy.delete');
+    Route::get('/strategy/{token}/recover', [OdsController::class, 'recover_strategies'])->name('ods.strategy.recover');
+    Route::put('/strategy/recover', [OdsController::class, 'recover_strategy'])->name('ods.strategy.recovered');
+    Route::put('/strategy/true_delete', [OdsController::class, 'strategy_true_delete'])->name('ods.strategy.true_delete');
+    Route::get('/recover', [OdsController::class, 'recover'])->name('ods.objective.recover');
+    Route::put('/delete', [OdsController::class, 'delete'])->name('ods.objective.delete');
+    Route::put('/recovered', [OdsController::class, 'recover_objective'])->name('ods.objective.recovered');
+    Route::put('/true_delete', [OdsController::class, 'true_delete'])->name('ods.objective.true_delete');
+    Route::post('/dashboard/cards', [OdsController::class, 'cards'])->name('ods.dashboard.cards');
+    Route::post('/objective/get_evaluations', [OdsController::class, 'get_objective_evaluations'])->name('ods.objective.get_objective_evaluations');
+    Route::post('/objective/evaluate/save', [OdsController::class, 'objective_evaluate_save'])->name('ods.objective.objective_evaluate_save');
+    Route::post('/objective/variationChart', [OdsController::class, 'variationChart'])->name('ods.objective.variationChart');
+    Route::post('/objective/evolutionChart', [OdsController::class, 'evolutionChart'])->name('ods.objective.evolutionChart');
+    Route::get('/strategy/toTask/{token}', [OdsController::class, 'strategy_to_task'])->name('ods.strategy.toTask');
+    Route::get('/objective/toTask/{token}', [OdsController::class, 'objective_to_task'])->name('ods.objective.toTask');
 });
+
 
 //TASKS MODULE
 Route::prefix('tasks')->middleware(['auth'])->group(function () {
@@ -129,6 +145,9 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::get('/project/{token}', [TaskController::class, 'tasks'])->name('tasks.project.details');
     Route::post('/project/get_departaments', [TaskController::class, 'get_departaments'])->name('tasks.project.get_departaments');
     Route::post('/project/add_task', [TaskController::class, 'add_task'])->name('tasks.project.add_task');
+    Route::post('/project/update_task', [TaskController::class, 'update_task'])->name('tasks.project.update_task');
+    Route::post('/projects/delete_task', [TaskController::class, 'delete_task'])->name('tasks.project.delete_task');
+    Route::post('/projects/delete_subtask', [TaskController::class, 'delete_subtask'])->name('tasks.project.delete_subtask');
     Route::get('/project/{project}/task/{task}', [TaskController::class, 'task_details'])->name('tasks.project.task_details');
     Route::put('/project/task/comment', [TaskController::class, 'task_comment'])->name('tasks.project.task_comment');
     Route::post('/project/task/add_subtask', [TaskController::class, 'add_subtask'])->name('tasks.project.add_subtask');
@@ -138,6 +157,8 @@ Route::prefix('tasks')->middleware(['auth'])->group(function () {
     Route::post('/project/task/addFiles', [TaskController::class, 'addFiles'])->name('tasks.project.addFiles');
     Route::put('/project/task/file/update', [TaskController::class, 'updateFiles'])->name('tasks.file.update');
     Route::post('/project/task/changeState', [TaskController::class, 'changeState_task'])->name('tasks.project.task.changeState');
+    Route::put('/project/delete', [TaskController::class, 'project_delete'])->name('tasks.project.delete');
+    Route::put('/project/deleteFile', [TaskController::class, 'file_delete'])->name('tasks.project.deleteFile');
 });
 
 
@@ -156,6 +177,13 @@ Route::prefix('vao')->middleware(['auth', 'can:read Vigilancia Ambiental'])->gro
     Route::get('/{vao_token}/edit/{layer_token}', [VaoController::class, 'layer_edit'])->name('vao.edit.layer');
     Route::put('/update/layer', [VaoController::class, 'layer_update'])->name('vao.update.layer');
     Route::post('/delete_layer', [VaoController::class, 'delete_layer'])->name('vao.delete.layer');
+    Route::get('/{token}/visits/create', [VaoController::class, 'create_visit'])->name('vao.create.visits');
+    Route::put('/visits/create', [VaoController::class, 'store_visit'])->name('vao.store.visits');
+    Route::post('/get_visits', [VaoController::class, 'get_visits'])->name('vao.get.visits');
+    Route::get('/{token}/edit', [VaoController::class, 'edit_visit'])->name('vao.edit.visits');
+    Route::put('/visits/update', [VaoController::class, 'update_visit'])->name('vao.update.visits');
+    Route::post('/delete_visit', [VaoController::class, 'delete_visit'])->name('vao.delete.visits');
+    Route::get('/visit/{token_visit}', [VisitController::class, 'details'])->name('vao.visit');
 });
 
 

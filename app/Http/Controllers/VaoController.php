@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLayerGroup;
 use App\Http\Requests\StoreVaoRequest;
+use App\Http\Requests\StoreVisitRequest;
 use App\Http\Requests\UpdateLayerRequest;
 use App\Http\Requests\UpdateVaoRequest;
+use App\Http\Requests\UpdateVisitRequest;
 use App\Models\Layer;
 use App\Models\Layer_group;
+use App\Models\User;
 use App\Models\Vao;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -292,7 +296,7 @@ class VaoController extends Controller
             'layer_group_id' => $layer_group->id,
         ];
 
-        $file = $request->file;
+        $file = $request->file('file');
 
         //2) UPDATE DATA
 
@@ -338,7 +342,7 @@ class VaoController extends Controller
 
         //3) RETURN RESPONSE
 
-        return redirect(route('vao.details', $vao->token));
+        return redirect(route('vao.details', $vao->token))->with('status', 'success')->with('message', 'Archivo editado.');
     }
 
     public function delete_layer(Request $request)
@@ -348,5 +352,96 @@ class VaoController extends Controller
         $layer = Layer::where('token', $token)->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Archivo eliminado.']);
+    }
+
+    public function create_visit($token)
+    {
+        $vao = Vao::where('token', $token)->first();
+        $customer_id = Auth::user()->customer_id;
+        $users = User::where('customer_id', $customer_id)->get();
+
+        return view('pages.vao.visits.create', compact('vao', 'users'));
+    }
+
+    public function store_visit(StoreVisitRequest $request)
+    {
+        //1) GET DATA
+        $vao = Vao::where('token', $request->token)->first();
+        $data = [
+            "name" => $request->name,
+            "description" => $request->description,
+            "starts_at" => $request->starts_at,
+            "ends_at" => $request->ends_at,
+            "color" => $request->color,
+            "token" => md5($request->name . '+' . date('d/m/Y H:s:i')),
+            "compilance" => 0,
+            "vao_id" => $vao->id,
+        ];
+        $users = $request->users;
+
+        $users = User::whereIn('token', $users)->get('id');
+
+        //2) STORE DATA
+
+        $visit = new Visit($data);
+        $visit->save();
+
+        $visit->users()->sync($users);
+
+        //3) RETURN REDIRECT
+        return redirect(route('vao.details', $vao->token))->with('status', 'success')->with('message', 'Visita creada.');
+    }
+
+    public function get_visits(Request $request)
+    {
+        $token = $request->token;
+
+        $vao = Vao::where('token', $token)->first();
+        $visits = Visit::where('vao_id', $vao->id)->get();
+
+        return response()->json(['visits' => $visits]);
+    }
+
+    public function edit_visit($token)
+    {
+        $visit = Visit::where('token', $token)->with('users')->first();
+        $vao = Vao::where('id', $visit->vao_id)->first();
+        $customer_id = Auth::user()->customer_id;
+        $users = User::where('customer_id', $customer_id)->get();
+
+        return view('pages.vao.visits.edit', compact('vao', 'visit', 'users'));
+    }
+
+    public function update_visit(UpdateVisitRequest $request)
+    {
+        //1) GET DATA
+        $visit = Visit::where('token', $request->token)->with('users')->first();
+        $vao = Vao::where('id', $visit->vao_id)->first();
+
+        $data = [
+            "name" => $request->name,
+            "color" => $request->color,
+            "starts_at" => $request->starts_at,
+            "ends_at" => $request->ends_at,
+            "description" => $request->description,
+        ];
+
+        $users = $request->users;
+        $users = User::whereIn('token', $users)->get('id');
+        //2) UPDATE DATA
+
+        $visit = Visit::where('token', $request->token)->update($data);
+        $visit = Visit::where('token', $request->token)->with('users')->first();
+        $visit->users()->sync($users);
+
+        //3) RETURN REDIRECT
+        return redirect(route('vao.details', $vao->token))->with('status', 'success')->with('message', 'Visita editada.');
+    }
+
+    public function delete_visit(Request $request)
+    {
+        $visit = Visit::where('token', $request->token)->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Visita eliminada']);
     }
 }

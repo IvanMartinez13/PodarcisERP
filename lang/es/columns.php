@@ -33,6 +33,10 @@ return [
     'code' => 'Código',
     'state' => 'Estado',
     'direction' => 'Dirección',
+    'measures' => 'Medidas',
+    'environmental_factor' => 'Factor ambiental',
+    'control_place' => 'Lugar de control',
+    'users' => 'Usuarios',
 
     //ODS MODULE
     'title' => 'Título',

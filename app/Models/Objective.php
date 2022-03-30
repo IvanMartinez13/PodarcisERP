@@ -28,4 +28,9 @@ class Objective extends Model
     {
         $this->belongsTo(Customer::class);
     }
+
+    public function task()
+    {
+        return $this->belongsToMany(Task::class, 'task_objective');
+    }
 }

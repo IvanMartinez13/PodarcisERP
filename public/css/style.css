@@ -9988,10 +9988,10 @@ body.md-skin {
 }
 
 .auth_wrapper {
-    width: 40%;
+    width: 35%;
     position: absolute;
-    top: 25%;
-    left: 50%;
+    top: 30%;
+    left: 55%;
     z-index: 10;
 }
 .video {

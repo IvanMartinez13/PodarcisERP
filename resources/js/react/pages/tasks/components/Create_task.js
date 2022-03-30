@@ -18,39 +18,40 @@ class Create_task extends React.Component{
         if (this.state.loading) {
             return(
                 <div className="modal fade" id="addTask" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                <div className="modal-dialog modal-xl" role="document">
-                    <div className="modal-content bg-primary">
-                            <div className="modal-header">
-                                    <h5 className="modal-title">Añadir una tarea</h5>
-                                        <button type="button" className="close" aria-label="Close" onClick={() => {
-                                $('#addTask').modal('hide')
-                            }}>
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                </div>
-                        <div className="modal-body bg-white text-dark">
-                            <div className="spiner-example">
-                                <div className="sk-spinner sk-spinner-double-bounce">
-                                    <div className="sk-double-bounce1"></div>
-                                    <div className="sk-double-bounce2"></div>
-                                </div>
+                    <div className="modal-dialog modal-xl" role="document">
+                        <div className="modal-content bg-primary">
+                                <div className="modal-header">
+                                        <h5 className="modal-title">Añadir una tarea</h5>
+                                            <button type="button" className="close" aria-label="Close" onClick={() => {
+                                    $('#addTask').modal('hide')
+                                }}>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                            <div className="modal-body bg-white text-dark">
+                                <div className="spiner-example">
+                                    <div className="sk-spinner sk-spinner-double-bounce">
+                                        <div className="sk-double-bounce1"></div>
+                                        <div className="sk-double-bounce2"></div>
+                                    </div>
 
-                                Cargando...
+                                    Cargando...
+                                </div>
                             </div>
-                        </div>
-                        <div className="modal-footer bg-white text-dark">
-                            <button type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => {
-                                        $('#addTask').modal('hide')
-                                    }}>
-                                Cerrar
-                            </button>
-                            <button type="button" className="btn btn-primary">Guardar</button>
+                            <div className="modal-footer bg-white text-dark">
+                                <button type="button" className="btn btn-primary">Crear</button>
+                                <button type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() => {
+                                            $('#addTask').modal('hide')
+                                        }}>
+                                    Cerrar
+                                </button>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             );
         }
         return(
@@ -98,6 +99,9 @@ class Create_task extends React.Component{
                             </div>
                         </div>
                         <div className="modal-footer bg-white text-dark">
+
+                            <button type="button" className="btn btn-primary" onClick={() => { this.save() } }>Crear</button>
+
                             <button
                                 type="button"
                                 className="btn btn-secondary"
@@ -106,7 +110,7 @@ class Create_task extends React.Component{
                                         }}>
                                 Cerrar
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={() => { this.save() } }>Guardar</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -120,11 +124,12 @@ class Create_task extends React.Component{
             this.departaments = response.data.departaments;
             this.setState({loading: false})
         } ).then( () => {
-
+            
             $("#departaments").select2({
+                dropdownParent: $('#addTask'), //FIXED COMMON PROBLEMS WHEN USES BOOTSTRAP MODAL
                 theme: 'bootstrap4',
                 placeholder: "Selecciona un departamento...",
-                width: 'resolve', // need to override the changed default
+                width: '100%', // need to override the changed default
                 allowClear: true
                 
             });
@@ -134,9 +139,11 @@ class Create_task extends React.Component{
             $('#departaments').on('change', (e) => {
 
                 let value = e.target.value;
+
                 if(!Array.isArray(value)){
                     value = [value];
                 }
+
                 handlePrepareValue("departaments", value);
             })
 
@@ -224,7 +231,7 @@ class Create_task extends React.Component{
                     $('#description').val(null);
                     $('#description').summernote('reset');
 
-                    //UPLOAD PARENT
+                    location.reload();
 
                 }
 

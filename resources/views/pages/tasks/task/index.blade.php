@@ -25,7 +25,9 @@
 
     </div>
 
-    <tasks project="{{ json_encode($project) }}" tasks="{{ json_encode($tasks) }}"></tasks>
+    <tasks project="{{ json_encode($project) }}" tasks="{{ json_encode($tasks) }}"
+        store="{{ auth()->user()->can('store Tareas') }}" update="{{ auth()->user()->can('update Tareas') }}"
+        delete="{{ auth()->user()->can('delete Tareas') }}"></tasks>
 @endsection
 
 @push('scripts')
